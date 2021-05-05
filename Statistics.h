@@ -8,6 +8,7 @@
 #if ! defined ( Statistics_H )
 #define Statistics_H
 
+#include <Read.h>
 #include <string>
 using namespace std;
 

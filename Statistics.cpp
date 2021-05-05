@@ -5,3 +5,15 @@
     copyright            : (C) 2021
     e-mail               : matthieu.moutot@insa-lyon.fr ; mettez vos emails
 *************************************************************************/
+#include <Statistics.h>
+using namespace std;
+
+int Statistics::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+{
+
+}
+
+void Statistics::calculateSimilarity(String sensorID, Date date)
+{
+    
+}
