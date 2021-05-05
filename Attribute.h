@@ -9,6 +9,9 @@
 #if ! defined ( Attribute_H )
 #define Attribute_H
 
+#include <iostream>
+using namespace std;
+
 
 class Attribute
 {
@@ -33,7 +36,7 @@ class Attribute
         virtual ~Attribute();
 
     private:
-            string AttributeID;
+            string attributeID;
             string unit;
             string description;
 
