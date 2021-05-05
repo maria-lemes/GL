@@ -1,7 +1,7 @@
 /*************************************************************************
-                              Read -  description
+                              Read.cpp -  description
                              -------------------
-    début                : 12/2020
-    copyright            : (C) 2020 par B.Pluvinet et M.Moutot
-    e-mail               : berenice.pluvinet@insa-lyon.fr ; matthieu.moutot@insa-lyon.fr
+    début                : 05/2021
+    copyright            : (C) 2021
+    e-mail               : matthieu.moutot@insa-lyon.fr ; mettez vos emails
 *************************************************************************/
