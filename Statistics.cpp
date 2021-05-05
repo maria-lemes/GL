@@ -31,7 +31,7 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
 
     if(measurements.empty())
     {
-        
+
     }
 }
 
@@ -41,7 +41,7 @@ du lancement du programme ou à la demande. On suppose que le vecteur
 allMeasurements contient déjà toutes les données.
 
 **Il faut définir si cette mérhode rétournera un vecteur avec les Sensors, ou
-un vecteur avec les Ids des senseurs (méthode implementée retournant les ids).
+un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 --
 */
