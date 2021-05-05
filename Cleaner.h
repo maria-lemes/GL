@@ -30,25 +30,15 @@ class Cleaner
     
         Cleaner(const Cleaner & oneCleaner);
         
-        string getCleanerID(){
-            return cleanerID;
-        }
+        string getCleanerID();
         
-        double getLatitude(){
-            return latitude;
-        }
+        double getLatitude();
         
-        double getLongitude(){
-            return longitude;
-        }
+        double getLongitude();
     
-        date getStart(){
-            return start;
-        }
+        date getStart();
         
-        date getStop(){
-            return stop;
-        }
+        date getStop();
     
         virtual ~Cleaner();
 

@@ -22,17 +22,11 @@ public:
     
     Sensor(const Sensor & oneSensor);
     
-    string getSensorID(){
-        return sensorID;
-    }
+    string getSensorID();
     
-    double getLatitude(){
-        return latitude;
-    }
+    double getLatitude();
     
-    double getLongitude(){
-        return longitude;
-    }
+    double getLongitude();
     
     virtual ~ Sensor();
 

@@ -17,17 +17,13 @@ class PrivateIndividual
 {
     public:
     
-        PrivateIndividual(string id, double points);
+        PrivateIndividual(string sID, double points);
     
         PrivateIndividual(const PrivateIndividual & oneIndividual);
     
-        string getSensorID(){
-            return sensorID;
-        }
+        string getSensorID();
     
-        int getPointsAwarded(){
-            return pointsAwarded;
-        }
+        int getPointsAwarded();
     
        virtual ~PrivateIndividual();
     

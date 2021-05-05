@@ -27,25 +27,17 @@ class Measurement
 {
     public:
     
-        Measurement(string sId, string att, double val, date time);
+        Measurement(string sID, string att, double val, date time);
         
         Measurement(const Measurement & oneMeasurement);
         
-        string getSensorID(){
-            return sensorID;
-        }
+        string getSensorID();
         
-        string getAttribute(){
-            return attribute;
-        }
+        string getAttribute();
         
-        double getValue(){
-            return value;
-        }
+        double getValue();
     
-        date getTimestamp(){
-            return timestamp;
-        }
+        date getTimestamp();
 
         virtual ~Measurement();
     

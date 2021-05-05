@@ -15,26 +15,21 @@ using namespace std;
 
 class Provider
 {
-    public:
+public:
     
-        Provider(string pID, string cID);
+    Provider(string pID, string cID);
     
-        Provider(const Provider & oneProvider);
+    Provider(const Provider & oneProvider);
     
-        string getProviderID(){
-            return sensorID;
-        }
+    string getProviderID();
+    string getCleanerID();
     
-        string getCleanerID(){
-            return attribute;
-        }
+    virtual ~Provider();
     
-       virtual ~Provider();
+private:
+    string providerID;
+    string cleanerID;
     
-    private:
-            string providerID;
-            string cleanerID;
-            
 
 };
 
