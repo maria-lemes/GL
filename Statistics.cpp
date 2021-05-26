@@ -9,12 +9,13 @@
 #include <Statistics.h>
 
 #include <iostream>
+#niclude <algorithm>
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <cmath>
 
-int Statistics::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+int Statistics::calculateAirQuality(float latitude, float longitude, int radius, date date)
 {
     Vector<Measurement> measurements;
     Vector<Sensor> sensors;
@@ -32,9 +33,9 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
 
     if(measurements.empty())
     {
-        for(auto it = Read.getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
+        for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
         {
-            if(find(sensors.begin(), sensors.end(), it->sensorID) != sensors.end())
+            if((find(sensors.begin(), sensors.end(), it->sensorID) != sensors.end()) && (it->date == date))
             {
                 measurements.push_back(*it);
             }
@@ -69,6 +70,33 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
     avgSO2 = sumSO2 / nb;
     avg03 = sumO3 / nb;
     avgPM10 = sumPM10 / nb;
+
+    int [10] tabSO2 = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
+    int [10] tabNO2 = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
+    int [10] tabO3 = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
+    int [10] tabPM10 = {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
+
+    int indexNO2 = 0;
+    int indexSO2 = 0;
+    int indexO3 = 0;
+    int indexPM10 = 0;
+
+    while(avgNO2 > tabNO2[indexNO2]){
+        indexNO2++;
+    }
+    while(avgSO2 > tabNO2[indexSO2]){
+        indexSO2++;
+    }
+    while(avg03 > tabNO2[index03]){
+        index03++;
+    }
+    while(avgPM10 > tabPM10[indexPM10]){
+        indexPM10++;
+    }
+    int tab[4] = {indexNO2, indexSO2, index03, indexPM10};
+    int indexFinal = max_element(tab, tab+4);
+
+    return(indexFinal);
 }
 
 /*TODO:
@@ -81,7 +109,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-vector<String> Statistics::calculateSimilarity(string sensorID, date startDate, date endDate)
+vector<string> Statistics::calculateSimilarity(string sensorID, date startDate, date endDate)
 {
 
   vector<Measurement> allMeasurements;

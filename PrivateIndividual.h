@@ -6,8 +6,8 @@
     e-mail               :
 *************************************************************************/
 
-#if ! defined ( Provider_H )
-#define Provider_H
+#if ! defined ( PrivateIndiv_H )
+#define PrivateIndiv_H
 
 #include <iostream>
 #include "User.h"
