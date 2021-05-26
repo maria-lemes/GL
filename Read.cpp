@@ -387,8 +387,6 @@ bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays
             if(it.getAttribute() == PM10){
                 currentValPM10 == it.getValue();
             }
-
-
         }
     }
 }
