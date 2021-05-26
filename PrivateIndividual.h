@@ -25,6 +25,7 @@ class PrivateIndividual : public User
     
     private:
             string sensorID;
+            string userID;
             int pointsAwarded;
             
 
