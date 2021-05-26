@@ -1,8 +1,8 @@
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <vector>
 #include <Statistics.h>
-#include <Read.h>
+#include <Measurements.h>
 using namespace std;
 
 void selectGov()
@@ -15,7 +15,7 @@ void selectGov()
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
-  switch(choice)
+  switch(choice) 
   {
     case 0:
       mainMenu();
@@ -26,9 +26,9 @@ void selectGov()
       double latitude;
       double longitude;
       double radius;
-      Date date;
+      date myDate;
       string dateInput;
-
+      string timeInput;
 
       cout << "Please input the latitude of the location :" << endl;
       cin >> latitude;
@@ -36,11 +36,22 @@ void selectGov()
       cout << "Please input the longitude of the location :" << endl;
       cin >> longitude;
 
-      cout << "Please input the date of measurement :" << endl;
+      cout << "Please input the date of measurement (yyyy/mm/dd) :" << endl;
       cin >> dateInput;
-      // have to convert dateInput to type Date here
+      myDate.year = stoi(dateInput.substr(0,4));
+      myDate.month = stoi(dateInput.substr(5,2));
+      myDate.day = stoi(dateInput.substr(8,2));
 
-      float maxIndex = CalculateAirQuality(latitude, longitude, radius, date);
+      cout << "Please input the time of measurement (hh:mm:ss) :" << endl;
+      cin >> timeInput;
+      myDate.hour = stoi(timeInput.substr(0,2));
+      myDate.minute = stoi(timeInput.substr(3,2));
+      myDate.second = stoi(timeInput.substr(6,2));
+
+
+      // have to convert dateInput to type date here
+
+      float maxIndex = CalculateAirQuality(latitude, longitude, radius, myDate);
       cout << "The air quality is: " <<  maxIndex << endl;
       break;
     case 2:
@@ -49,10 +60,10 @@ void selectGov()
 
       string sensorID;
 
-      Date startDate;
+      date startDate;
       string startDateInput;
 
-      Date endDate;
+      date endDate;
       string endDateInput;
 
       cout << "Please input the sensorID :" << endl;
@@ -60,11 +71,21 @@ void selectGov()
 
       cout << "Please input the starting date from which measurements are taken into account :" << endl;
       cin >> startDateInput;
-      // have to convert dateInput of type string to type Date here
+      startDate.year = stoi(startDateInput.substr(0,4));
+      startDate.month = stoi(startDateInput.substr(5,2));
+      startDate.day = stoi(startDateInput.substr(8,2));
+
+      cout << "Please input the starting time of measurement (hh:mm:ss) :" << endl;
+      cin >> startTimeInput;
+      startDate.hour = stoi(startTimeInput.substr(0,2));
+      startDate.minute = stoi(startTimeInput.substr(3,2));
+      startDate.second = stoi(startTimeInput.substr(6,2));
 
       cout << "Please input the ending date on which measurements are taken into account :" << endl;
       cin >> endDateInput;
-      // have to convert dateInput to type Date here
+      endDate.year = stoi(endDateInput.substr(0,4));
+      endDate.month = stoi(endDateInput.substr(5,2));
+      endDate.day = stoi(endDateInput.substr(8,2));
 
 
       vector <string> similarSensors = calculateSimilarity(sensorID, startDate, endDate);
@@ -81,7 +102,7 @@ void selectGov()
       cout << "Check sensor's data validity" << endl << endl;
 
       string sensorID;
-      Date date;
+      date myDate;
       string dateInput;
       float threshold;
       int nbDays;
@@ -105,13 +126,13 @@ void selectGov()
       cout << "\t1- Time" << endl;
       cin >> coeff;
 
-      bool validity = sensorSanityCheck(sensorID, date, threshold, nbDays, coeff);
-
+      bool validity = sensorSanityCheck(sensorID, myDate, threshold, nbDays, coeff);
+      
       if (bool = true)
       {
         cout << "The data provided by the sensor are valid." << endl;
       } else {
-        cout << "The data provided by the sensor are not reliable." << endl;
+        cout << "The data provided by the sensor are NOT reliable." << endl;
       }
       break;
 
@@ -169,18 +190,8 @@ void mainMenu()
 
 int main()
 {
-  /*
     while (1)
     {
       mainMenu();
     }
-    */
-    Read r = new Read();
-    r.readSensor("./data/sensors.csv");
-    for (auto sensor : r.getSensorList())
-    {
-      cout << sensor.getSensorID() << " || lat: " << sensor.getLatitude() <<
-       " lon: " << sensor.getLongitude() << endl;
-    }
-
 }
