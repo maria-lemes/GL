@@ -3,7 +3,8 @@
                              -------------------
     début                : 05/2021
     copyright            : (C) 2021
-    e-mail               : matthieu.moutot@insa-lyon.fr ; mettez vos emails
+    e-mail               : matthieu.moutot@insa-lyon.fr ;
+    gustavo.giunco-bertoldi@insa-lyon.fr ; mettez vous mails
 *************************************************************************/
 #if ! defined ( Statistics_H )
 #define Statistics_H

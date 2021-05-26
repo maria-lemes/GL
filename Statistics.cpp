@@ -3,7 +3,8 @@
                              -------------------
     début                : 05/2021
     copyright            : (C) 2021
-    e-mail               : matthieu.moutot@insa-lyon.fr ; mettez vos emails
+    e-mail               : matthieu.moutot@insa-lyon.fr ;
+    gustavo.giunco-bertoldi@insa-lyon.fr ; mettez vous mails
 *************************************************************************/
 #include <Statistics.h>
 
@@ -76,24 +77,24 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
 }
 
 /*TODO:
-**Il faut définir si les données des mésures seront recuperées de la base lors
+**Définir si les données des mésures seront recuperées de la base lors
 du lancement du programme ou à la demande. On suppose que le vecteur
 allMeasurements contient déjà toutes les données.
 
-**Il faut définir si cette mérhode rétournera un vecteur avec les Sensors, ou
-un vecteur avec les Ids des senseurs (méthode implementée retournant les ids).
+**Définir si cette mérhode rétournera un vecteur avec les Sensors, ou
+un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
---
+**Définir le format de la date
 */
-vector<String> Statistics::calculateSimilarity(String sensorID, Date date)
+vector<String> Statistics::calculateSimilarity(string sensorID, date startDate, date endDate)
 {
 
   vector<Measurement> allMeasurements;
   //Key : SensorID. Value : Sensor's measurements in the specified period list
-  unordered_map<String,vector<double>> otherSensorsMeasurements;
+  unordered_map<string,vector<double>> otherSensorsMeasurements;
   //Measurements from the sensor whose id is passed in parameter
   vector<double> mySensorMeasurements;
-  vector<String> similarSensors;
+  vector<string> similarSensors;
 
   /*
   We search in all measurements for those produced in the period of time
@@ -102,7 +103,7 @@ vector<String> Statistics::calculateSimilarity(String sensorID, Date date)
   */
   for (Measurement m : allMeasurements)
   {
-    if (m.getDate() == date)
+    if (m.getDate() >= startDate && m.getDate() <= endDate)
     {
       //Sensor is the one passed in parameter
       if (m.getSensorId() == sensorID)
@@ -138,7 +139,7 @@ vector<String> Statistics::calculateSimilarity(String sensorID, Date date)
   it's included in the difined tolerance interval, the sensor is added
   to the similar sensors list.
   */
-  for (pair<String,vector<double>> m : otherSensorsMeasurements)
+  for (pair<string,vector<double>> m : otherSensorsMeasurements)
   {
     coef = calculateSensorCoefficient(m.second);
 
