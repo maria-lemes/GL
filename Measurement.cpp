@@ -22,21 +22,21 @@ using namespace std;
         sensorID = oneMeasurement.sensorID;
         attribute = oneMeasurement.attribute;
         value = oneMeasurement.value;
-        timestamp = oneMeasurement.time;
+        timestamp = oneMeasurement.timestamp;
     }
 
-    string Measurements::getSensorID(){
+    string Measurement::getSensorID(){
         return sensorID;
     }
 
-    string Measurements::getAttribute(){
+    string Measurement::getAttribute(){
         return attribute;
     }
 
-    double Measurements::getValue(){
+    double Measurement::getValue(){
         return value;
     }
 
-    date Measurements::getTimestamp(){
+    date Measurement::getTimestamp(){
         return timestamp;
     }

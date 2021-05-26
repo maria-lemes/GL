@@ -12,7 +12,7 @@ using namespace std;
 
 
     Cleaner::Cleaner(string id, double lat, double lon, date startTime , date stopTime){
-        cleanerId = id;
+        cleanerID = id;
         latitude = lat;
         longitude = lon;
         start = startTime;
@@ -20,7 +20,7 @@ using namespace std;
     }
 
     Cleaner:: Cleaner(const Cleaner & oneCleaner){
-        cleanerId = oneCleaner.cleanerId;
+        cleanerID = oneCleaner.cleanerID;
         latitude = oneCleaner.latitude;
         longitude = oneCleaner.longitude;
         start = oneCleaner.start;
