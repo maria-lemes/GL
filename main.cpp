@@ -15,7 +15,7 @@ void selectGov()
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
-  switch(choice) 
+  switch(choice)
   {
     case 0:
       mainMenu();
@@ -127,7 +127,7 @@ void selectGov()
       cin >> coeff;
 
       bool validity = sensorSanityCheck(sensorID, myDate, threshold, nbDays, coeff);
-      
+
       if (bool = true)
       {
         cout << "The data provided by the sensor are valid." << endl;
@@ -190,8 +190,17 @@ void mainMenu()
 
 int main()
 {
-    while (1)
-    {
-      mainMenu();
-    }
+  /*
+  while (1)
+  {
+    mainMenu();
+  }
+  */
+  Read r = new Read();
+  r.readSensor("./data/sensors.csv");
+  for (auto sensor : r.getSensorList())
+  {
+    cout << sensor.getSensorID() << " || lat: " << sensor.getLatitude() <<
+     " lon: " << sensor.getLongitude() << endl;
+  }
 }

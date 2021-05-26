@@ -9,10 +9,6 @@
 #include <cstring>
 #include <fstream>
 #include <list>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <unordered_map>
 #include <cmath>
 #include "Read.h"
 using namespace std;
@@ -25,14 +21,14 @@ void Read::readSensor(string nom){
     string latitude;
     string longitude;
     string inutile;
-    std::list <Sensor> sensorList = getSensorList();
+    std::list <Sensor> sensorList;
     if (monFlux){
         while (monFlux){
-            getline(monFlux, sensorID, ';');
-            getline(monFlux,latitude, ';');
-            getline(monFlux,longitude, ';');
-            Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
-            sensorList.push_back(*temporary);
+            getline(monFlux, sensorID, ";");
+            getline(monFlux,latitude, ";");
+            getline(monFlux,longitude, ";");
+            Sensor temporary = new Sensor (sensorID,latitude,longitude);
+            sensorList.add(temporary);
          }
     }  else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -115,8 +111,8 @@ void Read :: readCleaner(string nom){
             while (monFlux){
                 getline(monFlux, userID, ';');
                 getline(monFlux,sensorID, ';');
-                // a creer une user class --> je sais pas trop quel méthode appeller si quelqu'un peut regarder lol
-                User  * temporary = new User(userID, sensorID);
+                // a creer une user class
+                User  * temporary = new User(userID, sensorID, 0);
                 userList.push_back(temporary);
             }
         }else {
@@ -151,7 +147,7 @@ void Read :: readCleaner(string nom){
                 getline(monFlux,unit, ';');
                 getline(monFlux,description, ';');
                 Attribute *  temporary = new Attribute(attributeID, unit, description);
-                attributeList.push_back(*temporary);
+                attributeList.push_back(temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -176,203 +172,35 @@ void Read :: readCleaner(string nom){
         return userList;
     }
 
-    std::list<Provider> Read::getProviderList(){
-        return providerList;
+
+    std::list<Provider> Read::getSensorList(){
+        return sensorList;
     }
 
-
-    std::list<Attribute> Read::getAttributeList(){
-        return attributeList;
-}
-
-// --------------------ancien statistics
-
-int Statistics::calculateAirQuality(float latitude, float longitude, int radius, date date)
+double Read::calculateDistance(Sensor s1, Sensor s2)
 {
-    Vector<Measurement> measurements;
-    Vector<Sensor> sensors;
+  //Get sensors latitudes and longitudes in radians
+  long double lats1, lats2, lons1, lons2;
+  lats1 = (M_PI/180)*s1.getLatitude();
+  lats2 = (M_PI/180)*s2.getLatitude();
+  lons1 = (M_PI/180)*s1.getLongitude();
+  lons2 = (M_PI/180)*s2.getLongitude();
 
-    if(sensors.empty())
-    {
-        for(auto it = Read::getSensorsList().begin(); it != Read::getSensorsList().end(); it++)
-        {
-            if( (it->getLatitude() < latitude+radius) && (it->getLongitude() < longitude+radius) )
-            {
-                sensors.push_back(*it);
-            }
-        }
-    }
 
-    if(measurements.empty())
-    {
-        for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
-        {
-            if((find(sensors.begin(), sensors.end(), it->sensorID) != sensors.end()) && (it->date == date))
-            {
-                measurements.push_back(*it);
-            }
-        }
-    }
+  long double dlong = abs(s1.getLongitude() - s2.getLongitude());
+  long double dlat = abs(s1.getLatitude() - s2.getLatitude());
 
-    float sumNO2, sumSO2, sum03, sumPM10;
-    float avgNO2, avgSO2, avg03, avgPM10;
-    nb = sensors.size();
+  long double ans = pow(sin(dlat / 2), 2) +
+                          cos(s1.getLatitude()) * cos(s2.getLatitude()) *
+                          pow(sin(dlong / 2), 2);
+  ans = 2*asin(sqrt(ans));
 
-    for(auto it = measurements.begin(); it != measurements.end(); it++)
-    {
-        if(it->Attribute.compare("NO2") == 0)
-        {
-            sumNO2 += it->value;
-        }
-        if(it->Attribute.compare("SO2") == 0)
-        {
-            sumNO2 += it->value;
-        }
-        if(it->Attribute.compare("O3") == 0)
-        {
-            sumNO2 += it->value;
-        }
-        if(it->Attribute.compare("PM10") == 0)
-        {
-            sumNO2 += it->value;
-        }
-    }
+  //Earth radius
+  long double R = 6371;
 
-    avgNO2 = sumNO2 / nb;
-    avgSO2 = sumSO2 / nb;
-    avg03 = sumO3 / nb;
-    avgPM10 = sumPM10 / nb;
-
-    int [10] tabSO2 = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
-    int [10] tabNO2 = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
-    int [10] tabO3 = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
-    int [10] tabPM10 = {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
-
-    int indexNO2 = 0;
-    int indexSO2 = 0;
-    int indexO3 = 0;
-    int indexPM10 = 0;
-
-    while(avgNO2 > tabNO2[indexNO2]){
-        indexNO2++;
-    }
-    while(avgSO2 > tabNO2[indexSO2]){
-        indexSO2++;
-    }
-    while(avg03 > tabNO2[index03]){
-        index03++;
-    }
-    while(avgPM10 > tabPM10[indexPM10]){
-        indexPM10++;
-    }
-    int tab[4] = {indexNO2, indexSO2, index03, indexPM10};
-    int indexFinal = max_element(tab, tab+4);
-
-    return(indexFinal);
+  ans = ans*R;
 }
 
-/*TODO:
-**Définir si les données des mésures seront recuperées de la base lors
-du lancement du programme ou à la demande. On suppose que le vecteur
-allMeasurements contient déjà toutes les données.
-
-**Définir si cette mérhode rétournera un vecteur avec les Sensors, ou
-un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
-
-**Définir le format de la date
-*/
-vector<string> Statistics::calculateSimilarity(string sensorID, date startDate, date endDate)
+vector<Sensor> Read::getNeighbors(Sensor sensor, double radius)
 {
-
-  vector<Measurement> allMeasurements;
-  //Key : SensorID. Value : Sensor's measurements in the specified period list
-  unordered_map<string,vector<double>> otherSensorsMeasurements;
-  //Measurements from the sensor whose id is passed in parameter
-  vector<double> mySensorMeasurements;
-  vector<string> similarSensors;
-
-  /*
-  We search in all measurements for those produced in the period of time
-  passed in parameter. When found, we add it to its sensor measurement vector
-  in our measurements map.
-  */
-  for (Measurement m : allMeasurements)
-  {
-    if (m.getDate() >= startDate && m.getDate() <= endDate)
-    {
-      //Sensor is the one passed in parameter
-      if (m.getSensorId() == sensorID)
-      {
-        mySensorMeasurements.push_back(m.getValue());
-      }
-      else
-      {
-        auto sensor = otherSensorsMeasurements.find(m.getSensorId());
-
-        //Sensor id not in the map yet
-        if (sensor == measurement.end())
-        {
-          vector<double> mvec;
-          mvec.push_back(m.getValue());
-          otherSensorsMeasurements.insert(make_pair(m.getSensorId(),mvec));
-        }
-        else //Sensor's id found, add measurement value to its vector
-        {
-          (*sensor).second.push_back(m.getValue());
-        }
-      }
-    }
-  }
-
-  //Similarity coefficient from the sensor passed in parameter
-  double simCoef = calculateSensorCoefficient(mySensorMeasurements);
-  double simTolerance = 3; //EXAMPLE
-
-  /*
-  For each sensor and its measurements included in the specified period of
-  time passed in parameter, we calculate its similarity coefficient, if
-  it's included in the difined tolerance interval, the sensor is added
-  to the similar sensors list.
-  */
-  for (pair<string,vector<double>> m : otherSensorsMeasurements)
-  {
-    coef = calculateSensorCoefficient(m.second);
-
-    //Verify if sensors are similar
-    if (abs(simCoef - coef) <= simTolerance)
-    {
-      //Push of the similar sensor id to the list
-      similarSensors.push_back(m.first);
-    }
-  }
-
-  return similarSensors;
-}
-
-bool Statistics::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff){
-    List<Measurement> localMeasurements;
-    List<Measurement> timeMeasurements;
-    List<Sensors> neighbors;
-
-    float currentValNO2, currentValSPO2, currentValO3, currentValPM10;
-    float scoreLocation, scoreTime;
-
-    neighbors = findNeighbors(s, 5); //5km arbitraire fichier
-
-    for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
-    {
-        if(it->sensorID )
-        {
-            measurements.push_back(*it);
-        }
-    }
-
-
-
-
-
-
-
-
-
 }

@@ -4,13 +4,13 @@
 
 #include <list>
 #include <string>
+#include <iostream>
 #include "Attribute.h"
 #include "Cleaner.h"
 #include "Measurement.h"
 #include "PrivateIndividual.h"
 #include "Provider.h"
 #include "Sensor.h"
-#include "Statistics.h"
 using namespace std;
 
 class Read
@@ -40,10 +40,12 @@ std::list<Provider> getProviderList();
 std::list<Attribute> getAttributeList();
 
 //anciennement dans Statistics
-int calculateAirQuality(float latitude, float longitude, int radius, Date date);
-vector<string> calculateSimilarity(String sensorID, Date date);
+int calculateAirQuality(float latitude, float longitude, int radius, date date);
+vector<string> calculateSimilarity(string sensorID, date date);
 bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
 
+double calculateDistance(Sensor s1, Sensor s2);
+vector<Sensor> getNeighbors(Sensor sensor, double radius);
 };
 
 
