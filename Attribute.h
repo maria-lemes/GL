@@ -20,12 +20,11 @@ class Attribute
         Attribute(string id, string ut, string descrip);
 
         Attribute(const Attribute & oneAttribute);
-<<<<<<< HEAD
 
         string getAttributeID(){
             return attributeID;
         }
-        
+
         string getUnit(){
             return unit;
         }
@@ -33,14 +32,6 @@ class Attribute
         string getDescription(){
             return description;
         }
-=======
-        
-        string getAttributeID();
-        
-        string getUnit();
-        
-        string getDescription();
->>>>>>> 10d67d1b4b951ededfa9780caa695f1ec80fc624
 
         virtual ~Attribute();
 
