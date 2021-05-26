@@ -22,14 +22,9 @@ class Attribute
         Attribute(const Attribute & oneAttribute);
 
         string getAttributeID();
-<<<<<<< HEAD
-        string getUnit();
-
-=======
 
         string getUnit();
 
->>>>>>> 553cb66c993ff4edbe6c7f490685c40e5274e5d1
         string getDescription();
 
         virtual ~Attribute();
