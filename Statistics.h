@@ -18,7 +18,7 @@ class Statistics
 {
 public:
     int calculateAirQuality(float latitude, float longitude, int radius, date date);
-    vector<String> calculateSimilarity(string sensorID, date startDate, date endDate);
+    vector<string> calculateSimilarity(string sensorID, date startDate, date endDate);
 };
 
 #endif
