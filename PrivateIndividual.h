@@ -10,16 +10,19 @@
 #define Provider_H
 
 #include <iostream>
+#include "User.h"
 using namespace std;
 
 
-class PrivateIndividual
+class PrivateIndividual : public User
 {
     public:
     
         PrivateIndividual(string sID, double points);
     
         PrivateIndividual(const PrivateIndividual & oneIndividual);
+
+        string getUserID();
     
         string getSensorID();
     

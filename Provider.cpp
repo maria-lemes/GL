@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include "Provider.h"
+#include "User.h"
 
 #include <iostream>
 using namespace std;
@@ -21,8 +22,8 @@ using namespace std;
         cleanerID = oneProvider.cleanerID;
     }
 
-    string Provider::getProviderID(){
-        return providerID;
+    string Provider::getUserID(){
+        return userID;
     }
    
     string Provider::getCleanerID(){
