@@ -1,32 +1,34 @@
 /*************************************************************************
-                              Read.cpp -  description
+                              Read -  description
                              -------------------
-    début                : 05/2021
-    copyright            : (C) 2021
-    e-mail               : matthieu.moutot@insa-lyon.fr ; mettez vos emails
+    début                : 12/2020
+    copyright            : (C) 2020 par B.Pluvinet et M.Moutot
+    e-mail               : berenice.pluvinet@insa-lyon.fr ; matthieu.moutot@insa-lyon.fr
 *************************************************************************/
 #include <iostream>
 #include <cstring>
-using namespace std;
 #include <fstream>
-#include "Sensor.h"
+#include <list>
 #include "Read.h"
-#include "Measurement.h"
+using namespace std;
 
+class Read {
 
 void Read :: readSensor(string nom){
-    ifstream monFlux(nom.c_str());
+    ifstream monFlux;
+    monFlux.open(nom.c_str());
     string sensorID;
     string latitude;
     string longitude;
     string inutile;
+    std::list <Sensor> sensorList;
     if (monFlux){
         while (monFlux){
-            getline(monFlux, sensorID, ";");
-            getline(monFlux,latitude, ";");
-            getline(monFlux,longitude, ";");
-            Sensor temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
-            sensorList.add(temporary);
+            getline(monFlux, sensorID, ';');
+            getline(monFlux,latitude, ';');
+            getline(monFlux,longitude, ';');
+            Sensor * temporary = new  Sensor (sensorID,stod(latitude),stod(longitude));
+            sensorList.push_back(*temporary);
          }
     }else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -43,9 +45,9 @@ void Read :: readMeasurement(string nom){
     string value;
     if (monFlux){
         while (monFlux){
-            getline(monFlux, timestamp, ";");
-            getline(monFlux,sensorID, ";");
-            getline(monFlux,attribute, ";");
+            getline(monFlux, timestamp, ';');
+            getline(monFlux,sensorID, ';');
+            getline(monFlux,attribute, ';');
             getline(monFlux,value,";");
             date.year = timestamp.subsstr(0,4);
             date.month = timestamp.substr(5,2);
@@ -104,6 +106,56 @@ void Read :: readCleaner(string nom){
     }else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
     }
-
 }
 
+    void Read :: readUser(string nom){
+        ifstream monFlux(nom.c_str());
+        string userID;
+        string sensorID;
+        int pointsAwarded;
+        if (monFlux){
+            while (monFlux){
+                getline(monFlux, userID, ";");
+                getline(monFlux,sensorID, ";");
+                User temporary = new User(userID, sensorID, 0);
+                userList.add(temporary); 
+            }
+        }else {
+            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+        }
+    }
+
+    void Read :: readProvider(string nom){
+        ifstream monFlux(nom.c_str());
+        string providerID;
+        string cleanerID;
+        if (monFlux){
+            while (monFlux){
+                getline(monFlux, providerID, ";");
+                getline(monFlux,cleanerID, ";");
+                Provider temporary = new Provider(providerID, cleanerID);
+                providerList.add(temporary); 
+            }
+        }else {
+            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+        }
+    }
+    
+    void Read :: readAttribute(string nom){
+        ifstream monFlux(nom.c_str());
+        string attributeID;
+        string unit;
+        string description;
+        if (monFlux){
+            while (monFlux){
+                getline(monFlux, attributeID, ";");
+                getline(monFlux,unit, ";");
+                getline(monFlux,description, ";");
+                Attribute temporary = new Attribute(attributeID, unit, description);
+                attributeList.add(temporary); 
+            }
+        }else {
+            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+        }
+    }
+}
