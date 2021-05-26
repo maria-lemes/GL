@@ -1,9 +1,10 @@
 /*************************************************************************
-                              Read -  description
+                              Read.cpp -  description
                              -------------------
-    début                : 12/2020
-    copyright            : (C) 2020 par B.Pluvinet et M.Moutot
-    e-mail               : berenice.pluvinet@insa-lyon.fr ; matthieu.moutot@insa-lyon.fr
+    début                : 05/2021
+    copyright            : (C) 2021
+    e-mail               : matthieu.moutot@insa-lyon.fr ;
+    gustavo.giunco-bertoldi@insa-lyon.fr ;
 *************************************************************************/
 #include <iostream>
 #include <cstring>
@@ -46,7 +47,7 @@ void Read :: readMeasurement(string nom){
     string sensorID;
     string attribute;
     string value;
-    std:list <Measurement> measurementList;
+    std:list <Measurement> measurementList = getMeasurementList();
     if (monFlux){
         while (monFlux){
             getline(monFlux, timestamp, ';');
@@ -77,7 +78,7 @@ void Read :: readCleaner(string nom){
     string timestop;
     date start;
     date stop;
-    std::list <Cleaner> cleanerList;
+    std::list <Cleaner> cleanerList = getCleanerList();
     if (monFlux){
         while (monFlux){
             getline(monFlux, cleanerID, ';');
@@ -111,13 +112,14 @@ void Read :: readCleaner(string nom){
         string userID;
         string sensorID;
         int pointsAwarded;
+        std::list <User> userList = getUserList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, userID, ';');
                 getline(monFlux,sensorID, ';');
-                // a creer une user class --> je sais pas trop quel méthode appeller si quelqu'un peut regarder lol
-                User  * temporary = new User(userID, sensorID);
-                userList.push_back(temporary);
+                // a creer une user class
+                PrivateIndividual * temporary = new PrivateIndividual(userID, sensorID, 0);
+                userList.push_back(*temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -128,6 +130,7 @@ void Read :: readCleaner(string nom){
         ifstream monFlux(nom.c_str());
         string providerID;
         string cleanerID;
+        std::list <Provider> providerList = getProviderList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, providerID, ';');
@@ -145,6 +148,7 @@ void Read :: readCleaner(string nom){
         string attributeID;
         string unit;
         string description;
+        std::list <Attribute> attributeList = getAttributeList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, attributeID, ';');
@@ -178,6 +182,10 @@ void Read :: readCleaner(string nom){
 
     std::list<Provider> Read::getProviderList(){
         return providerList;
+
+
+    std::list<Sensor> Read::getSensorList(){
+        return sensorList;
     }
 
 
@@ -345,7 +353,7 @@ vector<string> Read::calculateSimilarity(string sensorID, date startDate, date e
       similarSensors.push_back(m.first);
     }
   }
-
+x
   return similarSensors;
 }
 
