@@ -1,9 +1,9 @@
 /*************************************************************************
-                              Read.cpp -  description
+                              Read -  description
                              -------------------
-    début                : 05/2021
-    copyright            : (C) 2021
-    e-mail               : matthieu.moutot@insa-lyon.fr ; mettez vos emails
+    début                : 12/2020
+    copyright            : (C) 2020 par B.Pluvinet et M.Moutot
+    e-mail               : berenice.pluvinet@insa-lyon.fr ; matthieu.moutot@insa-lyon.fr
 *************************************************************************/
 #include <iostream>
 #include <cstring>
@@ -105,5 +105,58 @@ void Read :: readCleaner(string nom){
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
     }
 
+    void Read :: readUser(string nom){
+        ifstream monFlux(nom.c_str());
+        string userID;
+        string sensorID;
+        int pointsAwarded;
+        if (monFlux){
+            while (monFlux){
+                getline(monFlux, userID, ";");
+                getline(monFlux,sensorID, ";");
+                User temporary = new User(userID, sensorID, 0);
+                userList.add(temporary); 
+            }
+        }else {
+            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+        }
+    }
+
+    void Read :: readProvider(string nom){
+        ifstream monFlux(nom.c_str());
+        string providerID;
+        string cleanerID;
+        if (monFlux){
+            while (monFlux){
+                getline(monFlux, providerID, ";");
+                getline(monFlux,cleanerID, ";");
+                Provider temporary = new Provider(providerID, cleanerID);
+                providerList.add(temporary); 
+            }
+        }else {
+            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+        }
+    }
+    
+    void Read :: readAttribute(string nom){
+        ifstream monFlux(nom.c_str());
+        string attributeID;
+        string unit;
+        string description;
+        if (monFlux){
+            while (monFlux){
+                getline(monFlux, attributeID, ";");
+                getline(monFlux,unit, ";");
+                getline(monFlux,description, ";");
+                Attribute temporary = new Attribute(attributeID, unit, description);
+                attributeList.add(temporary); 
+            }
+        }else {
+            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+        }
+
+    }
 }
 
+
+}
