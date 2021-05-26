@@ -20,14 +20,14 @@ void Read::readSensor(string nom){
     string latitude;
     string longitude;
     string inutile;
-    std::list <Sensor> sensorList;
+    std::list <Sensor> sensorList = getSensorList();
     if (monFlux){
         while (monFlux){
-            getline(monFlux, sensorID, ";");
-            getline(monFlux,latitude, ";");
-            getline(monFlux,longitude, ";");
-            Sensor temporary = new Sensor (sensorID,latitude,longitude);
-            sensorList.add(temporary);
+            getline(monFlux, sensorID, ';');
+            getline(monFlux,latitude, ';');
+            getline(monFlux,longitude, ';');
+            Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
+            sensorList.push_back(*temporary);
          }
     }  else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -110,8 +110,8 @@ void Read :: readCleaner(string nom){
             while (monFlux){
                 getline(monFlux, userID, ';');
                 getline(monFlux,sensorID, ';');
-                // a creer une user class
-                User  * temporary = new User(userID, sensorID, 0);
+                // a creer une user class --> je sais pas trop quel méthode appeller si quelqu'un peut regarder lol
+                User  * temporary = new User(userID, sensorID);
                 userList.push_back(temporary);
             }
         }else {
@@ -146,7 +146,7 @@ void Read :: readCleaner(string nom){
                 getline(monFlux,unit, ';');
                 getline(monFlux,description, ';');
                 Attribute *  temporary = new Attribute(attributeID, unit, description);
-                attributeList.push_back(temporary);
+                attributeList.push_back(*temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -171,7 +171,13 @@ void Read :: readCleaner(string nom){
         return userList;
     }
 
-
-    std::list<Provider> Read::getSensorList(){
-        return sensorList;
+    std::list<Provider> Read::getProviderList(){
+        return providerList;
     }
+
+    
+    std::list<Attribute> Read::getAttributeList(){
+        return attributeList;
+
+
+    

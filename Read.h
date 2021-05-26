@@ -1,12 +1,7 @@
-/*************************************************************************
-                              Read.h -  description
-                             -------------------
-    début                : 05/2021
-    copyright            : (C) 2021
-    e-mail               : matthieu.moutot@insa-lyon.fr ; mettez vos emails
-*************************************************************************/
+
 #if ! defined ( Read_H )
 #define Read_H
+
 #include <list>
 #include <string>
 #include "Attribute.h"
@@ -41,7 +36,7 @@ std::list<Measurement> getMeasurementList();
 std::list<Cleaner> getCleanerList();
 std::list<User> getUserList();
 std::list<Provider> getProviderList();
-std::list<Attribute> getAttributesList();
+std::list<Attribute> getAttributeList();
 
 };
 
