@@ -19,7 +19,7 @@ struct date {
     int hour;
     int minute;
     int second;
-}
+};
 
 
 class Cleaner

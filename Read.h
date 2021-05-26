@@ -5,24 +5,30 @@
     copyright            : (C) 2021
     e-mail               : matthieu.moutot@insa-lyon.fr ; mettez vos emails
 *************************************************************************/
-
 #if ! defined ( Read_H )
 #define Read_H
 #include <list>
-#include <string> 
+#include <string>
+#include "Attribute.h"
+#include "Cleaner.h"
+#include "Measurement.h"
+#include "PrivateIndividual.h"
+#include "Provider.h"
+#include "Sensor.h"
+#include "Statistics.h" 
 
 
 class Read
 {
 
 private:
-/*std::list <Sensors> sensorList;
-std::list <Measurements> measurementList;
-std::list <Cleaner> cleanerList;
-std::list <Provider> providerList;
-std::list <Attributes> attributeList;
-std::list <Attributes> userList;
-*/
+std::list<Sensor> sensorList;
+std::list<Measurement> measurementList;
+std::list<Cleaner> cleanerList;
+std::list<Provider> providerList;
+std::list<Attribute> attributeList;
+std::list<User> userList;
+
 
 public:
 void readSensor(std::string nom);
@@ -31,12 +37,12 @@ void readCleaner(std::string nom);
 void readUser(std::string nom);
 void readAttribute(std::string nom);
 void readProvider(std::string nom);
-List<Sensor> getSensorList();
-List<Measurements> getMeasurementList();
-List<Cleaner> getCleanerList();
-List<User> getUserList();
-List <Provider> getProviderList();
-List <Attributes> getAttributesList();
+std::list<Sensor> getSensorList();
+std::list<Measurements> getMeasurementList();
+std::list<Cleaner> getCleanerList();
+std::list<User> getUserList();
+std::list<Provider> getProviderList();
+std::list<Attribute> getAttributesList();
 
 
 };
