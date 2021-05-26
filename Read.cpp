@@ -8,12 +8,8 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
-#include <fstream>
-#include "Sensor.h"
-#include "Read.h"
-#include "Measurement.h"
 
-
+class Read {
 void Read :: readSensor(string nom){
     ifstream monFlux(nom.c_str());
     string sensorID;
@@ -104,6 +100,7 @@ void Read :: readCleaner(string nom){
     }else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
     }
+}
 
     void Read :: readUser(string nom){
         ifstream monFlux(nom.c_str());
@@ -154,9 +151,5 @@ void Read :: readCleaner(string nom){
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
-
     }
-}
-
-
 }
