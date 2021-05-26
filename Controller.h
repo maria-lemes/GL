@@ -11,6 +11,7 @@
 
 #include "Sensors.h"
 #include <string>
+#include <vector>
 #include <list>
 using namespace std;
 
@@ -20,7 +21,7 @@ class Controller
 
     int calculateAirQuality(float latitude, float longitude, int radius, date date);
 
-    List<Sensors> calculateSimilarity(string sensorID, date startDate, date endDate);
+    vector<string> calculateSimilarity(string sensorID, date startDate, date endDate);
 
     bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
 
