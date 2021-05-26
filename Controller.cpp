@@ -7,19 +7,20 @@
     gustavo.giunco-bertoldi@insa-lyon.fr ; mettez vous mails
 *************************************************************************/
 #include "Controller.h"
+#include "Read.h"
 
 #include <iostream>
 
-#include "Sensors.h"
+#include "Sensor.h"
 #include <string>
 #include <list>
 #include <vector>
 using namespace std;
 
-Read read = new Read();
+Read read;
 
     int::Controller calculateAirQuality(latitude, longitude, radius, myDate){
-            read.calculateAirQuality(latitude, longitude, radius, date);
+         read.calculateAirQuality(latitude, longitude, radius, date);
     }
 
     vector<string>::Controller calculateSimilarity(sensorID, startDate, endDate){
