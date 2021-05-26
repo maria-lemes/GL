@@ -14,7 +14,7 @@ void selectGov()
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
-  switch(choice) 
+  switch(choice)
   {
     case 0:
       mainMenu();
@@ -27,6 +27,7 @@ void selectGov()
       double radius;
       Date date;
       string dateInput;
+      
 
       cout << "Please input the latitude of the location :" << endl;
       cin >> latitude;
@@ -104,7 +105,7 @@ void selectGov()
       cin >> coeff;
 
       bool validity = sensorSanityCheck(sensorID, date, threshold, nbDays, coeff);
-      
+
       if (bool = true)
       {
         cout << "The data provided by the sensor are valid." << endl;
