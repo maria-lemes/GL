@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-#include <Read.h>
-#include <Measurements.h>
-#include <Controller.h>
+#include "Statistics.h
+#include "Measurements.h
+#include "Controller.h"
 using namespace std;
 
 void selectGov()
@@ -16,7 +16,7 @@ void selectGov()
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
-  switch(choice)
+  switch(choice) 
   {
     case 0:
       mainMenu();
@@ -24,9 +24,9 @@ void selectGov()
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
 
-      float latitude;
-      float longitude;
-      int radius;
+      double latitude;
+      double longitude;
+      double radius;
       date myDate;
       string dateInput;
       string timeInput;
@@ -52,8 +52,11 @@ void selectGov()
       myDate.minute = stoi(timeInput.substr(3,2));
       myDate.second = stoi(timeInput.substr(6,2));
 
-      int index = CalculateAirQuality(latitude, longitude, radius, myDate);
-      cout << "The air quality is: " <<  index << endl;
+
+      // have to convert dateInput to type date here
+
+      float maxIndex = c.calculateAirQuality(latitude, longitude, radius, myDate);
+      cout << "The air quality is: " <<  maxIndex << endl;
       break;
     case 2:
       cout << "===== Calculate sensors similarity =====" << endl;
@@ -100,11 +103,10 @@ void selectGov()
       vector <string> similarSensors = calculateSimilarity(sensorID, startDate, endDate);
       vector <string> :: iterator it;
       cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
-      for(it = similarSensors.begin(); it != similarSensors.end(); it++)
-      {
-      cout << it->sensorID << endl;
-      }
-      
+        for(it = similarSensors.begin(); it != similarSensors.end(); it++)
+        {
+          cout << it->sensorID << endl;
+        }
       break;
 
     case 3:
@@ -145,7 +147,7 @@ void selectGov()
       cin >> coeff;
 
       bool validity = sensorSanityCheck(sensorID, myDate, threshold, nbDays, coeff);
-
+      
       if (bool = true)
       {
         cout << "The data provided by the sensor are valid." << endl;

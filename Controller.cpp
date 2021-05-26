@@ -9,8 +9,19 @@
 #include "Controller.h"
 
 #include <iostream>
-#include <algorithm>
+
+#include "Sensors.h"
 #include <string>
+#include <list>
 #include <vector>
-#include <unordered_map>
-#include <cmath>
+using namespace std;
+
+Read read = new Read();
+
+    int::Controller calculateAirQuality(latitude, longitude, radius, myDate){
+            read.calculateAirQuality(latitude, longitude, radius, date);
+    }
+
+    vector<string>::Controller calculateSimilarity(sensorID, startDate, endDate){
+            read.calculateSimilarity(sensorID, startDate, endDate);
+    }

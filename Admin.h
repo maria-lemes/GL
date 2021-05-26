@@ -17,7 +17,5 @@ class Admin : public User
 
         virtual ~Admin();
 
-
-
 };
 #endif
