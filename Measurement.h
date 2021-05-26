@@ -107,8 +107,8 @@ class Measurement
     private:
             string sensorID;
             string attribute;
-            double value;
-            date timestamp;
+            floatx value;
+            date date;
 
 };
 

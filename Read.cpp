@@ -187,7 +187,7 @@ void Read :: readCleaner(string nom){
 
 // --------------------ancien statistics
 
-int Statistics::calculateAirQuality(float latitude, float longitude, int radius, date date)
+int Read::calculateAirQuality(float latitude, float longitude, int radius, date date)
 {
     Vector<Measurement> measurements;
     Vector<Sensor> sensors;
@@ -207,7 +207,7 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
     {
         for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
         {
-            if((find(sensors.begin(), sensors.end(), it->sensorID) != sensors.end()) && (it->date == date))
+            if((find(sensors.begin(), sensors.end(), it.getSensorID()) != sensors.end()) && (it.getDate() == date))
             {
                 measurements.push_back(*it);
             }
@@ -220,19 +220,19 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
 
     for(auto it = measurements.begin(); it != measurements.end(); it++)
     {
-        if(it->Attribute.compare("NO2") == 0)
+        if(it.getAttribute().compare("NO2") == 0)
         {
             sumNO2 += it->value;
         }
-        if(it->Attribute.compare("SO2") == 0)
+        if(it.getAttribute().compare("SO2") == 0)
         {
             sumNO2 += it->value;
         }
-        if(it->Attribute.compare("O3") == 0)
+        if(it.getAttribute().compare("O3") == 0)
         {
             sumNO2 += it->value;
         }
-        if(it->Attribute.compare("PM10") == 0)
+        if(it.getAttribute().compare("PM10") == 0)
         {
             sumNO2 += it->value;
         }
@@ -281,7 +281,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-vector<string> Statistics::calculateSimilarity(string sensorID, date startDate, date endDate)
+vector<string> Read::calculateSimilarity(string sensorID, date startDate, date endDate)
 {
 
   vector<Measurement> allMeasurements;
@@ -349,7 +349,7 @@ vector<string> Statistics::calculateSimilarity(string sensorID, date startDate, 
   return similarSensors;
 }
 
-bool Statistics::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff){
+bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff){
     List<Measurement> localMeasurements;
     List<Measurement> timeMeasurements;
     List<Sensors> neighbors;
@@ -359,11 +359,29 @@ bool Statistics::sensorSanityCheck(Sensor sensor, date date, int threshold, int 
 
     neighbors = findNeighbors(s, 5); //5km arbitraire fichier
 
+    //add every measurement that is from the same date & from a neighboring sensor
     for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
     {
-        if(it->sensorID )
+        if((find(neighbors.begin(), neighbors.end(), it.getSensorID()) != neighbors.end()) && (it.getDate() == date))
         {
-            measurements.push_back(*it);
+            localMeasurements.push_back(*it);
+        }
+
+        if(it.getSensorID() == sensor.getSensorID() && it.getDate() == date){
+            if(it.getAttribute() == NO2){
+                currentValNO2 == it.getValue();
+            }
+            if(it.getAttribute() == SO2){
+                currentValSO2 == it.getValue();
+            }
+            if(it.getAttribute() == O3){
+                currentValO3 == it.getValue();
+            }
+            if(it.getAttribute() == PM10){
+                currentValPM10 == it.getValue();
+            }
+
+
         }
     }
 
