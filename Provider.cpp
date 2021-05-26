@@ -13,12 +13,12 @@
 using namespace std;
 
     Provider::Provider(string pID, string cID){
-        providerID = pID;
+        userID = pID;
         cleanerID = cID;
     }
 
     Provider::Provider(const Provider & oneProvider){
-        providerID = oneProvider.providerID;
+        userID = oneProvider.userID;
         cleanerID = oneProvider.cleanerID;
     }
 

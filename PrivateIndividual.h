@@ -6,8 +6,8 @@
     e-mail               :
 *************************************************************************/
 
-#if ! defined ( PrivateIndiv_H )
-#define PrivateIndiv_H
+#if ! defined ( PrivateIndividual_H )
+#define PrivateIndividual_H
 
 #include <iostream>
 #include "User.h"
@@ -18,7 +18,7 @@ class PrivateIndividual : public User
 {
     public:
     
-        PrivateIndividual(string sID, double points);
+        PrivateIndividual(string uID, string sID, double points);
     
         PrivateIndividual(const PrivateIndividual & oneIndividual);
 

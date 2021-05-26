@@ -12,12 +12,14 @@ using namespace std;
 #include "PrivateIndividual.h"
 #include "User.h"
 
-    PrivateIndividual::PrivateIndividual(string sID, double points){
+    PrivateIndividual::PrivateIndividual(string uID, string sID, double points){
+        userID = uID;
         sensorID = sID;
         pointsAwarded = points;
     }
 
     PrivateIndividual::PrivateIndividual(const PrivateIndividual & oneIndividual){
+        userID = oneIndividual.userID;
         sensorID = oneIndividual.sensorID;
         pointsAwarded = oneIndividual.pointsAwarded;
     }

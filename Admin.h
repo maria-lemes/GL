@@ -9,7 +9,13 @@ using namespace std;
 class Admin : public User
 {
     public:
+        Admin(string uID);
+
+        Admin(const Admin & oneAdmin);
+
         string getUserID();
+
+        virtual ~Admin();
 
 
 

@@ -28,7 +28,6 @@ public:
     virtual ~Provider();
     
 private:
-    string providerID;
     string cleanerID;
     
 
