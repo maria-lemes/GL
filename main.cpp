@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <Statistics.h>
+#include <Read.h>
 using namespace std;
 
 void selectGov()
@@ -27,7 +28,7 @@ void selectGov()
       double radius;
       Date date;
       string dateInput;
-      
+
 
       cout << "Please input the latitude of the location :" << endl;
       cin >> latitude;
@@ -168,8 +169,18 @@ void mainMenu()
 
 int main()
 {
+  /*
     while (1)
     {
       mainMenu();
     }
+    */
+    Read r = new Read();
+    r.readSensor("./data/sensors.csv");
+    for (auto sensor : r.getSensorList())
+    {
+      cout << sensor.getSensorID() << " || lat: " << sensor.getLatitude() <<
+       " lon: " << sensor.getLongitude() << endl;
+    }
+
 }

@@ -1,18 +1,10 @@
-/*************************************************************************
-                              Provider -  description
-                             -------------------
-    début                : 05/2021
-    copyright            : (C) By 
-    e-mail               :
-*************************************************************************/
 
+#if ! defined ( Provider_H )
+#define Provider_H
 
 #include <iostream>
 #include "User.h"
 using namespace std;
-
-#if ! defined ( Provider_H )
-#define Provider_H
 
 class Provider : public User
 {

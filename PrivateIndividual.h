@@ -1,10 +1,3 @@
-/*************************************************************************
-                              PrivateIndividual -  description
-                             -------------------
-    début                : 05/2021
-    copyright            : (C) By 
-    e-mail               :
-*************************************************************************/
 
 #if ! defined ( PrivateIndividual_H )
 #define PrivateIndividual_H
@@ -32,6 +25,7 @@ class PrivateIndividual : public User
     
     private:
             string sensorID;
+            string userID;
             int pointsAwarded;
             
 
