@@ -7,14 +7,6 @@
 *************************************************************************/
 #include <iostream>
 #include <cstring>
-<<<<<<< HEAD
-#include "Read.h"
-using namespace std;
-
-void Read::readSensor(string nom){
-
-    ifstream monFlux(nom.c_str());
-=======
 #include <fstream>
 #include <list>
 #include "Read.h"
@@ -24,7 +16,6 @@ using namespace std;
 void Read :: readSensor(string nom){
     ifstream monFlux;
     monFlux.open(nom.c_str());
->>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
     string sensorID;
     string latitude;
     string longitude;
@@ -32,19 +23,11 @@ void Read :: readSensor(string nom){
     std::list <Sensor> sensorList;
     if (monFlux){
         while (monFlux){
-<<<<<<< HEAD
             getline(monFlux, sensorID, ";");
             getline(monFlux,latitude, ";");
             getline(monFlux,longitude, ";");
             Sensor temporary = new Sensor (sensorID,latitude,longitude);
             sensorList.add(temporary);
-=======
-            getline(monFlux, sensorID, ';');
-            getline(monFlux,latitude, ';');
-            getline(monFlux,longitude, ';');
-            Sensor * temporary = new  Sensor (sensorID,stod(latitude),stod(longitude));
-            sensorList.push_back(*temporary);
->>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
          }
     }  else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -125,18 +108,11 @@ void Read :: readCleaner(string nom){
         int pointsAwarded;
         if (monFlux){
             while (monFlux){
-<<<<<<< HEAD
-                getline(monFlux, userID, ";");
-                getline(monFlux,sensorID, ";");
-                User temporary = new User(userID, sensorID, 0);
-                userList.add(temporary);
-=======
                 getline(monFlux, userID, ';');
                 getline(monFlux,sensorID, ';');
                 // a creer une user class
                 User  * temporary = new User(userID, sensorID, 0);
-                userList.push_back(temporary); 
->>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
+                userList.push_back(temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -149,17 +125,10 @@ void Read :: readCleaner(string nom){
         string cleanerID;
         if (monFlux){
             while (monFlux){
-<<<<<<< HEAD
-                getline(monFlux, providerID, ";");
-                getline(monFlux,cleanerID, ";");
-                Provider temporary = new Provider(providerID, cleanerID);
-                providerList.add(temporary);
-=======
                 getline(monFlux, providerID, ';');
                 getline(monFlux,cleanerID, ';');
                 Provider * temporary = new Provider(providerID, cleanerID);
-                providerList.push_back(*temporary); 
->>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
+                providerList.push_back(*temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -173,47 +142,36 @@ void Read :: readCleaner(string nom){
         string description;
         if (monFlux){
             while (monFlux){
-<<<<<<< HEAD
-                getline(monFlux, attributeID, ";");
-                getline(monFlux,unit, ";");
-                getline(monFlux,description, ";");
-                Attribute temporary = new Attribute(attributeID, unit, description);
-                attributeList.add(temporary);
-=======
                 getline(monFlux, attributeID, ';');
                 getline(monFlux,unit, ';');
                 getline(monFlux,description, ';');
                 Attribute *  temporary = new Attribute(attributeID, unit, description);
-                attributeList.push_back(temporary); 
->>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
+                attributeList.push_back(temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
     }
-<<<<<<< HEAD
-=======
 
     std::list<Sensor> Read::getSensorList(){
         return sensorList;
     }
 
-    
+
     std::list<Measurement> Read::getMeasurementList(){
         return measurementList;
     }
-    
+
     std::list<Cleaner> Read::getCleanerList(){
         return cleanerList;
     }
 
-    
+
     std::list<User> Read::getUserList(){
         return userList;
     }
 
-    
+
     std::list<Provider> Read::getSensorList(){
         return sensorList;
     }
->>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
