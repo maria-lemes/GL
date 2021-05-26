@@ -7,23 +7,44 @@
 *************************************************************************/
 #include <iostream>
 #include <cstring>
+<<<<<<< HEAD
 #include "Read.h"
 using namespace std;
 
 void Read::readSensor(string nom){
 
     ifstream monFlux(nom.c_str());
+=======
+#include <fstream>
+#include <list>
+#include "Read.h"
+using namespace std;
+
+
+void Read :: readSensor(string nom){
+    ifstream monFlux;
+    monFlux.open(nom.c_str());
+>>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
     string sensorID;
     string latitude;
     string longitude;
     string inutile;
+    std::list <Sensor> sensorList;
     if (monFlux){
         while (monFlux){
+<<<<<<< HEAD
             getline(monFlux, sensorID, ";");
             getline(monFlux,latitude, ";");
             getline(monFlux,longitude, ";");
             Sensor temporary = new Sensor (sensorID,latitude,longitude);
             sensorList.add(temporary);
+=======
+            getline(monFlux, sensorID, ';');
+            getline(monFlux,latitude, ';');
+            getline(monFlux,longitude, ';');
+            Sensor * temporary = new  Sensor (sensorID,stod(latitude),stod(longitude));
+            sensorList.push_back(*temporary);
+>>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
          }
     }  else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -33,31 +54,25 @@ void Read::readSensor(string nom){
 void Read :: readMeasurement(string nom){
     ifstream monFlux(nom.c_str());
     string timestamp;
-    Date date;
+    date date;
     string sensorID;
     string attribute;
     string value;
+    std:list <Measurement> measurementList;
     if (monFlux){
         while (monFlux){
-            getline(monFlux, timestamp, ";");
-            getline(monFlux,sensorID, ";");
-            getline(monFlux,attribute, ";");
-            getline(monFlux,value,";");
-            date.year = timestamp.subsstr(0,4);
-            date.month = timestamp.substr(5,2);
-            date.day = timestamp.substr(8,2);
-            date.hour = timestamp.substr(11,2);
-            date.minute = timestamp.substr(14,2);
-            date.second = timestamp.substr(16,2);
-
-           /* getline(timestamp,date.year,"-");
-            getline(timestamp,date.month,"-");
-            getline(timestamp,date.day," ");
-            getline(timestamp,date.hour,":");
-            getline(timestamp,date.minutes,":");
-            getline(timestamp,date.seconds,"");*/
-            Measurement temporary = new Measurement (date,sensorID,attribute,stod(value));
-            measurementList.add(temporary);
+            getline(monFlux, timestamp, ';');
+            getline(monFlux,sensorID, ';');
+            getline(monFlux,attribute, ';');
+            getline(monFlux,value,';');
+            date.year = stoi(timestamp.substr(0,4));
+            date.month = stoi(timestamp.substr(5,2));
+            date.day = stoi(timestamp.substr(8,2));
+            date.hour = stoi(timestamp.substr(11,2));
+            date.minute = stoi(timestamp.substr(14,2));
+            date.second = stoi(timestamp.substr(16,2));
+            Measurement * temporary = new Measurement (sensorID, attribute, stod(value), date);
+            measurementList.push_back(*temporary);
          }
     }else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -68,34 +83,35 @@ void Read :: readMeasurement(string nom){
 void Read :: readCleaner(string nom){
     ifstream monFlux(nom.c_str());
     string cleanerID;
-    double latitude;
-    double longitude;
+    string latitude;
+    string longitude;
     string timestart;
-    string stimestop;
-    Date start;
-    Date stop;
+    string timestop;
+    date start;
+    date stop;
+    std::list <Cleaner> cleanerList;
     if (monFlux){
         while (monFlux){
-            getline(monFlux, cleanerID, ";");
-            getline(monFlux,latitude, ";");
-            getline(monFlux,longitude, ";");
-            getline(monFlux,,";");
-            getline(monFlux,value,";");
-            date.year = timestamp.subsstr(0,4);
-            date.month = timestamp.substr(5,2);
-            date.day = timestamp.substr(8,2);
-            date.hour = timestamp.substr(11,2);
-            date.minute = timestamp.substr(14,2);
-            date.second = timestamp.substr(16,2);
+            getline(monFlux, cleanerID, ';');
+            getline(monFlux,latitude, ';');
+            getline(monFlux,longitude, ';');
+            getline(monFlux,timestart,';');
+            getline(monFlux,timestop,';');
+            start.year = stoi(timestart.substr(0,4));
+            start.month = stoi(timestart.substr(5,2));
+            start.day = stoi(timestart.substr(8,2));
+            start.hour = stoi(timestart.substr(11,2));
+            start.minute = stoi(timestart.substr(14,2));
+            start.second = stoi(timestart.substr(16,2));
 
-           /* getline(timestamp,date.year,"-");
-            getline(timestamp,date.month,"-");
-            getline(timestamp,date.day," ");
-            getline(timestamp,date.hour,":");
-            getline(timestamp,date.minutes,":");
-            getline(timestamp,date.seconds,"");*/
-            Measurement temporary = new Measurement (date,sensorID,attribute,stod(value));
-            measurementList.add(temporary);
+            stop.year = stoi(timestop.substr(0,4));
+            stop.month = stoi(timestop.substr(5,2));
+            stop.day = stoi(timestop.substr(8,2));
+            stop.hour = stoi(timestop.substr(11,2));
+            stop.minute = stoi(timestop.substr(14,2));
+            stop.second = stoi(timestop.substr(16,2));
+            Cleaner * temporary = new Cleaner (cleanerID, stod(latitude), stod(longitude), start,stop);
+            cleanerList.push_back(*temporary);
          }
     }else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -109,10 +125,18 @@ void Read :: readCleaner(string nom){
         int pointsAwarded;
         if (monFlux){
             while (monFlux){
+<<<<<<< HEAD
                 getline(monFlux, userID, ";");
                 getline(monFlux,sensorID, ";");
                 User temporary = new User(userID, sensorID, 0);
                 userList.add(temporary);
+=======
+                getline(monFlux, userID, ';');
+                getline(monFlux,sensorID, ';');
+                // a creer une user class
+                User  * temporary = new User(userID, sensorID, 0);
+                userList.push_back(temporary); 
+>>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -125,10 +149,17 @@ void Read :: readCleaner(string nom){
         string cleanerID;
         if (monFlux){
             while (monFlux){
+<<<<<<< HEAD
                 getline(monFlux, providerID, ";");
                 getline(monFlux,cleanerID, ";");
                 Provider temporary = new Provider(providerID, cleanerID);
                 providerList.add(temporary);
+=======
+                getline(monFlux, providerID, ';');
+                getline(monFlux,cleanerID, ';');
+                Provider * temporary = new Provider(providerID, cleanerID);
+                providerList.push_back(*temporary); 
+>>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -142,13 +173,47 @@ void Read :: readCleaner(string nom){
         string description;
         if (monFlux){
             while (monFlux){
+<<<<<<< HEAD
                 getline(monFlux, attributeID, ";");
                 getline(monFlux,unit, ";");
                 getline(monFlux,description, ";");
                 Attribute temporary = new Attribute(attributeID, unit, description);
                 attributeList.add(temporary);
+=======
+                getline(monFlux, attributeID, ';');
+                getline(monFlux,unit, ';');
+                getline(monFlux,description, ';');
+                Attribute *  temporary = new Attribute(attributeID, unit, description);
+                attributeList.push_back(temporary); 
+>>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
     }
+<<<<<<< HEAD
+=======
+
+    std::list<Sensor> Read::getSensorList(){
+        return sensorList;
+    }
+
+    
+    std::list<Measurement> Read::getMeasurementList(){
+        return measurementList;
+    }
+    
+    std::list<Cleaner> Read::getCleanerList(){
+        return cleanerList;
+    }
+
+    
+    std::list<User> Read::getUserList(){
+        return userList;
+    }
+
+    
+    std::list<Provider> Read::getSensorList(){
+        return sensorList;
+    }
+>>>>>>> c2ca33d6ccd8a5d0552d93d6ab72f2f521460a09

@@ -6,14 +6,12 @@
 //
 
 #include <stdio.h>
-#include Sensor_H
+#include "Sensor.h"
 
 #include <iostream>
 using namespace std;
 
-
-
-Sensor::Sensor(string id, string lat, string lon){
+Sensor::Sensor(string id, double lat, double lon){
     sensorID = id;
     latitude = lat;
     longitude = lon;
@@ -36,4 +34,3 @@ double Sensor::getLatitude(){
 double Sensor::getLongitude(){
     return longitude;
 }
-
