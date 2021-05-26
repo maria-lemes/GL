@@ -31,9 +31,9 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
 
     if(measurements.empty())
     {
-        for(auto it = Read.getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
+        for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
         {
-            if(find(sensors.begin(), sensors.end(), it->sensorID) != sensors.end())
+            if((find(sensors.begin(), sensors.end(), it->sensorID) != sensors.end()) && (it->date == date))
             {
                 measurements.push_back(*it);
             }
@@ -68,6 +68,11 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
     avgSO2 = sumSO2 / nb;
     avg03 = sumO3 / nb;
     avgPM10 = sumPM10 / nb;
+
+    int [10] indexNO2 = {};
+    int [10] indexSO2 = {}
+    int [10] indexO3 = {}
+    int [10] indexPM10 = {}
 }
 
 /*TODO:
