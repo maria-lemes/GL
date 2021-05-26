@@ -176,3 +176,31 @@ vector<String> Statistics::calculateSimilarity(string sensorID, date startDate, 
 
   return similarSensors;
 }
+
+bool Statistics::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff){
+    List<Measurement> localMeasurements;
+    List<Measurement> timeMeasurements;
+    List<Sensors> neighbors;
+
+    float currentValNO2, currentValSPO2, currentValO3, currentValPM10;
+    float scoreLocation, scoreTime;
+
+    neighbors = findNeighbors(s, 5); //5km arbitraire fichier
+
+    for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
+    {
+        if(it->sensorID )
+        {
+            measurements.push_back(*it);
+        }
+    }
+
+
+
+
+
+
+
+
+
+}

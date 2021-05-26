@@ -19,6 +19,7 @@ class Statistics
 public:
     int calculateAirQuality(float latitude, float longitude, int radius, Date date);
     void calculateSimilarity(String sensorID, Date date);
+    bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
 };
 
 #endif
