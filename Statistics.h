@@ -10,6 +10,7 @@
 #define Statistics_H
 
 #include <Read.h>
+#include <Measurements.h>
 #include <string>
 using namespace std;
 
