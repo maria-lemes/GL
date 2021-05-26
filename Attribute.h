@@ -21,17 +21,11 @@ class Attribute
         
         Attribute(const Attribute & oneAttribute);
         
-        string getAttributeID(){
-            return sensorID;
-        }
+        string getAttributeID();
         
-        string getUnit(){
-            return unit;
-        }
+        string getUnit();
         
-        string getDescription(){
-            return description;
-        }
+        string getDescription();
 
         virtual ~Attribute();
 

@@ -24,7 +24,7 @@ using namespace std;
     }
 
     string Attribute::getAttributeID(){
-        return sensorID;
+        return attributeID;
     }
 
     string Attribute::getUnit(){
