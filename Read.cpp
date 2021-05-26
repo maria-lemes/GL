@@ -7,10 +7,11 @@
 *************************************************************************/
 #include <iostream>
 #include <cstring>
+#include "Read.h"
 using namespace std;
 
-class Read {
-void Read :: readSensor(string nom){
+void Read::readSensor(string nom){
+
     ifstream monFlux(nom.c_str());
     string sensorID;
     string latitude;
@@ -21,13 +22,12 @@ void Read :: readSensor(string nom){
             getline(monFlux, sensorID, ";");
             getline(monFlux,latitude, ";");
             getline(monFlux,longitude, ";");
-            Sensor temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
+            Sensor temporary = new Sensor (sensorID,latitude,longitude);
             sensorList.add(temporary);
          }
-    }else {
+    }  else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
     }
-
 }
 
 void Read :: readMeasurement(string nom){
@@ -112,7 +112,7 @@ void Read :: readCleaner(string nom){
                 getline(monFlux, userID, ";");
                 getline(monFlux,sensorID, ";");
                 User temporary = new User(userID, sensorID, 0);
-                userList.add(temporary); 
+                userList.add(temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -128,13 +128,13 @@ void Read :: readCleaner(string nom){
                 getline(monFlux, providerID, ";");
                 getline(monFlux,cleanerID, ";");
                 Provider temporary = new Provider(providerID, cleanerID);
-                providerList.add(temporary); 
+                providerList.add(temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
     }
-    
+
     void Read :: readAttribute(string nom){
         ifstream monFlux(nom.c_str());
         string attributeID;
@@ -146,10 +146,9 @@ void Read :: readCleaner(string nom){
                 getline(monFlux,unit, ";");
                 getline(monFlux,description, ";");
                 Attribute temporary = new Attribute(attributeID, unit, description);
-                attributeList.add(temporary); 
+                attributeList.add(temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
     }
-}

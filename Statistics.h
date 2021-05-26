@@ -9,15 +9,16 @@
 #if ! defined ( Statistics_H )
 #define Statistics_H
 
-#include <Read.h>
+#include "Read.h"
+#include "Measurement.h"
 #include <string>
 using namespace std;
 
 class Statistics
 {
 public:
-    int calculateAirQuality(float latitude, float longitude, int radius, Date date);
-    void calculateSimilarity(String sensorID, Date date);
+    int calculateAirQuality(float latitude, float longitude, int radius, date date);
+    void calculateSimilarity(string sensorID, date date);
 };
 
 #endif
