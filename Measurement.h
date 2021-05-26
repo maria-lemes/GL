@@ -84,7 +84,7 @@ struct date{
         }
       }
     }
-  }
+  };
 
   
 class Measurement
@@ -96,8 +96,6 @@ class Measurement
         Measurement(const Measurement & oneMeasurement);
 
         string getSensorID();
-
-        string getAttribute();
 
         string getAttribute();
 

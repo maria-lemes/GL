@@ -22,9 +22,9 @@ using namespace std;
     }
 
     string Provider::getProviderID(){
-        return sensorID;
+        return providerID;
     }
    
     string Provider::getCleanerID(){
-        return attribute;
+        return cleanerID;
     }
