@@ -9,7 +9,7 @@
 #include <Statistics.h>
 
 #include <iostream>
-#niclude <algorithm>
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <unordered_map>
