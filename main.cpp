@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-#include <Statistics.h>
+#include <Read.h>
 #include <Measurements.h>
+#include <Controller.h>
 using namespace std;
 
 void selectGov()
@@ -23,9 +24,9 @@ void selectGov()
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
 
-      double latitude;
-      double longitude;
-      double radius;
+      float latitude;
+      float longitude;
+      int radius;
       date myDate;
       string dateInput;
       string timeInput;
@@ -35,6 +36,9 @@ void selectGov()
 
       cout << "Please input the longitude of the location :" << endl;
       cin >> longitude;
+
+      cout << "Please input the radius to define the circular area (with the chosen location as center) :" << endl;
+      cin >> radius;
 
       cout << "Please input the date of measurement (yyyy/mm/dd) :" << endl;
       cin >> dateInput;
@@ -48,11 +52,8 @@ void selectGov()
       myDate.minute = stoi(timeInput.substr(3,2));
       myDate.second = stoi(timeInput.substr(6,2));
 
-
-      // have to convert dateInput to type date here
-
-      float maxIndex = CalculateAirQuality(latitude, longitude, radius, myDate);
-      cout << "The air quality is: " <<  maxIndex << endl;
+      int index = CalculateAirQuality(latitude, longitude, radius, myDate);
+      cout << "The air quality is: " <<  index << endl;
       break;
     case 2:
       cout << "===== Calculate sensors similarity =====" << endl;
@@ -62,9 +63,11 @@ void selectGov()
 
       date startDate;
       string startDateInput;
+      string startTimeInput;
 
       date endDate;
       string endDateInput;
+      string endTimeInput;
 
       cout << "Please input the sensorID :" << endl;
       cin >> sensorID;
@@ -87,14 +90,21 @@ void selectGov()
       endDate.month = stoi(endDateInput.substr(5,2));
       endDate.day = stoi(endDateInput.substr(8,2));
 
+      cout << "Please input the ending time of measurement (hh:mm:ss) :" << endl;
+      cin >> endTimeInput;
+      endDate.hour = stoi(endTimeInput.substr(0,2));
+      endDate.minute = stoi(endTimeInput.substr(3,2));
+      endDate.second = stoi(endTimeInput.substr(6,2));
+
 
       vector <string> similarSensors = calculateSimilarity(sensorID, startDate, endDate);
       vector <string> :: iterator it;
       cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
-        for(it = similarSensors.begin(); it != similarSensors.end(); it++)
-        {
-          cout << it->sensorID << endl;
-        }
+      for(it = similarSensors.begin(); it != similarSensors.end(); it++)
+      {
+      cout << it->sensorID << endl;
+      }
+      
       break;
 
     case 3:
@@ -113,7 +123,15 @@ void selectGov()
 
       cout << "Please input the date of measurement :" << endl;
       cin >> dateInput;
-      //have to convert dateInput of type string to type Date here
+      myDate.year = stoi(dateInput.substr(0,4));
+      myDate.month = stoi(dateInput.substr(5,2));
+      myDate.day = stoi(dateInput.substr(8,2));
+
+      cout << "Please input the time of measurement (hh:mm:ss) :" << endl;
+      cin >> timeInput;
+      myDate.hour = stoi(timeInput.substr(0,2));
+      myDate.minute = stoi(timeInput.substr(3,2));
+      myDate.second = stoi(timeInput.substr(6,2));
 
       cout << "Please input the threshold of discrepancy allowed (in %) :" << endl;
       cin >> threshold;
