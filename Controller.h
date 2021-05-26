@@ -18,11 +18,11 @@ class Controller
 {
     public:
 
-    int calculateAirQuality(latitude, longitude, radius, myDate);
+    int calculateAirQuality(float latitude, float longitude, int radius, date date);
 
-    List<Sensors> calculateSimilarity(sensorID, startDate, endDate);
+    List<Sensors> calculateSimilarity(string sensorID, date startDate, date endDate);
 
-    bool sensorSanityCheck(sensorID, myDate, threshold, nbDays, coeff);
+    bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
 
     virtual ~ Controller();
 
