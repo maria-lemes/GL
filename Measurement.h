@@ -91,23 +91,17 @@ class Measurement
     public:
 
         Measurement(string sID, string att, double val, date time);
-
         Measurement(const Measurement & oneMeasurement);
-
         string getSensorID();
-
         string getAttribute();
-
         double getValue();
-
         date getTimestamp();
-
         virtual ~Measurement();
 
     private:
             string sensorID;
             string attribute;
-            float value;
+            double value;
             date date;
 
 };

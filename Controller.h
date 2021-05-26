@@ -9,7 +9,7 @@
 #if ! defined ( Controller_H )
 #define Controller_H
 
-#include "Sensors.h"
+#include "Sensor.h"
 #include <string>
 #include <list>
 using namespace std;

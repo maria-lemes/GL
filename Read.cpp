@@ -392,13 +392,4 @@ bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays
 
         }
     }
-
-
-
-
-
-
-
-
-
 }
