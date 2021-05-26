@@ -6,7 +6,7 @@
     e-mail               : matthieu.moutot@insa-lyon.fr ;
     gustavo.giunco-bertoldi@insa-lyon.fr ; mettez vous mails
 *************************************************************************/
-#include <Controller.h>
+#include "Controller.h"
 
 #include <iostream>
 #include <algorithm>

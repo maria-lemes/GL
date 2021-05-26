@@ -218,7 +218,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, date 
     float avgNO2, avgSO2, avg03, avgPM10;
     nb = sensors.size();
 
-    for(auto it = measurements.begin(); it != measurements.end(); it++)
+    for(auto it = measurements.begin(); it != measurements.end(); it++)x
     {
         if(it.getAttribute().compare("NO2") == 0)
         {
