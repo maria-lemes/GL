@@ -173,6 +173,13 @@ void Read :: readCleaner(string nom){
     }
 
     
-    std::list<Provider> Read::getSensorList(){
-        return sensorList;
+    std::list<Provider> Read::getProviderList(){
+        return providerList;
     }
+
+    
+    std::list<Attribute> Read::getAttributeList(){
+        return attributeList;
+    }
+
+    
