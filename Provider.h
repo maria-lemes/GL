@@ -3,9 +3,10 @@
 #define Provider_H
 
 #include <iostream>
+#include "User.h"
 using namespace std;
 
-class Provider
+class Provider : public User
 {
 public:
     
@@ -13,7 +14,7 @@ public:
     
     Provider(const Provider & oneProvider);
     
-    string getProviderID();
+    string getUserID();
     string getCleanerID();
     
     virtual ~Provider();

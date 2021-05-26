@@ -10,6 +10,7 @@
 using namespace std;
 
 #include "PrivateIndividual.h"
+#include "User.h"
 
     PrivateIndividual::PrivateIndividual(string sID, double points){
         sensorID = sID;
@@ -20,6 +21,10 @@ using namespace std;
         sensorID = oneIndividual.sensorID;
         pointsAwarded = oneIndividual.pointsAwarded;
     }
+
+    string PrivateIndividual::getUserID(){
+            return userID;
+        }
 
     string PrivateIndividual::getSensorID(){
         return sensorID;
