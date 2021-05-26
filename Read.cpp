@@ -7,22 +7,28 @@
 *************************************************************************/
 #include <iostream>
 #include <cstring>
+#include <fstream>
+#include <list>
+#include "Read.h"
 using namespace std;
 
 class Read {
+
 void Read :: readSensor(string nom){
-    ifstream monFlux(nom.c_str());
+    ifstream monFlux;
+    monFlux.open(nom.c_str());
     string sensorID;
     string latitude;
     string longitude;
     string inutile;
+    std::list <Sensor> sensorList;
     if (monFlux){
         while (monFlux){
-            getline(monFlux, sensorID, ";");
-            getline(monFlux,latitude, ";");
-            getline(monFlux,longitude, ";");
-            Sensor temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
-            sensorList.add(temporary);
+            getline(monFlux, sensorID, ';');
+            getline(monFlux,latitude, ';');
+            getline(monFlux,longitude, ';');
+            Sensor * temporary = new  Sensor (sensorID,stod(latitude),stod(longitude));
+            sensorList.push_back(*temporary);
          }
     }else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -39,9 +45,9 @@ void Read :: readMeasurement(string nom){
     string value;
     if (monFlux){
         while (monFlux){
-            getline(monFlux, timestamp, ";");
-            getline(monFlux,sensorID, ";");
-            getline(monFlux,attribute, ";");
+            getline(monFlux, timestamp, ';');
+            getline(monFlux,sensorID, ';');
+            getline(monFlux,attribute, ';');
             getline(monFlux,value,";");
             date.year = timestamp.subsstr(0,4);
             date.month = timestamp.substr(5,2);
