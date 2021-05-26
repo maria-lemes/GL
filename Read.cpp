@@ -353,7 +353,6 @@ vector<string> Read::calculateSimilarity(string sensorID, date startDate, date e
       similarSensors.push_back(m.first);
     }
   }
-x
   return similarSensors;
 }
 
