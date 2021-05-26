@@ -374,7 +374,7 @@ bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays
         {
             localMeasurements.push_back(*it);
         }
-
+        // get the current values of the suspicious sensor
         if(it.getSensorID() == sensor.getSensorID() && it.getDate() == date){
             if(it.getAttribute() == NO2){
                 currentValNO2 == it.getValue();
@@ -388,14 +388,30 @@ bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays
             if(it.getAttribute() == PM10){
                 currentValPM10 == it.getValue();
             }
-
-
         }
     }
 
+    float sumNO2 = sumSO2 = sumO3 = sumPM10 = 0;
+    float avgNO2 = avgSO2 = avgO3 = avgPM10 = 0;
 
+    for(Measurement m : localMeasurements){
+        switch (m.getAttribute()) {
+            case NO2: sumNO2 += m.getValue();
+                break;
+            case SO2: sumSO2 += m.getValue();
+                break;
+            case O3: sumO3 += m.getValue();
+                break;
+            case PM10: sumPM10 += m.getValue();
+                break;
+        }
+    }
+    avgNO2 = sumNO2 / neighborsx;
+    avgSO2 = sumSO2;
+    avgO3 = sumO3;
+    avgPM10 = sumPM10;
 
-
+    }
 
 
 
