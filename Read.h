@@ -38,7 +38,7 @@ void readUser(std::string nom);
 void readAttribute(std::string nom);
 void readProvider(std::string nom);
 std::list<Sensor> getSensorList();
-std::list<Measurements> getMeasurementList();
+std::list<Measurement> getMeasurementList();
 std::list<Cleaner> getCleanerList();
 std::list<User> getUserList();
 std::list<Provider> getProviderList();
