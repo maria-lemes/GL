@@ -17,12 +17,11 @@
 #include <vector>
 using namespace std;
 
-Read read;
 
-    int::Controller calculateAirQuality(latitude, longitude, radius, myDate){
-         read.calculateAirQuality(latitude, longitude, radius, date);
+    int::Controller calculateAirQuality(double latitude, double longitude, int radius, date myDate){
+         Read.calculateAirQuality(latitude, longitude, radius, date);
     }
 
-    vector<string>::Controller calculateSimilarity(sensorID, startDate, endDate){
-            read.calculateSimilarity(sensorID, startDate, endDate);
+    vector<string>::Controller calculateSimilarity(string sensorID, date startDate,  date endDate){
+            Read.calculateSimilarity(sensorID, startDate, endDate);
     }

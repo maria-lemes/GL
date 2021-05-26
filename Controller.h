@@ -17,12 +17,13 @@ using namespace std;
 class Controller
 {
     public:
+    
+    Read read;
+    int calculateAirQuality(double latitude, double longitude, int radius, date myDate);
 
-    int calculateAirQuality(latitude, longitude, radius, myDate);
+    std::list<Sensor> calculateSimilarity(string sensorID, date startDate, date endDate);
 
-    List<Sensors> calculateSimilarity(sensorID, startDate, endDate);
-
-    bool sensorSanityCheck(sensorID, myDate, threshold, nbDays, coeff);
+    bool sensorSanityCheck(string sensorID, date myDate, string threshold, int nbDays, double coeff);
 
     virtual ~ Controller();
 
