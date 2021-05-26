@@ -13,10 +13,6 @@
 #include "Measurement.h"
 #include <string>
 #include <vector>
-<<<<<<< HEAD
-=======
-#include <list>
->>>>>>> fade90fccf91c03e24009176a2803c5af1542190
 using namespace std;
 
 class Controller
