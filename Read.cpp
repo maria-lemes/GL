@@ -353,7 +353,6 @@ vector<string> Read::calculateSimilarity(string sensorID, date startDate, date e
       similarSensors.push_back(m.first);
     }
   }
-
   return similarSensors;
 }
 
@@ -406,13 +405,14 @@ bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays
                 break;
         }
     }
-    avgNO2 = sumNO2 / neighbors;
-    avgSO2 = sumSO2;
-    avgO3 = sumO3;
-    avgPM10 = sumPM10;
+    avgNO2 = sumNO2 / neighbors.length();
+    avgSO2 = sumSO2 / neighbors.length();
+    avgO3 = sumO3 / neighbors.length();
+    avgPM10 = sumPM10 / neighbors.length();
+
+    // trouver system qui aille bien pour le score 
 
     }
-
 
 
 
