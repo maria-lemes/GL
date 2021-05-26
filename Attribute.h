@@ -2,7 +2,7 @@
                               Attribute -  description
                              -------------------
     début                : 05/2021
-    copyright            : (C) By 
+    copyright            : (C) By
     e-mail               :
 *************************************************************************/
 
@@ -16,19 +16,19 @@ using namespace std;
 class Attribute
 {
     public:
-    
+
         Attribute(string id, string ut, string descrip);
-        
+
         Attribute(const Attribute & oneAttribute);
-        
+
         string getAttributeID(){
-            return sensorID;
+            return attributeID;
         }
         
         string getUnit(){
             return unit;
         }
-        
+
         string getDescription(){
             return description;
         }
