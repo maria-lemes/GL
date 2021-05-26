@@ -353,7 +353,6 @@ vector<string> Read::calculateSimilarity(string sensorID, date startDate, date e
       similarSensors.push_back(m.first);
     }
   }
-x
   return similarSensors;
 }
 
@@ -390,6 +389,7 @@ bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays
             }
         }
     }
+<<<<<<< HEAD
 
     float sumNO2 = sumSO2 = sumO3 = sumPM10 = 0;
     float avgNO2 = avgSO2 = avgO3 = avgPM10 = 0;
@@ -417,4 +417,6 @@ bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays
 
 
 
+=======
+>>>>>>> 2058607655a0e093c048f320e1e145d2ab3b360b
 }

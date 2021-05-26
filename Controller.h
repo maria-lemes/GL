@@ -9,20 +9,21 @@
 #if ! defined ( Controller_H )
 #define Controller_H
 
-#include "Sensors.h"
+#include "Sensor.h"
+#include "Measurement.h"
 #include <string>
-#include <list>
+#include <vector>
 using namespace std;
 
 class Controller
 {
     public:
 
-    int calculateAirQuality(latitude, longitude, radius, myDate);
+    int calculateAirQuality(float latitude, float longitude, int radius, date date);
 
-    List<Sensors> calculateSimilarity(sensorID, startDate, endDate);
+    vector<string> calculateSimilarity(string sensorID, date startDate, date endDate);
 
-    bool sensorSanityCheck(sensorID, myDate, threshold, nbDays, coeff);
+    bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
 
     virtual ~ Controller();
 
