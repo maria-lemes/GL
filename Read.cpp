@@ -13,7 +13,7 @@
 using namespace std;
 
 
-void Read :: readSensor(string nom){
+void Read::readSensor(string nom){
     ifstream monFlux;
     monFlux.open(nom.c_str());
     string sensorID;
