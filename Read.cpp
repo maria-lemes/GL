@@ -12,7 +12,6 @@
 #include "Read.h"
 using namespace std;
 
-class Read {
 
 void Read :: readSensor(string nom){
     ifstream monFlux;
@@ -112,8 +111,9 @@ void Read :: readCleaner(string nom){
             while (monFlux){
                 getline(monFlux, userID, ';');
                 getline(monFlux,sensorID, ';');
+                // a creer une user class
                 User  * temporary = new User(userID, sensorID, 0);
-                userList.add(temporary); 
+                userList.push_back(temporary); 
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -126,10 +126,10 @@ void Read :: readCleaner(string nom){
         string cleanerID;
         if (monFlux){
             while (monFlux){
-                getline(monFlux, providerID, ";");
-                getline(monFlux,cleanerID, ";");
-                Provider temporary = new Provider(providerID, cleanerID);
-                providerList.add(temporary); 
+                getline(monFlux, providerID, ';');
+                getline(monFlux,cleanerID, ';');
+                Provider * temporary = new Provider(providerID, cleanerID);
+                providerList.push_back(*temporary); 
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -143,14 +143,36 @@ void Read :: readCleaner(string nom){
         string description;
         if (monFlux){
             while (monFlux){
-                getline(monFlux, attributeID, ";");
-                getline(monFlux,unit, ";");
-                getline(monFlux,description, ";");
-                Attribute temporary = new Attribute(attributeID, unit, description);
-                attributeList.add(temporary); 
+                getline(monFlux, attributeID, ';');
+                getline(monFlux,unit, ';');
+                getline(monFlux,description, ';');
+                Attribute *  temporary = new Attribute(attributeID, unit, description);
+                attributeList.push_back(temporary); 
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
     }
-}
+
+    std::list<Sensor> Read::getSensorList(){
+        return sensorList;
+    }
+
+    
+    std::list<Measurement> Read::getMeasurementList(){
+        return measurementList;
+    }
+    
+    std::list<Cleaner> Read::getCleanerList(){
+        return cleanerList;
+    }
+
+    
+    std::list<User> Read::getUserList(){
+        return userList;
+    }
+
+    
+    std::list<Provider> Read::getSensorList(){
+        return sensorList;
+    }
