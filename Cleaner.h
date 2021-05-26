@@ -2,7 +2,7 @@
                               Cleaner -  description
                              -------------------
     début                : 05/2021
-    copyright            : (C) By 
+    copyright            : (C) By
     e-mail               :
 *************************************************************************/
 
@@ -12,7 +12,7 @@
 #include <iostream>
 using namespace std;
 
-struct date{
+struct date {
     int year;
     int month;
     int day;
@@ -25,21 +25,21 @@ struct date{
 class Cleaner
 {
     public:
-    
+
         Cleaner(string id, double lat, double lon, date startTime , date stopTime);
-    
+
         Cleaner(const Cleaner & oneCleaner);
-        
+
         string getCleanerID();
-        
+
         double getLatitude();
-        
+
         double getLongitude();
-    
+
         date getStart();
-        
+
         date getStop();
-    
+
         virtual ~Cleaner();
 
     private:
