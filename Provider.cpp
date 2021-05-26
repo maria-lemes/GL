@@ -7,22 +7,23 @@
 
 #include <stdio.h>
 #include "Provider.h"
+#include "User.h"
 
 #include <iostream>
 using namespace std;
 
     Provider::Provider(string pID, string cID){
-        providerID = pID;
+        userID = pID;
         cleanerID = cID;
     }
 
     Provider::Provider(const Provider & oneProvider){
-        providerID = oneProvider.providerID;
+        userID = oneProvider.userID;
         cleanerID = oneProvider.cleanerID;
     }
 
-    string Provider::getProviderID(){
-        return providerID;
+    string Provider::getUserID(){
+        return userID;
     }
    
     string Provider::getCleanerID(){

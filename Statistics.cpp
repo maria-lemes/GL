@@ -9,7 +9,7 @@
 #include <Statistics.h>
 
 #include <iostream>
-#niclude <algorithm>
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -109,7 +109,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-vector<String> Statistics::calculateSimilarity(string sensorID, date startDate, date endDate)
+vector<string> Statistics::calculateSimilarity(string sensorID, date startDate, date endDate)
 {
 
   vector<Measurement> allMeasurements;

@@ -10,16 +10,8 @@
 #define Cleaner_H
 
 #include <iostream>
+#include "Measurement.h"
 using namespace std;
-
-struct date {
-    int year;
-    int month;
-    int day;
-    int hour;
-    int minute;
-    int second;
-};
 
 
 class Cleaner

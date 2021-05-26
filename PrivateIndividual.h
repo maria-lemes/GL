@@ -1,25 +1,21 @@
-/*************************************************************************
-                              PrivateIndividual -  description
-                             -------------------
-    début                : 05/2021
-    copyright            : (C) By 
-    e-mail               :
-*************************************************************************/
 
-#if ! defined ( PrivateIndiv_H )
-#define PrivateIndiv_H
+#if ! defined ( PrivateIndividual_H )
+#define PrivateIndividual_H
 
 #include <iostream>
+#include "User.h"
 using namespace std;
 
 
-class PrivateIndividual
+class PrivateIndividual : public User
 {
     public:
     
-        PrivateIndividual(string sID, double points);
+        PrivateIndividual(string uID, string sID, double points);
     
         PrivateIndividual(const PrivateIndividual & oneIndividual);
+
+        string getUserID();
     
         string getSensorID();
     
@@ -29,6 +25,7 @@ class PrivateIndividual
     
     private:
             string sensorID;
+            string userID;
             int pointsAwarded;
             
 

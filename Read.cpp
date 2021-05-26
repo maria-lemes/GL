@@ -13,26 +13,25 @@
 using namespace std;
 
 
-void Read :: readSensor(string nom){
+void Read::readSensor(string nom){
     ifstream monFlux;
     monFlux.open(nom.c_str());
     string sensorID;
     string latitude;
     string longitude;
     string inutile;
-    std::list <Sensor> sensorList;
+    std::list <Sensor> sensorList = getSensorList();
     if (monFlux){
         while (monFlux){
             getline(monFlux, sensorID, ';');
             getline(monFlux,latitude, ';');
             getline(monFlux,longitude, ';');
-            Sensor * temporary = new  Sensor (sensorID,stod(latitude),stod(longitude));
+            Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
             sensorList.push_back(*temporary);
          }
-    }else {
+    }  else {
         cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
     }
-
 }
 
 void Read :: readMeasurement(string nom){
@@ -111,9 +110,9 @@ void Read :: readCleaner(string nom){
             while (monFlux){
                 getline(monFlux, userID, ';');
                 getline(monFlux,sensorID, ';');
-                // a creer une user class
-                User  * temporary = new User(userID, sensorID, 0);
-                userList.push_back(temporary); 
+                // a creer une user class --> je sais pas trop quel méthode appeller si quelqu'un peut regarder lol
+                User  * temporary = new User(userID, sensorID);
+                userList.push_back(temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -129,13 +128,13 @@ void Read :: readCleaner(string nom){
                 getline(monFlux, providerID, ';');
                 getline(monFlux,cleanerID, ';');
                 Provider * temporary = new Provider(providerID, cleanerID);
-                providerList.push_back(*temporary); 
+                providerList.push_back(*temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
     }
-    
+
     void Read :: readAttribute(string nom){
         ifstream monFlux(nom.c_str());
         string attributeID;
@@ -147,7 +146,7 @@ void Read :: readCleaner(string nom){
                 getline(monFlux,unit, ';');
                 getline(monFlux,description, ';');
                 Attribute *  temporary = new Attribute(attributeID, unit, description);
-                attributeList.push_back(temporary); 
+                attributeList.push_back(*temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -158,21 +157,27 @@ void Read :: readCleaner(string nom){
         return sensorList;
     }
 
-    
+
     std::list<Measurement> Read::getMeasurementList(){
         return measurementList;
     }
-    
+
     std::list<Cleaner> Read::getCleanerList(){
         return cleanerList;
     }
 
-    
+
     std::list<User> Read::getUserList(){
         return userList;
     }
 
-    
-    std::list<Provider> Read::getSensorList(){
-        return sensorList;
+    std::list<Provider> Read::getProviderList(){
+        return providerList;
     }
+
+    
+    std::list<Attribute> Read::getAttributeList(){
+        return attributeList;
+
+
+    

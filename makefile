@@ -21,6 +21,10 @@ $(EXE) : $(OBJS)
 	$(CC) $(CCFLAGS) -c $<
 
 clean:
-	@echo "Netoyage des binaires et executables"
+	@echo "Nettoyage des binaires et executables"
 	@rm -f $(OBJS)
 	@rm -f $(EXE)
+
+cleanbin:
+	@echo "Nettoyage des binaires"
+	@rm -f $(OBJS)
