@@ -11,6 +11,7 @@
 #include "Provider.h"
 #include "Sensor.h"
 #include "Statistics.h"
+using namespace std;
 
 class Read
 {
@@ -37,6 +38,11 @@ std::list<Cleaner> getCleanerList();
 std::list<User> getUserList();
 std::list<Provider> getProviderList();
 std::list<Attribute> getAttributeList();
+
+//anciennement dans Statistics
+int calculateAirQuality(float latitude, float longitude, int radius, Date date);
+vector<string> calculateSimilarity(String sensorID, Date date);
+bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
 
 };
 
