@@ -9,6 +9,7 @@
 #include <Statistics.h>
 
 #include <iostream>
+#niclude <algorithm>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -92,7 +93,10 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
     while(avgPM10 > tabPM10[indexPM10]){
         indexPM10++;
     }
+    int tab[4] = {indexNO2, indexSO2, index03, indexPM10};
+    int indexFinal = max_element(tab, tab+4);
 
+    return(indexFinal);
 }
 
 /*TODO:
