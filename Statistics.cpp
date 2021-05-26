@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <cmath>
 
-int Statistics::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+int Statistics::calculateAirQuality(float latitude, float longitude, int radius, date date)
 {
     Vector<Measurement> measurements;
     Vector<Sensor> sensors;
@@ -70,10 +70,29 @@ int Statistics::calculateAirQuality(float latitude, float longitude, int radius,
     avg03 = sumO3 / nb;
     avgPM10 = sumPM10 / nb;
 
-    int [10] indexNO2 = {};
-    int [10] indexSO2 = {}
-    int [10] indexO3 = {}
-    int [10] indexPM10 = {}
+    int [10] tabSO2 = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
+    int [10] tabNO2 = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
+    int [10] tabO3 = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
+    int [10] tabPM10 = {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
+
+    int indexNO2 = 0;
+    int indexSO2 = 0;
+    int indexO3 = 0;
+    int indexPM10 = 0;
+
+    while(avgNO2 > tabNO2[indexNO2]){
+        indexNO2++;
+    }
+    while(avgSO2 > tabNO2[indexSO2]){
+        indexSO2++;
+    }
+    while(avg03 > tabNO2[index03]){
+        index03++;
+    }
+    while(avgPM10 > tabPM10[indexPM10]){
+        indexPM10++;
+    }
+
 }
 
 /*TODO:
