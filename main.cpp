@@ -1,13 +1,21 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-#include "Statistics.h
-#include "Measurements.h
-#include "Controller.h"
+#include <Read.h>
+#include <Measurements.h>
+#include <Controller.h>
+#include <User.h>
+#include <Admin.h>
+#include <PrivateIndividual.h>
 using namespace std;
 
 void selectGov()
 {
+  string userID;
+  cout << "Please provide your UserID :" << endl;
+  cin >> userID;
+  Admin * ad = new Admin(userID); 
+
   int choice;
   cout << "===== Government Agency =====" << endl;
   cout << "1- Analyze the quality of air" << endl;
@@ -24,9 +32,9 @@ void selectGov()
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
 
-      double latitude;
-      double longitude;
-      double radius;
+      float latitude;
+      float longitude;
+      int radius;
       date myDate;
       string dateInput;
       string timeInput;
@@ -40,7 +48,7 @@ void selectGov()
       cout << "Please input the radius to define the circular area (with the chosen location as center) :" << endl;
       cin >> radius;
 
-      cout << "Please input the date of measurement (yyyy/mm/dd) :" << endl;
+      cout << "Please input the date of measurement (yyyy-mm-dd) :" << endl;
       cin >> dateInput;
       myDate.year = stoi(dateInput.substr(0,4));
       myDate.month = stoi(dateInput.substr(5,2));
@@ -52,11 +60,8 @@ void selectGov()
       myDate.minute = stoi(timeInput.substr(3,2));
       myDate.second = stoi(timeInput.substr(6,2));
 
-
-      // have to convert dateInput to type date here
-
-      float maxIndex = c.calculateAirQuality(latitude, longitude, radius, myDate);
-      cout << "The air quality is: " <<  maxIndex << endl;
+      int index = CalculateAirQuality(latitude, longitude, radius, myDate);
+      cout << "The air quality is: " <<  index << endl;
       break;
     case 2:
       cout << "===== Calculate sensors similarity =====" << endl;
@@ -103,10 +108,10 @@ void selectGov()
       vector <string> similarSensors = calculateSimilarity(sensorID, startDate, endDate);
       vector <string> :: iterator it;
       cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
-        for(it = similarSensors.begin(); it != similarSensors.end(); it++)
-        {
-          cout << it->sensorID << endl;
-        }
+      for(it = similarSensors.begin(); it != similarSensors.end(); it++)
+      {
+        cout << it->sensorID << endl;
+      }
       break;
 
     case 3:
@@ -138,7 +143,7 @@ void selectGov()
       cout << "Please input the threshold of discrepancy allowed (in %) :" << endl;
       cin >> threshold;
 
-      cout << "Please input the number of days that data are imported for the time comparison" << endl;
+      cout << "Please input the number of days during which data are imported for the time comparison" << endl;
       cin >> nbDays;
 
       cout << "Please input the preferred factor to evaluate the consistency of this sensor's data :" << endl;
