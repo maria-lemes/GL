@@ -12,79 +12,79 @@
 #include <iostream>
 using namespace std;
 
-struct date{
-    int year;
-    int month;
-    int day;
-    int hour;
-    int minute;
-    int second;
 
-    inline bool operator==(date b)
-    {
-      return year==b.year && month==b.month && day==b.day && hour==b.hour &&
-      minute==b.minute && second==b.second;
-    }
+struct date {
+  int year;
+  int month;
+  int day;
+  int hour;
+  int minute;
+  int second;
+};
+/*
+bool operator==(const struct date &a, const struct date &b)
+{
+  return year==b.year && month==b.month && day==b.day && hour==b.hour && minute==b.minute && second==b.second;
+}
 
-    inline bool operator<(date b)
+bool operator>(const struct date &a, const struct date &b)
+{
+    if (year < b.year)
     {
-      if (year < b.year)
+      return true;
+    } else if (year > b.year)
+    {
+      return false;
+    } else {
+      if (month < b.month)
       {
         return true;
-      } else if (year > b.year)
+      } else if (month > b.month)
       {
         return false;
-      } else {
-        if (month < b.month)
+      }
+      else{
+        if (day < b.day)
         {
           return true;
-        } else if (month > b.month)
+        } else if (day > b.day)
         {
           return false;
         }
         else{
-          if (day < b.day)
+          if (hour < b.hour)
           {
             return true;
-          } else if (day > b.day)
+          } else if (hour > b.hour)
           {
             return false;
           }
           else{
-            if (hour < b.hour)
+            if (minute < b.minute)
             {
               return true;
-            } else if (hour > b.hour)
+            } else if (minute > b.minute)
             {
               return false;
             }
             else{
-              if (minute < b.minute)
+              if (second < b.second)
               {
                 return true;
-              } else if (minute > b.minute)
+              } else if (second > b.second)
               {
                 return false;
               }
               else{
-                if (second < b.second)
-                {
-                  return true;
-                } else if (second > b.second)
-                {
-                  return false;
-                }
-                else{
-                  return false;
-                }
+                return false;
               }
             }
           }
         }
       }
     }
-  };
-
+}
+*/
 
 class Measurement
 {
@@ -100,7 +100,7 @@ class Measurement
 
         double getValue();
 
-        date getDate();
+        struct date getDate();
 
         virtual ~Measurement();
 
@@ -108,7 +108,7 @@ class Measurement
             string sensorID;
             string attribute;
             float value;
-            date date;
+            struct date date;
 
 };
 

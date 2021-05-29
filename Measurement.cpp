@@ -1,6 +1,6 @@
 //
 //  Measurement.cpp
-//  
+//
 //
 //  Created by Maria Eduarda Zen Lemes on 05/05/2021.
 //
@@ -37,6 +37,6 @@ using namespace std;
         return value;
     }
 
-    date Measurement::getDate(){
+    struct date Measurement::getDate(){
         return date;
     }
