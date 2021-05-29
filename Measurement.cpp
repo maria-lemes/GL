@@ -11,18 +11,18 @@
 
 using namespace std;
 
-    Measurement::Measurement(string sID, string att, double val, date time){
+    Measurement::Measurement(string sID, string att, double val, struct date time){
         sensorID = sID;
         attribute = att;
         value = val;
-        timestamp = time;
+        date = time;
     }
 
     Measurement::Measurement(const Measurement & oneMeasurement){
         sensorID = oneMeasurement.sensorID;
         attribute = oneMeasurement.attribute;
         value = oneMeasurement.value;
-        timestamp = oneMeasurement.timestamp;
+        date = oneMeasurement.date;
     }
 
     string Measurement::getSensorID(){
@@ -37,6 +37,6 @@ using namespace std;
         return value;
     }
 
-    date Measurement::getTimestamp(){
-        return timestamp;
+    date Measurement::getDate(){
+        return date;
     }
