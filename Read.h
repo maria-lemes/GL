@@ -41,7 +41,7 @@ std::list<Attribute> getAttributeList();
 
 //anciennement dans Statistics
 int calculateAirQuality(float latitude, float longitude, int radius, date date);
-vector<string> calculateSimilarity(string sensorID, date date);
+vector<string> calculateSimilarity(string sensorID, date startDate, date endDate);
 bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
 
 double calculateDistance(Sensor s1, Sensor s2);
