@@ -10,8 +10,9 @@
 #define Controller_H
 
 #include "Sensor.h"
+#include "Measurement.h"
 #include <string>
-#include <list>
+#include <vector>
 using namespace std;
 
 class Controller
@@ -21,9 +22,11 @@ class Controller
     Read read;
     int calculateAirQuality(double latitude, double longitude, int radius, date myDate);
 
-    std::list<Sensor> calculateSimilarity(string sensorID, date startDate, date endDate);
+    int calculateAirQuality(float latitude, float longitude, int radius, date date);
 
-    bool sensorSanityCheck(string sensorID, date myDate, string threshold, int nbDays, double coeff);
+    vector<string> calculateSimilarity(string sensorID, date startDate, date endDate);
+
+    bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
 
     virtual ~ Controller();
 
