@@ -7,11 +7,12 @@
 
 #include <stdio.h>
 #include <iostream>
+#include "Date.h"
 #include "Measurement.h"
 
 using namespace std;
 
-    Measurement::Measurement(string sID, string att, double val, _date time){
+    Measurement::Measurement(string sID, string att, double val, Date time){
         sensorID = sID;
         attribute = att;
         value = val;
@@ -37,6 +38,6 @@ using namespace std;
         return value;
     }
 
-    struct date Measurement::getDate(){
+    Date Measurement::getDate(){
         return date;
     }

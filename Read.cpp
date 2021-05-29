@@ -42,7 +42,7 @@ void Read::readSensor(string nom){
 void Read :: readMeasurement(string nom){
     ifstream monFlux(nom.c_str());
     string timestamp;
-    date date;
+    Date date;
     string sensorID;
     string attribute;
     string value;
@@ -53,12 +53,10 @@ void Read :: readMeasurement(string nom){
             getline(monFlux,sensorID, ';');
             getline(monFlux,attribute, ';');
             getline(monFlux,value,';');
-            date.year = stoi(timestamp.substr(0,4));
-            date.month = stoi(timestamp.substr(5,2));
-            date.day = stoi(timestamp.substr(8,2));
-            date.hour = stoi(timestamp.substr(11,2));
-            date.minute = stoi(timestamp.substr(14,2));
-            date.second = stoi(timestamp.substr(16,2));
+            date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2),
+              stoi(timestamp.substr(8,2)),stoi(timestamp.substr(11,2)),
+              stoi(timestamp.substr(14,2)),stoi(timestamp.substr(16,2))));
+
             Measurement * temporary = new Measurement (sensorID, attribute, stod(value), date);
             measurementList.push_back(*temporary);
          }
@@ -75,8 +73,8 @@ void Read :: readCleaner(string nom){
     string longitude;
     string timestart;
     string timestop;
-    date start;
-    date stop;
+    Date start;
+    Date stop;
     list <Cleaner> cleanerList = getCleanerList();
     if (monFlux){
         while (monFlux){
@@ -191,7 +189,7 @@ void Read :: readCleaner(string nom){
 // --------------------ancien statistics
 
 
-int Read::calculateAirQuality(float latitude, float longitude, int radius, date date)
+int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
 {
     list<Measurement> measurements;
     list<Sensor> sensors;
@@ -285,7 +283,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-vector<string> Read::calculateSimilarity(string sensorID, date startDate, Measurement::date endDate)
+vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
 {
 
   vector<Measurement> allMeasurements;
@@ -352,7 +350,7 @@ vector<string> Read::calculateSimilarity(string sensorID, date startDate, Measur
   return similarSensors;
 }
 
-bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff){
+bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff){
     vector<Measurement> localMeasurements;
     vector<Measurement> timeMeasurements;
     vector<Sensors> neighbors;
