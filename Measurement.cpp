@@ -11,7 +11,7 @@
 
 using namespace std;
 
-    Measurement::Measurement(string sID, string att, double val, struct date time){
+    Measurement::Measurement(string sID, string att, double val, _date time){
         sensorID = sID;
         attribute = att;
         value = val;
