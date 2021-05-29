@@ -24,12 +24,12 @@ using namespace std;
     }
 
     //Getters
-    int Date::getYear() {return year;}
-    int Date::getMonth() {return month;}
-    int Date::getDay() {return day;}
-    int Date::getHour() {return hour;}
-    int Date::getMinute() {return minute;}
-    int Date::getSecond() {return second;}
+    int Date::getYear() const {return year;}
+    int Date::getMonth() const {return month;}
+    int Date::getDay() const {return day;}
+    int Date::getHour() const {return hour;}
+    int Date::getMinute()const {return minute;}
+    int Date::getSecond() const {return second;}
 
     //Setters
     void Date::setYear(int aYear) {year = aYear;}
@@ -41,46 +41,46 @@ using namespace std;
 
     bool Date::operator<(const Date & d1)
     {
-      if (this.getYear() < d.getYear())
+      if (this->getYear() < d1.getYear())
       {
         return true;
-      } else if (this.getYear() d.getYear())
+      } else if (this->getYear() > d1.getYear())
       {
         return false;
       } else {
-        if (this.getMonth() < d1.getMonth())
+        if (this->getMonth() < d1.getMonth())
         {
           return true;
-        } else if (this.getMonth() > d1.getMonth())
+        } else if (this->getMonth() > d1.getMonth())
         {
           return false;
         }
         else{
-          if (this.getDay() < d1.getDay())
+          if (this->getDay() < d1.getDay())
           {
             return true;
-          } else if (this.getDay() > d1.getDay())
+          } else if (this->getDay() > d1.getDay())
           {
             return false;
           }
           else{
-            if (this.getHour() < d1.getHour())
+            if (this->getHour() < d1.getHour())
             {
               return true;
-            } else if (this.getHour() > d1.getHour())
+            } else if (this->getHour() > d1.getHour())
             {
               return false;
             }
             else{
-              if (this.getminute() < d1.getMinute())
+              if (this->getMinute() < d1.getMinute())
               {
                 return true;
-              } else if (this.getMinute() > d1.getMinute())
+              } else if (this->getMinute() > d1.getMinute())
               {
                 return false;
               }
               else{
-                if (this.getSecond() < d1.getSecond())
+                if (this->getSecond() < d1.getSecond())
                 {
                   return true;
                 } else
@@ -96,7 +96,15 @@ using namespace std;
 
     bool Date::operator==(const Date & d1)
     {
-      return this.getYear()==d1.getYear() && this.getMonth()==d1.getmonth()
-      && this.getDay() == d1.getDay() && this.getHour() == d1.getHour() &&
-      this.getMinute() == d1.getMinute() && this.getSecond() == d1.getSecond();
+      return this->getYear()==d1.getYear() && this->getMonth()==d1.getMonth()
+      && this->getDay() == d1.getDay() && this->getHour() == d1.getHour() &&
+      this->getMinute() == d1.getMinute() && this->getSecond() == d1.getSecond();
     }
+
+    bool Date::operator<=(const Date & d1){
+        return((*this) < d1 || (*this) == d1);
+    }
+
+    bool Date::operator>=(const Date & d1){
+            return(!((*this) < d1) || (*this) == d1);
+     }

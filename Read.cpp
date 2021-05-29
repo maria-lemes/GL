@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <cmath>
 #include "Read.h"
+#include "Date.h"
 using namespace std;
 
 
@@ -53,7 +54,7 @@ void Read :: readMeasurement(string nom){
             getline(monFlux,sensorID, ';');
             getline(monFlux,attribute, ';');
             getline(monFlux,value,';');
-            date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2),
+            date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2)),
               stoi(timestamp.substr(8,2)),stoi(timestamp.substr(11,2)),
               stoi(timestamp.substr(14,2)),stoi(timestamp.substr(16,2))));
 
@@ -83,19 +84,19 @@ void Read :: readCleaner(string nom){
             getline(monFlux,longitude, ';');
             getline(monFlux,timestart,';');
             getline(monFlux,timestop,';');
-            start.year = stoi(timestart.substr(0,4));
-            start.month = stoi(timestart.substr(5,2));
-            start.day = stoi(timestart.substr(8,2));
-            start.hour = stoi(timestart.substr(11,2));
-            start.minute = stoi(timestart.substr(14,2));
-            start.second = stoi(timestart.substr(16,2));
+            start.setYear(stoi(timestart.substr(0,4)));
+            start.setMonth(stoi(timestart.substr(5,2)));
+            start.setDay(stoi(timestart.substr(8,2)));
+            start.setHour(stoi(timestart.substr(11,2)));
+            start.setMinute(stoi(timestart.substr(14,2)));
+            start.setSecond(stoi(timestart.substr(16,2)));
 
-            stop.year = stoi(timestop.substr(0,4));
-            stop.month = stoi(timestop.substr(5,2));
-            stop.day = stoi(timestop.substr(8,2));
-            stop.hour = stoi(timestop.substr(11,2));
-            stop.minute = stoi(timestop.substr(14,2));
-            stop.second = stoi(timestop.substr(16,2));
+            stop.setYear(stoi(timestop.substr(0,4)));
+            stop.setMonth(stoi(timestop.substr(5,2)));
+            stop.setDay(stoi(timestop.substr(8,2)));
+            stop.setHour(stoi(timestop.substr(11,2)));
+            stop.setMinute(stoi(timestop.substr(14,2)));
+            stop.setSecond(stoi(timestop.substr(16,2)));
             Cleaner * temporary = new Cleaner (cleanerID, stod(latitude), stod(longitude), start,stop);
             cleanerList.push_back(*temporary);
          }
@@ -109,7 +110,7 @@ void Read :: readCleaner(string nom){
         string userID;
         string sensorID;
         int pointsAwarded;
-        vector<User*> userList = getUserList();
+        list<User*> userList = getUserList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, userID, ';');
@@ -177,7 +178,7 @@ void Read :: readCleaner(string nom){
         return userList;
     }
 
-    vector<Provider> Read::getProviderList(){
+    list<Provider> Read::getProviderList(){
         return providerList;
     }
 
@@ -270,7 +271,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
     int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
     int indexFinal = max_element(*tab, *(tab+4));
 
-    return(*indexFinal);
+    return indexFinal;
 }
 
 /*TODO:
@@ -283,15 +284,15 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+list<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
 {
 
-  vector<Measurement> allMeasurements;
+  list<Measurement> allMeasurements;
   //Key : SensorID. Value : Sensor's measurements in the specified period list
-  unordered_map<string,vector<double>> otherSensorsMeasurements;
+  unordered_map<string,list<double>> otherSensorsMeasurements;
   //Measurements from the sensor whose id is passed in parameter
-  vector<double> mySensorMeasurements;
-  vector<string> similarSensors;
+  list<double> mySensorMeasurements;
+  list<string> similarSensors;
 
   /*
   We search in all measurements for those produced in the period of time
@@ -336,7 +337,7 @@ vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date e
   it's included in the difined tolerance interval, the sensor is added
   to the similar sensors list.
   */
-  for (pair<string,vector<double>> m : otherSensorsMeasurements)
+  for (pair<string,list<double>> m : otherSensorsMeasurements)
   {
     coef = calculateSensorCoefficient(m.second);
 
@@ -351,9 +352,9 @@ vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date e
 }
 
 bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff){
-    vector<Measurement> localMeasurements;
-    vector<Measurement> timeMeasurements;
-    vector<Sensors> neighbors;
+    list<Measurement> localMeasurements;
+    list<Measurement> timeMeasurements;
+    list<Sensor> neighbors;
 
     float currentValNO2, currentValSPO2, currentValO3, currentValPM10;
     float scoreLocation, scoreTime;
@@ -361,25 +362,25 @@ bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays
     neighbors = findNeighbors(s, 5); //5km arbitraire fichier
 
     //add every measurement that is from the same date & from a neighboring sensor
-    for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
+    for(auto it = Read::getMeasurementList().begin(); it != getMeasurementList().end(); it++)
     {
-        if((find(neighbors.begin(), neighbors.end(), it.getSensorID()) != neighbors.end()) && (it.getDate() == date))
+        if((find(neighbors.begin(), neighbors.end(), it->getSensorID()) != neighbors.end()) && (it->getDate() == date))
         {
             localMeasurements.push_back(*it);
         }
         // get the current values of the suspicious sensor
-        if(it.getSensorID() == sensor.getSensorID() && it.getDate() == date){
-            if(it.getAttribute() == NO2){
-                currentValNO2 == it.getValue();
+        if(it->getSensorID() == sensor.getSensorID() && it->getDate() == date){
+            if(it->getAttribute() == NO2){
+                currentValNO2 == it->getValue();
             }
-            if(it.getAttribute() == SO2){
-                currentValSO2 == it.getValue();
+            if(it->getAttribute() == SO2){
+                currentValSO2 == it->getValue();
             }
-            if(it.getAttribute() == O3){
-                currentValO3 == it.getValue();
+            if(it->getAttribute() == O3){
+                currentValO3 == it->getValue();
             }
-            if(it.getAttribute() == PM10){
-                currentValPM10 == it.getValue();
+            if(it->getAttribute() == PM10){
+                currentValPM10 == it->getValue();
             }
         }
     }

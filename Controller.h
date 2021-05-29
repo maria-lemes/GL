@@ -12,18 +12,18 @@
 #include "Sensor.h"
 #include "Measurement.h"
 #include <string>
-#include <vector>
+#include <list>
 using namespace std;
 
 class Controller
 {
     public:
 
-    int calculateAirQuality(float latitude, float longitude, int radius, date date);
+    int calculateAirQuality(float latitude, float longitude, int radius, Date date);
 
-    vector<string> calculateSimilarity(string sensorID, date startDate, date endDate);
+    list<string> calculateSimilarity(string sensorID, Date startDate, Date endDate);
 
-    bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
+    bool sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff);
 
     virtual ~ Controller();
 

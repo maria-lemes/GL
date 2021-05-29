@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "Measurement.h"
+#include "Date.h"
 using namespace std;
 
 
@@ -18,7 +19,7 @@ class Cleaner
 {
     public:
 
-        Cleaner(string id, double lat, double lon, date startTime , date stopTime);
+        Cleaner(string id, double lat, double lon, Date startTime , Date stopTime);
 
         Cleaner(const Cleaner & oneCleaner);
 
@@ -28,9 +29,9 @@ class Cleaner
 
         double getLongitude();
 
-        date getStart();
+        Date getStart();
 
-        date getStop();
+        Date getStop();
 
         virtual ~Cleaner();
 
@@ -38,8 +39,8 @@ class Cleaner
             string cleanerID;
             double latitude;
             double longitude;
-            date start;
-            date stop;
+            Date start;
+            Date stop;
 };
 
 #endif // Cleaner_H

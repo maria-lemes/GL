@@ -8,10 +8,11 @@
 #include <stdio.h>
 #include <iostream>
 #include "Cleaner.h"
+#include "Date.h"
 using namespace std;
 
 
-    Cleaner::Cleaner(string id, double lat, double lon, date startTime , date stopTime){
+    Cleaner::Cleaner(string id, double lat, double lon, Date startTime , Date stopTime){
         cleanerID = id;
         latitude = lat;
         longitude = lon;
@@ -35,10 +36,10 @@ using namespace std;
         return longitude;
     }
 
-    date Cleaner::getStart(){
+    Date Cleaner::getStart(){
         return start;
     }
     
-    date Cleaner::getStop(){
+    Date Cleaner::getStop(){
         return stop;
     }

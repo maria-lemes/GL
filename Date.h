@@ -14,19 +14,28 @@ using namespace std;
 class Date
 {
     public:
-      Date (int oneYear, int oneMonth, int oneDay, int oneHour, int oneMinute, int oneSecond);
+      Date (int oneYear = 0, int oneMonth = 0, int oneDay = 0, int oneHour = 0, int oneMinute = 0 , int oneSecond = 0);
       Date (const Date &oneDate);
-      int getYear();
-      int getMonth();
-      int getDay();
-      int getHour();
-      int getMinute();
-      int getSecond();
+      int getYear() const;
+      int getMonth() const;
+      int getDay() const;
+      int getHour() const;
+      int getMinute() const;
+      int getSecond() const;
 
-      bool operator<(const Date & d1, const Date & d2);
-      bool operator==(const Date & d1, const Date & d2);
+      void setYear(int aYear);
+      void setMonth(int aMonth);
+      void setDay(int aDay);
+      void setHour(int aHour);
+      void setMinute(int aMinute);
+      void setSecond(int aSecond);
 
-      virtual ~PrivateIndividual();
+      bool operator<(const Date & d1);
+      bool operator==(const Date & d1);
+      bool operator<=(const Date & d1);
+      bool operator>=(const Date & d1);
+
+      virtual ~Date();
 
     private:
       int year;
