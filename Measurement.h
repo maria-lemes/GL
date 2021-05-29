@@ -12,7 +12,7 @@
 #include <iostream>
 using namespace std;
 
-struct date {
+struct date{
     int year;
     int month;
     int day;
@@ -90,18 +90,24 @@ class Measurement
 {
     public:
 
-        Measurement(string sID, string att, double val, date time);
+        Measurement(string sID, string att, double val, struct date time);
+
         Measurement(const Measurement & oneMeasurement);
+
         string getSensorID();
+
         string getAttribute();
+
         double getValue();
-        date getTimestamp();
+
+        date getDate();
+
         virtual ~Measurement();
 
     private:
             string sensorID;
             string attribute;
-            double value;
+            float value;
             date date;
 
 };

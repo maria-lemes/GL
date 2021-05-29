@@ -26,7 +26,7 @@ void Read::readSensor(string nom){
     string latitude;
     string longitude;
     string inutile;
-    std::list <Sensor> sensorList = getSensorList();
+    list <Sensor> sensorList = getSensorList();
     if (monFlux){
         while (monFlux){
             getline(monFlux, sensorID, ';');
@@ -47,7 +47,7 @@ void Read :: readMeasurement(string nom){
     string sensorID;
     string attribute;
     string value;
-    std:list <Measurement> measurementList = getMeasurementList();
+    list <Measurement> measurementList = getMeasurementList();
     if (monFlux){
         while (monFlux){
             getline(monFlux, timestamp, ';');
@@ -78,7 +78,7 @@ void Read :: readCleaner(string nom){
     string timestop;
     date start;
     date stop;
-    std::list <Cleaner> cleanerList = getCleanerList();
+    list <Cleaner> cleanerList = getCleanerList();
     if (monFlux){
         while (monFlux){
             getline(monFlux, cleanerID, ';');
@@ -112,7 +112,7 @@ void Read :: readCleaner(string nom){
         string userID;
         string sensorID;
         int pointsAwarded;
-        std::list <User> userList = getUserList();
+        list <User*> userList = getUserList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, userID, ';');
@@ -130,7 +130,7 @@ void Read :: readCleaner(string nom){
         ifstream monFlux(nom.c_str());
         string providerID;
         string cleanerID;
-        std::list <Provider> providerList = getProviderList();
+        list <Provider> providerList = getProviderList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, providerID, ';');
@@ -148,7 +148,7 @@ void Read :: readCleaner(string nom){
         string attributeID;
         string unit;
         string description;
-        std::list <Attribute> attributeList = getAttributeList();
+        list <Attribute> attributeList = getAttributeList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, attributeID, ';');
@@ -162,38 +162,39 @@ void Read :: readCleaner(string nom){
         }
     }
 
-    std::list<Sensor> Read::getSensorList(){
+    list<Sensor> Read::getSensorList(){
         return sensorList;
     }
 
 
-    std::list<Measurement> Read::getMeasurementList(){
+    list<Measurement> Read::getMeasurementList(){
         return measurementList;
     }
 
-    std::list<Cleaner> Read::getCleanerList(){
+    list<Cleaner> Read::getCleanerList(){
         return cleanerList;
     }
 
 
-    std::list<User> Read::getUserList(){
+    list<User> Read::getUserList(){
         return userList;
     }
 
-    std::list<Provider> Read::getProviderList(){
+    list<Provider> Read::getProviderList(){
         return providerList;
 
 
-    std::list<Sensor> Read::getSensorList(){
+    list<Sensor> Read::getSensorList(){
         return sensorList;
     }
 
 
-    std::list<Attribute> Read::getAttributeList(){
+   list<Attribute> Read::getAttributeList(){
         return attributeList;
 }
 
 // --------------------ancien statistics
+
 
 int Read::calculateAirQuality(float latitude, float longitude, int radius, date date)
 {
