@@ -12,27 +12,21 @@
 #include <iostream>
 using namespace std;
 
+struct _date{
+    int year;
+    int month;
+    int day;
+    int hour;
+    int minute;
+    int second;
 
-struct date {
-  int year;
-  int month;
-  int day;
-  int hour;
-  int minute;
-  int second;
-};
-/*
-bool operator==(const struct date &a, const struct date &b)
-{
-  return year==b.year && month==b.month && day==b.day && hour==b.hour && minute==b.minute && second==b.second;
-}
-
-bool operator>(const struct date &a, const struct date &b)
-{
-    if (year < b.year)
+    inline bool operator==(_date b)
     {
-      return true;
-    } else if (year > b.year)
+      return year==b.year && month==b.month && day==b.day && hour==b.hour &&
+      minute==b.minute && second==b.second;
+    }
+
+    inline bool operator<(_date b)
     {
       return false;
     } else {
@@ -90,7 +84,7 @@ class Measurement
 {
     public:
 
-        Measurement(string sID, string att, double val, struct date time);
+        Measurement(string sID, string att, double val, date time);
 
         Measurement(const Measurement & oneMeasurement);
 

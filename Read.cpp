@@ -9,7 +9,6 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
-#include <list>
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -112,7 +111,7 @@ void Read :: readCleaner(string nom){
         string userID;
         string sensorID;
         int pointsAwarded;
-        list <User*> userList = getUserList();
+        vector<User*> userList = getUserList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, userID, ';');
@@ -180,8 +179,8 @@ void Read :: readCleaner(string nom){
         return userList;
     }
 
-    list<Provider> Read::getProviderList(){
-      return providerList;
+    vector<Provider> Read::getProviderList(){
+        return providerList;
     }
 
 
@@ -199,7 +198,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, date 
 
     if(sensors.empty())
     {
-        for(auto it = getSensorList().begin(); it != getSensorList().end(); ++it)
+        for(auto it = getSensorList().begin(); it != getSensorList().end(); it++)
         {
             if( (it->getLatitude() < latitude+radius) && (it->getLongitude() < longitude+radius) )
             {
@@ -210,9 +209,9 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, date 
 
     if(measurements.empty())
     {
-        for(auto it = getMeasurementList().begin(); it != getMeasurementList().end(); ++it)
+        for(auto it = getMeasurementList().begin(); it != getMeasurementList().end(); it++)
         {
-            if((find(sensors.begin(), sensors.end(), it -> getSensorID()) != sensors.end()) && (it -> getDate() == date))
+            if((find(sensors.begin(), sensors.end(), it->getSensorID()) != sensors.end()) && (it->getDate() == date))
             {
                 measurements.push_back(*it);
             }
@@ -220,7 +219,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, date 
     }
 
     float sumNO2, sumSO2, sumO3, sumPM10;
-    float avgNO2, avgSO2, avg03, avgPM10;
+    float avgNO2, avgSO2, avgO3, avgPM10;
     int nb = sensors.size();
 
     for(auto it = measurements.begin(); it != measurements.end(); it++)
@@ -245,13 +244,13 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, date 
 
     avgNO2 = sumNO2 / nb;
     avgSO2 = sumSO2 / nb;
-    avg03 = sumO3 / nb;
+    avgO3 = sumO3 / nb;
     avgPM10 = sumPM10 / nb;
 
-    int tabSO2[10] = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
-    int tabNO2[10] = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
-    int tabO3[10] = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
-    int tabPM10[10] = {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
+    int tabSO2 [10] = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
+    int tabNO2 [10] = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
+    int tabO3 [10]  = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
+    int tabPM10 [10]= {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
 
     int indexNO2 = 0;
     int indexSO2 = 0;
@@ -264,14 +263,14 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, date 
     while(avgSO2 > tabNO2[indexSO2]){
         indexSO2++;
     }
-    while(avg03 > tabNO2[indexO3]){
+    while(avgO3 > tabNO2[indexO3]){
         indexO3++;
     }
     while(avgPM10 > tabPM10[indexPM10]){
         indexPM10++;
     }
     int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
-    int * indexFinal = max_element(tab, tab+4);
+    int indexFinal = max_element(*tab, *(tab+4));
 
     return(*indexFinal);
 }
@@ -286,7 +285,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-vector<string> Read::calculateSimilarity(string sensorID, struct date startDate, struct date endDate)
+vector<string> Read::calculateSimilarity(string sensorID, date startDate, Measurement::date endDate)
 {
 
   vector<Measurement> allMeasurements;
@@ -306,20 +305,20 @@ vector<string> Read::calculateSimilarity(string sensorID, struct date startDate,
     if (m.getDate() >=  startDate && m.getDate() <= endDate)
     {
       //Sensor is the one passed in parameter
-      if (m.getSensorId() == sensorID)
+      if (m.getSensorID() == sensorID)
       {
         mySensorMeasurements.push_back(m.getValue());
       }
       else
       {
-        auto sensor = otherSensorsMeasurements.find(m.getSensorId());
+        auto sensor = otherSensorsMeasurements.find(m.getSensorID());
 
         //Sensor id not in the map yet
-        if (sensor == measurement.end())
+        if (sensor == otherSensorsMeasurements.end())
         {
           list<double> mvec;
           mvec.push_back(m.getValue());
-          otherSensorsMeasurements.insert(make_pair(m.getSensorId(),mvec));
+          otherSensorsMeasurements.insert(make_pair(m.getSensorID(),mvec));
         }
         else //Sensor's id found, add measurement value to its vector
         {
@@ -354,9 +353,9 @@ vector<string> Read::calculateSimilarity(string sensorID, struct date startDate,
 }
 
 bool Read::sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff){
-    list<Measurement> localMeasurements;
-    list<Measurement> timeMeasurements;
-    list<Sensors> neighbors;
+    vector<Measurement> localMeasurements;
+    vector<Measurement> timeMeasurements;
+    vector<Sensors> neighbors;
 
     float currentValNO2, currentValSPO2, currentValO3, currentValPM10;
     float scoreLocation, scoreTime;
