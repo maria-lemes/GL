@@ -22,7 +22,7 @@ list<Measurement> measurementList;
 list<Cleaner> cleanerList;
 list<Provider> providerList;
 list<Attribute> attributeList;
-list<User*> userList;
+list<PrivateIndividual> privateIndividualList;
 
 
 public:
@@ -35,7 +35,7 @@ void readProvider(string nom);
 list<Sensor> getSensorList();
 list<Measurement> getMeasurementList();
 list<Cleaner> getCleanerList();
-list<User*> getUserList();
+list<PrivateIndividual> getPrivateIndividualList();
 list<Provider> getProviderList();
 list<Attribute> getAttributeList();
 

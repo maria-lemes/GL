@@ -11,6 +11,7 @@
 
 #include "Sensor.h"
 #include "Measurement.h"
+#include "Read.h"
 #include <string>
 #include <vector>
 using namespace std;

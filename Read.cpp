@@ -112,14 +112,14 @@ void Read :: readCleaner(string nom){
         string userID;
         string sensorID;
         int pointsAwarded;
-        list <User*> userList = getUserList();
+        list <PrivateIndividual> privateIndividualList = getPrivateIndividualList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, userID, ';');
                 getline(monFlux,sensorID, ';');
                 // a creer une user class
                 PrivateIndividual * temporary = new PrivateIndividual(userID, sensorID, 0);
-                userList.push_back(*temporary);
+                privateIndividualList.push_back(*temporary);
             }
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
@@ -176,34 +176,34 @@ void Read :: readCleaner(string nom){
     }
 
 
-    list<User> Read::getUserList(){
-        return userList;
+    list<PrivateIndividual> Read::getPrivateIndividualList(){
+        return privateIndividualList;
     }
 
     list<Provider> Read::getProviderList(){
         return providerList;
-
+    }
 
     list<Sensor> Read::getSensorList(){
         return sensorList;
     }
 
 
-   list<Attribute> Read::getAttributeList(){
+    list<Attribute> Read::getAttributeList(){
         return attributeList;
-}
+    }   
 
 // --------------------ancien statistics
 
 
 int Read::calculateAirQuality(float latitude, float longitude, int radius, date date)
 {
-    Vector<Measurement> measurements;
-    Vector<Sensor> sensors;
+    vector<Measurement> measurements;
+    vector<Sensor> sensors;
 
     if(sensors.empty())
     {
-        for(auto it = Read::getSensorsList().begin(); it != Read::getSensorsList().end(); it++)
+        for(auto it = Read::getSensorList().begin(); it != Read::getSensorList().end(); it++)
         {
             if( (it->getLatitude() < latitude+radius) && (it->getLongitude() < longitude+radius) )
             {
@@ -214,7 +214,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, date 
 
     if(measurements.empty())
     {
-        for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
+        for(auto it = Read::getMeasurementList().begin(); it != getMeasurementList().end(); it++)
         {
             if((find(sensors.begin(), sensors.end(), it.getSensorID()) != sensors.end()) && (it.getDate() == date))
             {
