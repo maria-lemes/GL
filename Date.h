@@ -34,6 +34,8 @@ class Date
       bool operator<=(const Date & d1);
       bool operator>=(const Date & d1);
 
+      string toString() const;
+
 
     private:
       int year;

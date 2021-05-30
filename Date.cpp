@@ -108,4 +108,9 @@ using namespace std;
 
     bool Date::operator>=(const Date & d1){
             return(!((*this) < d1) || (*this) == d1);
-     }
+    }
+
+    string Date::toString() const{
+      return to_string(day)+"/"+to_string(month)+"/"+to_string(year)+" - "+
+      to_string(hour)+":"+to_string(minute)+":"+to_string(second);
+    }
