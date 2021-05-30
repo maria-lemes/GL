@@ -14,10 +14,10 @@ gustavo.giunco-bertoldi@insa-lyon.fr ;
 #include <vector>
 #include <unordered_map>
 #include <cmath>
+#include <limits>
 #include "Read.h"
 #include "Date.h"
 using namespace std;
-int INT_MAX = 500; // j'ai mis au pif
 
 void Read::readSensor(string nom){
   ifstream monFlux;
@@ -41,27 +41,40 @@ void Read::readSensor(string nom){
 }
 
 void Read :: readMeasurement(string nom){
-  ifstream monFlux(nom.c_str());
-  string date;
-  string horaire;
-  Date dateM;
+  ifstream monFlux;
+  monFlux.open(nom.c_str());
+  string year;
+  string month;
+  string day;
+  string hour;
+  string minute;
+  string second;
   string sensorID;
   string attribute;
   string value;
   if (monFlux){
     while (monFlux){
-      getline(monFlux, date, ' ');
-      getline(monFlux, horaire, ';');
-      getline(monFlux,sensorID, ';');
-      getline(monFlux,attribute, ';');
-      getline(monFlux,value,';');
-     // cout << timestamp;
-      dateM = *(new Date(stoi(date.substr(0,5)),stoi(date.substr(6,2)),
-      stoi(date.substr(9,2)),stoi(horaire.substr(0,2)),
-      stoi(horaire.substr(3,2)),stoi(horaire.substr(6,2))));
+      getline(monFlux, year,'-');
+      getline(monFlux, month,'-');
+      getline(monFlux, day,' ');
+      getline(monFlux, hour,':');
+      getline(monFlux, minute,':');
+      getline(monFlux, second,';');
+      getline(monFlux, sensorID, ';');
+      getline(monFlux, attribute, ';');
+      getline(monFlux, value,';');
+      monFlux.ignore();
 
-      Measurement * temporary = new Measurement (sensorID, attribute, stod(value), dateM);
-      measurementList.push_back(*temporary);
+      try {
+        Date * tmp = new Date(stoi(year),stoi(month),stoi(day),stoi(hour),
+                      stoi(minute), stoi(second));
+        measurementList.push_back(*(new Measurement(sensorID,attribute,
+          stod(value), *tmp)));
+      } catch (const exception &e) {
+        //Bad formated line - go to next
+        monFlux.ignore();
+      }
+
     }
   }else {
     cout << "Erreur: Impossible d'ouvrir le fichier" << endl;

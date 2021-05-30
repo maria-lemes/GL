@@ -54,6 +54,4 @@ int calculateSensorCoefficient(list<double> mySensorMeasurements);
 list <Sensor> findNeighbors(Sensor mySensor, int radius);
 };
 
-
-
 #endif // Read_H

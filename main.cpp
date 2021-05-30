@@ -2,14 +2,7 @@
 #include <string>
 #include <vector>
 #include <list>
-#include "Read.cpp"
-#include "Sensor.cpp"
-#include "Measurement.cpp"
-#include "Cleaner.cpp"
-#include "Provider.cpp"
-#include "PrivateIndividual.cpp"
-#include "Date.cpp"
-#include "Attribute.cpp"
+#include "Read.h"
 using namespace std;
 
 /*
@@ -243,9 +236,9 @@ int main()
   }
   */
   Read * r = new Read();
-  r -> readCleaner("./data/cleaners.csv");
-  for (auto measurement : r -> getCleanerList())
+  r -> readMeasurement("./data/measurements.csv");
+  for (auto x : r -> getMeasurementList())
   {
-    cout << measurement.getCleanerID() << "lat : " << measurement.getLatitude() << " || long: " << measurement.getLongitude() << "start : " << measurement.getStart() << " stop: " << measurement.getStop() <<  endl;
+    cout << x.getSensorID() << " attribute : " << x.getAttribute() << " || value: " << x.getValue() << "Date : " << x.getDate() << endl;
   }
 }
