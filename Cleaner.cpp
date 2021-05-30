@@ -32,6 +32,9 @@ using namespace std;
         return latitude;
     }
 
+    string Cleaner:: getCleanerID() {
+        return cleanerID;
+    }
     double Cleaner::getLongitude(){
         return longitude;
     }

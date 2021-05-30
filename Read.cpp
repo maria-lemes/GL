@@ -55,10 +55,10 @@ void Read :: readMeasurement(string nom){
       getline(monFlux,sensorID, ';');
       getline(monFlux,attribute, ';');
       getline(monFlux,value,';');
-      cout << timestamp;
-      dateM = *(new Date(atoi((date.substr(0,4)).c_str()),atoi((date.substr(5,2)).c_str()),
-      atoi((date.substr(8,2)).c_str()),atoi((horaire.substr(11,2)).c_str()),
-      atoi((horaire.substr(14,2)).c_str()),atoi((horaire.substr(16,2)).c_str())));
+     // cout << timestamp;
+      dateM = *(new Date(stoi(date.substr(0,5)),stoi(date.substr(6,2)),
+      stoi(date.substr(9,2)),stoi(horaire.substr(0,2)),
+      stoi(horaire.substr(3,2)),stoi(horaire.substr(6,2))));
 
       Measurement * temporary = new Measurement (sensorID, attribute, stod(value), dateM);
       measurementList.push_back(*temporary);
@@ -111,6 +111,8 @@ void Read :: readCleaner(string nom){
             while (monFlux){
                 getline(monFlux, userID, ';');
                 getline(monFlux,sensorID, ';');
+                cout << userID;
+                cout << sensorID;
                 // a creer une user class
                 PrivateIndividual * temporary = new PrivateIndividual(userID, sensorID, 0);
                 privateIndividualList.push_back(*temporary);
