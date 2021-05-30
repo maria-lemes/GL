@@ -11,9 +11,9 @@
 
 #include "Sensor.h"
 #include "Measurement.h"
-#include "Read.h"
+#include "Date.h"
 #include <string>
-#include <vector>
+#include <list>
 using namespace std;
 
 class Controller
@@ -21,13 +21,13 @@ class Controller
     public:
     
     Read read;
-    int calculateAirQuality(double latitude, double longitude, int radius, date myDate);
+    int calculateAirQuality(double latitude, double longitude, int radius, Date myDate);
 
-    int calculateAirQuality(float latitude, float longitude, int radius, date date);
+    int calculateAirQuality(float latitude, float longitude, int radius, Date date);
 
-    vector<string> calculateSimilarity(string sensorID, date startDate, date endDate);
+    list<string> calculateSimilarity(string sensorID, Date startDate, Date endDate);
 
-    bool sensorSanityCheck(Sensor sensor, date date, int threshold, int nbDays, int coeff);
+    bool sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff);
 
     virtual ~ Controller();
 

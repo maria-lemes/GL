@@ -1,6 +1,6 @@
 //
 //  Cleaner.cpp
-//  
+//
 //
 //  Created by Maria Eduarda Zen Lemes on 05/05/2021.
 //
@@ -8,15 +8,16 @@
 #include <stdio.h>
 #include <iostream>
 #include "Cleaner.h"
+#include "Date.h"
 using namespace std;
 
 
-    Cleaner::Cleaner(string id, double lat, double lon, date startTime , date stopTime){
+    Cleaner::Cleaner(string id, double lat, double lon, Date startTime , Date stopTime){
         cleanerID = id;
         latitude = lat;
         longitude = lon;
-        start = startTime;
-        stop = stopTime;
+        start = *(new Date(startTime));
+        stop = *(new Date(stopTime));
     }
 
     Cleaner:: Cleaner(const Cleaner & oneCleaner){
@@ -30,15 +31,15 @@ using namespace std;
     double Cleaner::getLatitude(){
         return latitude;
     }
-    
+
     double Cleaner::getLongitude(){
         return longitude;
     }
 
-    date Cleaner::getStart(){
+    Date Cleaner::getStart(){
         return start;
     }
-    
-    date Cleaner::getStop(){
+
+    Date Cleaner::getStop(){
         return stop;
     }

@@ -1,17 +1,18 @@
 //
 //  Measurement.cpp
-//  
+//
 //
 //  Created by Maria Eduarda Zen Lemes on 05/05/2021.
 //
 
 #include <stdio.h>
 #include <iostream>
+#include "Date.h"
 #include "Measurement.h"
 
 using namespace std;
 
-    Measurement::Measurement(string sID, string att, double val, struct date time){
+    Measurement::Measurement(string sID, string att, double val, Date time){
         sensorID = sID;
         attribute = att;
         value = val;
@@ -37,6 +38,6 @@ using namespace std;
         return value;
     }
 
-    date Measurement::getDate(){
+    Date Measurement::getDate(){
         return date;
     }
