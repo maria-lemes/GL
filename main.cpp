@@ -237,10 +237,10 @@ int main()
   }
   */
   Read * r = new Read();
-  r -> readSensor("./data/sensors.csv");
-  for (auto sensor : r -> getSensorList())
+  r -> readSensor("./data/measurements.csv");
+  for (auto measurement : r -> getMeasurementList())
   {
-    cout << sensor.getSensorID() << " || lat: " << sensor.getLatitude() <<
-     " lon: " << sensor.getLongitude() << endl;
+    cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
+     " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
   }
 }

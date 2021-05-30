@@ -108,4 +108,9 @@ using namespace std;
 
     bool Date::operator>=(const Date & d1){
             return(!((*this) < d1) || (*this) == d1);
-     }
+    }
+
+    ostream& operator<<(ostream& os, const Date& dt) {
+    os << dt.getDay() << '/' << dt.getMonth() << '/' << dt.getYear() << " " << dt.getHour() << "-" << dt.getMinute() << "-" << dt.getSecond();
+    return os;
+    }
