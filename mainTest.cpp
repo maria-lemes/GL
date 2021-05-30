@@ -9,12 +9,6 @@ using namespace std;
 
 int main()
 {
-  /*
-  while (1)
-  {
-    mainMenu();
-  }
-  */
   Read read;
   read.readSensor("./data/sensors.csv");
   for (auto sensor : read.getSensorList())

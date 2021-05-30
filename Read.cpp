@@ -170,7 +170,7 @@ void Read :: readCleaner(string nom){
 
 
     list<PrivateIndividual> Read::getPrivateIndividualList(){
-        return userList;
+        return privateIndividualList;
     }
 
     list<Provider> Read::getProviderList(){
