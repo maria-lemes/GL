@@ -60,7 +60,7 @@ void Read :: readMeasurement(string nom){
       atoi((date.substr(8,2)).c_str()),atoi((horaire.substr(11,2)).c_str()),
       atoi((horaire.substr(14,2)).c_str()),atoi((horaire.substr(16,2)).c_str())));
 
-      Measurement * temporary = new Measurement (sensorID, attribute, stod(value), date);
+      Measurement * temporary = new Measurement (sensorID, attribute, stod(value), dateM);
       measurementList.push_back(*temporary);
     }
   }else {

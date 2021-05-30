@@ -16,10 +16,10 @@ using namespace std;
 int main()
 {
   Read read;
-  read.readSensor("./data/sensors.csv");
-  for (auto sensor : read.getSensorList())
+  read.readSensor("./data/cleaners.csv");
+  for (auto sensor : read.getCleanerList())
   {
-    cout << sensor.getSensorID() << " || lat: " << sensor.getLatitude() <<
-     " lon: " << sensor.getLongitude() << endl;
+    cout << sensor.getCleanerID() << " || lat: " << sensor.getLatitude() <<
+     " lon: " << sensor.getLongitude() << "timestart : " << sensor.getStart() << "timestop : " << sensor.getStop();
   }
 }
