@@ -17,7 +17,7 @@ gustavo.giunco-bertoldi@insa-lyon.fr ;
 #include "Read.h"
 #include "Date.h"
 using namespace std;
-
+int INT_MAX = 500; // j'ai mis au pif
 
 void Read::readSensor(string nom){
   ifstream monFlux;
@@ -117,10 +117,6 @@ void Read :: readCleaner(string nom){
         }else {
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
-    }
-  }else {
-    cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
-  }
 }
 
 void Read :: readProvider(string nom){
@@ -178,6 +174,10 @@ list<Sensor> Read::getSensorList() const{
   return sensorList;
 }
 
+list <Provider> Read:: getProviderList() const {
+  return providerList;
+}
+
 
 list<Measurement> Read::getMeasurementList() const{
   return measurementList;
@@ -187,31 +187,19 @@ list<Cleaner> Read::getCleanerList() const{
   return cleanerList;
 }
 
-
-list<User*> Read::getUserList() const{
-  return userList;
-}
-
-list<Provider> Read::getProviderList() const{
-  return providerList;
-}
-
-
 list<Attribute> Read::getAttributeList() const{
   return attributeList;
-
-    list<PrivateIndividual> Read::getPrivateIndividualList(){
-        return privateIndividualList;
-    }
-
-
-
 }
+
+list<PrivateIndividual> Read ::getPrivateIndividualList() const{
+  return privateIndividualList;
+}
+
 
 // --------------------ancien statistics
 
 
-/*int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
 {
   list<Measurement> measurements;
   list<Sensor> sensors;
@@ -333,7 +321,8 @@ list<string> Read::calculateSimilarity(string sensorID, Date startDate, Date end
   We search in all measurements for those produced in the period of time
   passed in parameter. When found, we add it to its sensor measurement vector
   in our measurements map.
-/*
+  */
+
   for (Measurement m : allMeasurements)
   {
     if (m.getDate()>=startDate && m.getDate() <= endDate)
@@ -449,4 +438,4 @@ bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays
 
   // trouver system qui aille bien pour le score
 
-}*/
+}
