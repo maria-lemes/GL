@@ -1,6 +1,6 @@
 #Compilateur
 CC = g++
-#Falgs du compilateur
+#Flags du compilateur
 CCFLAGS = -Wall -pedantic -ansi -std=c++11 -DMAP -g
 
 #Interfaces
@@ -12,6 +12,18 @@ OBJS = $(DEPS_CPP:.cpp=.o)
 #Nom de l'éxécutable
 EXE = main
 
+#En fonction de l'OS
+ifdef OS
+   RM = del /Q
+   FixPath = $(subst /,\,$1)
+else
+   ifeq ($(shell uname), Linux)
+      RM = rm -f
+      FixPath = $1
+   endif
+endif
+
+
 $(EXE) : $(OBJS)
 	@echo ">>> Edition des liens de <$@>"
 	$(CC) $(CFLAGS) -o $@ $(OBJS)
@@ -22,8 +34,9 @@ $(EXE) : $(OBJS)
 
 clean:
 	@echo "Nettoyage des binaires et executables"
-	@rm -f $(OBJS)
-	@rm -f $(EXE)
+
+	$(RM) $(OBJS)
+	$(RM) $(EXE)
 
 cleanbin:
 	@echo "Nettoyage des binaires"

@@ -85,6 +85,7 @@ void Read :: readMeasurement(){
       //monFlux.ignore();
 
       try {
+        cout<<"Month: "<< stoi(month)<< endl;
         Date * tmp = new Date(stoi(year),stoi(month),stoi(day),stoi(hour),
         stoi(minute), stoi(second));
         cout << *tmp;
@@ -343,6 +344,8 @@ void Read :: readMeasurement(){
     return indexFinal;
   }
 
+
+
   int Read::calculateSensorCoefficient(list<double> mySensorMeasurements)
   {
     return 0;
@@ -368,6 +371,13 @@ void Read :: readMeasurement(){
   {
 
     list<Measurement> allMeasurements = getMeasurementList();
+
+    cout<<"oi"<<endl;
+    /*for (auto measurement :  allMeasurements)
+      {
+        cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
+         " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
+      }*/
 
     //Key : SensorID. Value : Sensor's measurements in the specified period list
     unordered_map<string,list<double>> otherSensorsMeasurements;
@@ -498,4 +508,4 @@ void Read :: readMeasurement(){
 
     // trouver system qui aille bien pour le score
 
-  }
+}

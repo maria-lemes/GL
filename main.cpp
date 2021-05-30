@@ -20,7 +20,7 @@ using namespace std;
 
 Controller * controller = new Controller();
 
-void selectGov()
+int selectGov()
 {
   string sensorID;
   Date * myDate;
@@ -32,18 +32,19 @@ void selectGov()
   cin >> userID;
   Admin * ad = new Admin(userID);
 
+  menu:
   int choice;
   cout << "===== Government Agency =====" << endl;
   cout << "1- Analyze the quality of air" << endl;
   cout << "2- Calculate sensors similarity" << endl;
-  cout << "3- Classify sensor's behavior" << endl;
+  cout << "3- Check sensors data" << endl;
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
   switch(choice)
   {
     case 0:
-      break;
+      return 1;
     case 1: {
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
@@ -89,7 +90,7 @@ void selectGov()
       cout << "The air quality is: " <<  index << endl;
 
       delete myDate;
-      break;
+      return 0;
 
       } else if (timeChoice == 2){
 
@@ -122,14 +123,14 @@ void selectGov()
 
       Date * myEndingDate = new Date(year,month,day,hour,minute,second);
 
-      break;
+      return 0;
 
       }else{
         cout << "Please enter a valid choice" << endl;
       }
     }
 
-      break;
+      return 0;
     }
     case 2: {
       cout << "===== Calculate sensors similarity =====" << endl;
@@ -186,7 +187,7 @@ void selectGov()
       delete startDate;
       delete endDate;
 
-      break;
+      return 0;
     }
     case 3: {
       cout << "===== Classify sensor's behavior =====" << endl;
@@ -229,17 +230,18 @@ void selectGov()
 
       if (validity)
       {
-        cout << "The data provided by the sensor are valid." << endl;
+        cout << "The data provided by the sensor is valid." << endl;
       } else {
-        cout << "The data provided by the sensor are NOT reliable." << endl;
+        cout << "The data provided by the sensor is NOT reliable." << endl;
       }
 
       delete myDate;
 
-      break;
+      return 0;
     }
     default: {
       cerr << "Invalid choice. Please try again." << endl;
+      goto menu;
     }
   }
 
@@ -259,8 +261,8 @@ void selectIndividual()
 int main()
 {
 
-    /*int choice;
-
+   /* int choice;
+    menu:
       cout << "Please select your role : " << endl;
       cout << "\t1- Government Agency" << endl;
       cout << "\t2- Air Cleaner Provider" << endl;
@@ -275,8 +277,8 @@ int main()
           return 0;
 
         case 1:
-          selectGov();
-          break;
+          if (!selectGov()){goto menu;}
+          else{break;}
 
         case 2:
           selectProvider();
@@ -288,6 +290,7 @@ int main()
 
         default:
           cerr << "Invalid choice. Please try again." << endl;
+          goto menu;
        }*/
 
   Read * r = new Read();
@@ -297,6 +300,5 @@ int main()
     cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
      " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
   }
-    
   return 0;
 }
