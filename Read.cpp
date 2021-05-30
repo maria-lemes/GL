@@ -185,7 +185,7 @@ void Read :: readCleaner(string nom){
 // --------------------ancien statistics
 
 
-int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+/*int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
 {
     list<Measurement> measurements;
     list<Sensor> sensors;
@@ -267,7 +267,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
     int indexFinal = max_element(*tab, *(tab+4));
 
     return indexFinal;
-}
+}*/
 
 /*TODO:
 **Définir si les données des mésures seront recuperées de la base lors
@@ -279,7 +279,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+/*vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
 {
 
   list<Measurement> allMeasurements = getMeasurementList();
@@ -293,7 +293,7 @@ vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date e
   We search in all measurements for those produced in the period of time
   passed in parameter. When found, we add it to its sensor measurement vector
   in our measurements map.
-  */
+/*
   for (Measurement m : allMeasurements)
   {
     if (m.getDate()>=startDate && m.getDate() <= endDate)
@@ -332,6 +332,7 @@ vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date e
   it's included in the difined tolerance interval, the sensor is added
   to the similar sensors list.
   */
+ /*
   for (pair<string,vector<double>> m : otherSensorsMeasurements)
   {
     int coef = calculateSensorCoefficient(m.second);
@@ -349,7 +350,7 @@ vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date e
 bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff){
     vector<Measurement> localMeasurements;
     vector<Measurement> timeMeasurements;
-    vector<Sensors> neighbors;
+    vector<Sensor> neighbors;
 
     float currentValNO2, currentValSPO2, currentValO3, currentValPM10;
     float scoreLocation, scoreTime;
@@ -357,7 +358,7 @@ bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays
     neighbors = findNeighbors(s, 5); //5km arbitraire fichier
 
     //add every measurement that is from the same date & from a neighboring sensor
-    for(auto it = Read::getMeasurementsList().begin(); it != getMeasurementsList().end(); it++)
+    for(auto it = Read::getMeasurementList().begin(); it != getMeasurementList().end(); it++)
     {
         if((find(neighbors.begin(), neighbors.end(), it.getSensorID()) != neighbors.end()) && (it.getDate() == date))
         {
@@ -399,6 +400,7 @@ bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays
     avgSO2 = sumSO2 / neighbors.length();
     avgO3 = sumO3 / neighbors.length();
     avgPM10 = sumPM10 / neighbors.length();
+    
 
     // trouver system qui aille bien pour le score
 
@@ -407,4 +409,4 @@ bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays
 
 
 
-}
+}*/

@@ -1,10 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-//#include "Controller.cpp"
-#include "Read.cpp"
-//#include "Measurement.cpp"
-//#include "Controller.cpp"
+#include "Read.h"
 using namespace std;
 
 int main()

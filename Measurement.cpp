@@ -16,14 +16,14 @@ using namespace std;
         sensorID = sID;
         attribute = att;
         value = val;
-        date = time;
+        timestamp = time;
     }
 
     Measurement::Measurement(const Measurement & oneMeasurement){
         sensorID = oneMeasurement.sensorID;
         attribute = oneMeasurement.attribute;
         value = oneMeasurement.value;
-        date = oneMeasurement.date;
+        timestamp = oneMeasurement.timestamp;
     }
 
     string Measurement::getSensorID(){
@@ -39,5 +39,5 @@ using namespace std;
     }
 
     Date Measurement::getDate(){
-        return date;
+        return timestamp;
     }
