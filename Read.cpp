@@ -48,7 +48,6 @@ void Read :: readMeasurement(string nom){
   string sensorID;
   string attribute;
   string value;
-  list <Measurement> measurementList = getMeasurementList();
   if (monFlux){
     while (monFlux){
       getline(monFlux, timestamp, ';');
@@ -77,7 +76,6 @@ void Read :: readCleaner(string nom){
   string timestop;
   Date start;
   Date stop;
-  list <Cleaner> cleanerList = getCleanerList();
   if (monFlux){
     while (monFlux){
       getline(monFlux, cleanerID, ';');
@@ -124,7 +122,6 @@ void Read :: readProvider(string nom){
   ifstream monFlux(nom.c_str());
   string providerID;
   string cleanerID;
-  list <Provider> providerList = getProviderList();
   if (monFlux){
     while (monFlux){
       getline(monFlux, providerID, ';');
@@ -142,7 +139,6 @@ void Read :: readAttribute(string nom){
   string attributeID;
   string unit;
   string description;
-  list <Attribute> attributeList = getAttributeList();
   if (monFlux){
     while (monFlux){
       getline(monFlux, attributeID, ';');
