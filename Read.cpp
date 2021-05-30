@@ -442,9 +442,9 @@ void Read :: readMeasurement(){
       }
     }
     return similarSensors;
-  }
+ }
 
-  
+
 
   bool Read::sensorSanityCheck(string sensorID, Date date, int threshold, int nbDays, int coeff){
     list<Measurement> localMeasurements;
@@ -452,8 +452,15 @@ void Read :: readMeasurement(){
     list<Sensor> neighbors;
 
     float currentValNO2, currentValSO2, currentValO3, currentValPM10;
-    float scoreLocation, scoreTime;
+    //float scoreLocation, scoreTime;
 
+    float sumNO2 = 0, sumSO2 = 0, sumO3 = 0, sumPM10 = 0;
+    float avgNO2 = 0, avgSO2 = 0, avgO3 = 0, avgPM10 = 0;
+
+    int scoreLocation = 0;
+    int scoreTime = 0;
+
+    // ------- LOCATION PART -------
     neighbors = findNeighbors(sensorID, 5); //5km arbitraire fichier
 
     //add every measurement that is from the same date & from a neighboring sensor
@@ -483,9 +490,7 @@ void Read :: readMeasurement(){
       }
     }
 
-    float sumNO2 = 0, sumSO2 = 0, sumO3 = 0, sumPM10 = 0;
-    float avgNO2 = 0, avgSO2 = 0, avgO3 = 0, avgPM10 = 0;
-
+    //calculate local average for every attribute
     for(Measurement m : localMeasurements){
       switch (m.getAttribute()) {
         case NO2:
@@ -507,6 +512,78 @@ void Read :: readMeasurement(){
     avgO3 = sumO3 / neighbors.size();
     avgPM10 = sumPM10 / neighbors.size();
 
-    // trouver system qui aille bien pour le score
 
+    if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
+        scoreLocation++;
+    }
+    if(currentValNO2 < (1-threshold)*avgNO2 || currentValNO2 > (1+threshold)*avgNO2){
+        scoreLocation++;
+    }
+    if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2){
+        scoreLocation++;
+    }
+    if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
+        scoreLocation++;
+    }
+    if(scoreLocation == 4){
+        scoreLocation = 1;
+    }else{
+        scoreLocation = 0;
+    }
+
+
+    // ------- TIME PART -------
+    //create list with all measurements from the sensor up to current date
+    for(Measurement m : measurementList){
+        if(m.getSensorID() == sensorID && m.getDate() > date - nbDays && m.getDate() <= date-1){
+            timeMeasurements.push_back(*m);
+        }
+    }
+
+    sumNO2 = sumSO2 = sumO3 = sumPM10 = 0; //reset sum
+    avgNO2 = avgSO2 = avgO3 = avgPM10 = 0; //reset avg
+
+    for(Measurement m : timeMeasurements){
+      switch (m.getAttribute()) {
+        case NO2:
+        sumNO2 += m.getValue();
+        break;
+        case SO2:
+        sumSO2 += m.getValue();
+        break;
+        case O3:
+        sumO3 += m.getValue();
+        break;
+        case PM10:
+        sumPM10 += m.getValue();
+        break;
+      }
+    }
+    avgNO2 = sumNO2 / timeMeasurements.size();
+    avgSO2 = sumSO2 / timeMeasurements.size();
+    avgO3 = sumO3 / timeMeasurements.size();
+    avgPM10 = sumPM10 / timeMeasurements.size();
+
+    if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
+        scoreTime++;
+    }
+    if(currentValNO2 < (1-threshold)*avgNO2 || currentValNO2 > (1+threshold)*avgNO2){
+        scoreTime++;
+    }
+    if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2){
+        scoreTime++;
+    }
+    if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
+        scoreTime++;
+    }
+    if(scoreTime == 4){
+        scoreTime = 1;
+    }else{
+        scoreTime = 0;
+    }
+
+    cout << "score location: " << scoreLocation << endl;
+    cout << "score time: " << scoreTime << endl;
+
+    return min(scoreLocation, scoreTime);
 }
