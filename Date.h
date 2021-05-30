@@ -14,8 +14,7 @@ using namespace std;
 class Date
 {
     public:
-      Date();
-      Date (int oneYear, int oneMonth, int oneDay, int oneHour, int oneMinute, int oneSecond);
+      Date (int oneYear = 0, int oneMonth = 0, int oneDay = 0, int oneHour = 0, int oneMinute = 0 , int oneSecond = 0);
       Date (const Date &oneDate);
       int getYear() const;
       int getMonth() const;
@@ -32,6 +31,8 @@ class Date
 
       bool operator<(const Date& d1);
       bool operator==(const Date& d1);
+      bool operator<=(const Date & d1);
+      bool operator>=(const Date & d1);
 
       virtual ~Date();
 

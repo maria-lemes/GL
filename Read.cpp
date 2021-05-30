@@ -282,11 +282,11 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
 {
 
-  vector<Measurement> allMeasurements;
+  list<Measurement> allMeasurements = getMeasurementList();
   //Key : SensorID. Value : Sensor's measurements in the specified period list
-  unordered_map<string,list<double>> otherSensorsMeasurements;
+  unordered_map<string,list<double>> otherSensorsMeasurements = new unordered_map();
   //Measurements from the sensor whose id is passed in parameter
-  vector<double> mySensorMeasurements;
+  vector<double> mySensorMeasurements = 
   vector<string> similarSensors;
 
   /*
@@ -334,7 +334,7 @@ vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date e
   */
   for (pair<string,vector<double>> m : otherSensorsMeasurements)
   {
-    coef = calculateSensorCoefficient(m.second);
+    int coef = calculateSensorCoefficient(m.second);
 
     //Verify if sensors are similar
     if (abs(simCoef - coef) <= simTolerance)

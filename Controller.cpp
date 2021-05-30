@@ -24,7 +24,7 @@ Read * read = new Read();
             return read->calculateAirQuality(latitude, longitude, radius, date);
     }
 
-    vector<string> Controller::calculateSimilarity(string sensorID, Date startDate, Date endDate){
+    list <string> Controller::calculateSimilarity(string sensorID, Date startDate, Date endDate){
             return read->calculateSimilarity(sensorID, startDate, endDate);
     }
 

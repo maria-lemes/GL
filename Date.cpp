@@ -105,3 +105,11 @@ using namespace std;
       && getDay() == d1.getDay() && getHour() == d1.getHour() &&
       getMinute() == d1.getMinute() && getSecond() == d1.getSecond();
     }
+
+    bool Date::operator<=(const Date & d1){
+        return((*this) < d1 || (*this) == d1);
+    }
+
+    bool Date::operator>=(const Date & d1){
+            return(!((*this) < d1) || (*this) == d1);
+     }

@@ -44,11 +44,11 @@ list<Attribute> getAttributeList();
 
 //anciennement dans Statistics
 int calculateAirQuality(float latitude, float longitude, int radius, Date date);
-vector<string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
+list<string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
 bool sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff);
 
 double calculateDistance(Sensor s1, Sensor s2);
-vector<Sensor> getNeighbors(Sensor sensor, double radius);
+list<Sensor> getNeighbors(Sensor sensor, double radius);
 };
 
 
