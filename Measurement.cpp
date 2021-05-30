@@ -14,9 +14,25 @@ using namespace std;
 
     Measurement::Measurement(string sID, string att, double val, Date time){
         sensorID = sID;
-        attribute = att;
         value = val;
         date = time;
+        if (att == "NO2")
+        {
+          attribute = NO2;
+        } else if (att == "SO2")
+        {
+          attribute = SO2;
+        } else if (att == "O3")
+        {
+          attribute = O3;
+        } else if (att == "PM10")
+        {
+          attribute = PM10;
+        } else {
+          attribute = NO2;
+          cout << "Measurement creation error. Attribute \"" << att <<
+          "\" invalid" << endl;
+        }
     }
 
     Measurement::Measurement(const Measurement & oneMeasurement){
@@ -26,11 +42,13 @@ using namespace std;
         date = oneMeasurement.date;
     }
 
+
+
     string Measurement::getSensorID(){
         return sensorID;
     }
 
-    string Measurement::getAttribute(){
+    AttributeId Measurement::getAttribute(){
         return attribute;
     }
 

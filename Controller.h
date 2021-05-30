@@ -26,7 +26,6 @@ class Controller
 
     bool sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff);
 
-    virtual ~ Controller();
 
 };
 

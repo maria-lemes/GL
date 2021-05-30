@@ -34,7 +34,6 @@ class Date
       bool operator<=(const Date & d1);
       bool operator>=(const Date & d1);
 
-      virtual ~Date();
 
     private:
       int year;

@@ -2,7 +2,7 @@
                               Sensor -  description
                              -------------------
     début                : 05/2021
-    copyright            : (C) By 
+    copyright            : (C) By
     e-mail               :
 *************************************************************************/
 
@@ -15,20 +15,19 @@ using namespace std;
 
 class Sensor
 {
-    
+
 public:
-    
+
     Sensor(string id, double lat, double lon);
-    
+
     Sensor(const Sensor & oneSensor);
-    
+
     string getSensorID();
-    
+
     double getLatitude();
-    
+
     double getLongitude();
-    
-    virtual ~ Sensor();
+  
 
 private:
         string sensorID;

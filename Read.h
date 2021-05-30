@@ -35,12 +35,15 @@ void readCleaner(string nom);
 void readUser(string nom);
 void readAttribute(string nom);
 void readProvider(string nom);
-list<Sensor> getSensorList();
-list<Measurement> getMeasurementList();
-list<Cleaner> getCleanerList();
-list<User*> getUserList();
-list<Provider> getProviderList();
-list<Attribute> getAttributeList();
+list<Measurement> getMeasurementsFromSensor(string sensorID) const;
+int calculateSensorCoefficient(list<double> mySensorMeasurements);
+list<Sensor> findNeighbors(Sensor mySensor, int radius);
+list<Sensor> getSensorList() const;
+list<Measurement> getMeasurementList() const;
+list<Cleaner> getCleanerList() const;
+list<User*> getUserList() const;
+list<Provider> getProviderList() const;
+list<Attribute> getAttributeList() const;
 
 //anciennement dans Statistics
 int calculateAirQuality(float latitude, float longitude, int radius, Date date);

@@ -10,24 +10,23 @@ using namespace std;
 class PrivateIndividual : public User
 {
     public:
-    
+
         PrivateIndividual(string uID, string sID, double points);
-    
+
         PrivateIndividual(const PrivateIndividual & oneIndividual);
 
         string getUserID();
-    
+
         string getSensorID();
-    
+
         int getPointsAwarded();
-    
-       virtual ~PrivateIndividual();
-    
+  
+
     private:
             string sensorID;
             string userID;
             int pointsAwarded;
-            
+
 
 };
 

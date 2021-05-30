@@ -1,6 +1,6 @@
 //
 //  PrivateIndividual.cpp
-//  
+//
 //
 //  Created by Maria Eduarda Zen Lemes on 05/05/2021.
 //
