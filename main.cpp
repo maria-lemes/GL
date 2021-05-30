@@ -1,12 +1,13 @@
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <vector>
-#include <Read.h>
-#include <Measurements.h>
-#include <Controller.h>
-#include <User.h>
-#include <Admin.h>
-#include <PrivateIndividual.h>
+#include "Read.h"
+#include "Measurements.h"
+#include "Controller.h"
+#include "User.h"
+#include "Admin.h"
+#include "PrivateIndividual.h"
+#include "Date.h"
 using namespace std;
 
 void selectGov()
@@ -35,7 +36,7 @@ void selectGov()
       float latitude;
       float longitude;
       int radius;
-      date myDate;
+      Date * myDate;
       string dateInput;
       string timeInput;
 
@@ -50,18 +51,23 @@ void selectGov()
 
       cout << "Please input the date of measurement (yyyy-mm-dd) :" << endl;
       cin >> dateInput;
-      myDate.year = stoi(dateInput.substr(0,4));
-      myDate.month = stoi(dateInput.substr(5,2));
-      myDate.day = stoi(dateInput.substr(8,2));
+      int year = stoi(dateInput.substr(0,4));
+      int month = stoi(dateInput.substr(5,2));
+      int day = stoi(dateInput.substr(8,2));
 
       cout << "Please input the time of measurement (hh:mm:ss) :" << endl;
       cin >> timeInput;
-      myDate.hour = stoi(timeInput.substr(0,2));
-      myDate.minute = stoi(timeInput.substr(3,2));
-      myDate.second = stoi(timeInput.substr(6,2));
+      int hour = stoi(timeInput.substr(0,2));
+      int minute = stoi(timeInput.substr(3,2));
+      int second = stoi(timeInput.substr(6,2));
 
-      int index = CalculateAirQuality(latitude, longitude, radius, myDate);
+      myDate = new Date(year,month,day,hour,minute,second);
+
+      int index = CalculateAirQuality(latitude, longitude, radius, *myDate);
       cout << "The air quality is: " <<  index << endl;
+
+      delete myDate;
+
       break;
     case 2:
       cout << "===== Calculate sensors similarity =====" << endl;
@@ -69,11 +75,11 @@ void selectGov()
 
       string sensorID;
 
-      date startDate;
+      Date * startDate;
       string startDateInput;
       string startTimeInput;
 
-      date endDate;
+      Date * endDate;
       string endDateInput;
       string endTimeInput;
 
@@ -82,36 +88,43 @@ void selectGov()
 
       cout << "Please input the starting date from which measurements are taken into account :" << endl;
       cin >> startDateInput;
-      startDate.year = stoi(startDateInput.substr(0,4));
-      startDate.month = stoi(startDateInput.substr(5,2));
-      startDate.day = stoi(startDateInput.substr(8,2));
+      int year_start = stoi(startDateInput.substr(0,4));
+      int month_start = stoi(startDateInput.substr(5,2));
+      int day_start = stoi(startDateInput.substr(8,2));
 
       cout << "Please input the starting time of measurement (hh:mm:ss) :" << endl;
       cin >> startTimeInput;
-      startDate.hour = stoi(startTimeInput.substr(0,2));
-      startDate.minute = stoi(startTimeInput.substr(3,2));
-      startDate.second = stoi(startTimeInput.substr(6,2));
+      int hour_start = stoi(startTimeInput.substr(0,2));
+      int minute_start = stoi(startTimeInput.substr(3,2));
+      int second_start = stoi(startTimeInput.substr(6,2));
+
+      startDate = new Date(year_start,month_start,day_start,hour_start,minute_start,second_start);
 
       cout << "Please input the ending date on which measurements are taken into account :" << endl;
       cin >> endDateInput;
-      endDate.year = stoi(endDateInput.substr(0,4));
-      endDate.month = stoi(endDateInput.substr(5,2));
-      endDate.day = stoi(endDateInput.substr(8,2));
+      int year_end = stoi(endDateInput.substr(0,4));
+      int month_end = stoi(endDateInput.substr(5,2));
+      int day_end = stoi(endDateInput.substr(8,2));
 
       cout << "Please input the ending time of measurement (hh:mm:ss) :" << endl;
       cin >> endTimeInput;
-      endDate.hour = stoi(endTimeInput.substr(0,2));
-      endDate.minute = stoi(endTimeInput.substr(3,2));
-      endDate.second = stoi(endTimeInput.substr(6,2));
+      int hour_end = stoi(endTimeInput.substr(0,2));
+      int minute_end = stoi(endTimeInput.substr(3,2));
+      int second_end = stoi(endTimeInput.substr(6,2));
 
+      endDate = new Date(year_end,month_end,day_end,hour_end,minute_end,second_end);
 
-      list <string> similarSensors = calculateSimilarity(sensorID, startDate, endDate);
-      list <string> :: iterator it;
+      vector <string> similarSensors = calculateSimilarity(sensorID, *startDate, *endDate);
+      vector <string> :: iterator it;
       cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
       for(it = similarSensors.begin(); it != similarSensors.end(); it++)
       {
         cout << it->sensorID << endl;
       }
+
+      delete startDate;
+      delete endDate;
+
       break;
 
     case 3:
@@ -119,7 +132,7 @@ void selectGov()
       cout << "Check sensor's data validity" << endl << endl;
 
       string sensorID;
-      date myDate;
+      Date * myDate;
       string dateInput;
       float threshold;
       int nbDays;
@@ -130,15 +143,17 @@ void selectGov()
 
       cout << "Please input the date of measurement :" << endl;
       cin >> dateInput;
-      myDate.year = stoi(dateInput.substr(0,4));
-      myDate.month = stoi(dateInput.substr(5,2));
-      myDate.day = stoi(dateInput.substr(8,2));
+      int year = stoi(dateInput.substr(0,4));
+      int month = stoi(dateInput.substr(5,2));
+      int day = stoi(dateInput.substr(8,2));
 
       cout << "Please input the time of measurement (hh:mm:ss) :" << endl;
       cin >> timeInput;
-      myDate.hour = stoi(timeInput.substr(0,2));
-      myDate.minute = stoi(timeInput.substr(3,2));
-      myDate.second = stoi(timeInput.substr(6,2));
+      int hour = stoi(timeInput.substr(0,2));
+      int minute = stoi(timeInput.substr(3,2));
+      int second = stoi(timeInput.substr(6,2));
+
+      myDate = new Date(year,month,day,hour,minute,second);
 
       cout << "Please input the threshold of discrepancy allowed (in %) :" << endl;
       cin >> threshold;
@@ -151,7 +166,7 @@ void selectGov()
       cout << "\t1- Time" << endl;
       cin >> coeff;
 
-      bool validity = sensorSanityCheck(sensorID, myDate, threshold, nbDays, coeff);
+      bool validity = sensorSanityCheck(sensorID, *myDate, threshold, nbDays, coeff);
       
       if (bool = true)
       {
@@ -159,13 +174,16 @@ void selectGov()
       } else {
         cout << "The data provided by the sensor are NOT reliable." << endl;
       }
+
+      delete myDate;
+
       break;
 
     default:
       cerr << "Invalid choice. Please try again." << endl;
       continue;
   }
-
+  delete ad;
 }
 
 void selectProvider()
