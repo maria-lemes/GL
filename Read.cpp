@@ -85,6 +85,7 @@ void Read :: readMeasurement(){
       monFlux.ignore();
 
       try {
+        cout<<"Month: "<< stoi(month)<< endl;
         Date * tmp = new Date(stoi(year),stoi(month),stoi(day),stoi(hour),
         stoi(minute), stoi(second));
         measurementList.push_back(*(new Measurement(sensorID,attribute,
@@ -369,6 +370,13 @@ void Read :: readMeasurement(){
   {
 
     list<Measurement> allMeasurements = getMeasurementList();
+
+    cout<<"oi"<<endl;
+    /*for (auto measurement :  allMeasurements)
+      {
+        cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
+         " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
+      }*/
 
     //Key : SensorID. Value : Sensor's measurements in the specified period list
     unordered_map<string,list<double>> otherSensorsMeasurements;
