@@ -12,6 +12,18 @@ OBJS = $(DEPS_CPP:.cpp=.o)
 #Nom de l'éxécutable
 EXE = main
 
+#En fonction de l'OS
+ifdef OS
+   RM = del /Q
+   FixPath = $(subst /,\,$1)
+else
+   ifeq ($(shell uname), Linux)
+      RM = rm -f
+      FixPath = $1
+   endif
+endif
+
+
 $(EXE) : $(OBJS)
 	@echo ">>> Edition des liens de <$@>"
 	$(CC) $(CFLAGS) -o $@ $(OBJS)
@@ -23,16 +35,8 @@ $(EXE) : $(OBJS)
 clean:
 	@echo "Nettoyage des binaires et executables"
 
-	ifeq($(OS),Windows_NT){
-	@del /Q $(OBJS)
-	@del /Q $(EXE)
-	}
-	else{
-	@rm -f $(OBJS)
-	@rm -f $(EXE)
-	}
-	endif
-
+	$(RM) $(OBJS)
+	$(RM) $(EXE)
 
 cleanbin:
 	@echo "Nettoyage des binaires"
