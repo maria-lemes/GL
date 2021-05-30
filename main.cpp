@@ -26,7 +26,7 @@ void selectGov()
   cout << "===== Government Agency =====" << endl;
   cout << "1- Analyze the quality of air" << endl;
   cout << "2- Calculate sensors similarity" << endl;
-  cout << "3- Classify sensor's behavior" << endl;
+  cout << "3- Check sensors data" << endl;
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
@@ -219,9 +219,9 @@ void selectGov()
 
       if (validity)
       {
-        cout << "The data provided by the sensor are valid." << endl;
+        cout << "The data provided by the sensor is valid." << endl;
       } else {
-        cout << "The data provided by the sensor are NOT reliable." << endl;
+        cout << "The data provided by the sensor is NOT reliable." << endl;
       }
 
       delete myDate;

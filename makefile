@@ -1,6 +1,6 @@
 #Compilateur
 CC = g++
-#Falgs du compilateur
+#Flags du compilateur
 CCFLAGS = -Wall -pedantic -ansi -std=c++11 -DMAP -g
 
 #Interfaces

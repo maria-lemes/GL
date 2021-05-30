@@ -342,6 +342,8 @@ void Read :: readMeasurement(){
     return indexFinal;
   }
 
+
+
   int Read::calculateSensorCoefficient(list<double> mySensorMeasurements)
   {
     return 0;
@@ -497,4 +499,4 @@ void Read :: readMeasurement(){
 
     // trouver system qui aille bien pour le score
 
-  }
+}
