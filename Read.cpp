@@ -26,7 +26,6 @@ void Read::readSensor(string nom){
   string latitude;
   string longitude;
   string inutile;
-  list <Sensor> sensorList = getSensorList();
   if (monFlux){
     while (monFlux){
       getline(monFlux, sensorID, ';');
@@ -38,6 +37,7 @@ void Read::readSensor(string nom){
   }  else {
     cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
   }
+
 }
 
 void Read :: readMeasurement(string nom){
