@@ -436,6 +436,8 @@ void Read :: readMeasurement(){
     return similarSensors;
   }
 
+  
+
   bool Read::sensorSanityCheck(string sensorID, Date date, int threshold, int nbDays, int coeff){
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
