@@ -4,7 +4,17 @@
 #include <list>
 #include "Read.h"
 #include "Controller.h"
-#include "Admin.h"
+#include "Admin.cpp"
+
+#include "Read.cpp"
+#include "PrivateIndividual.cpp"
+#include "Sensor.cpp"
+#include "Provider.cpp"
+#include "Measurement.cpp"
+#include "Date.cpp"
+#include "Controller.cpp"
+#include "Cleaner.cpp"
+#include "Attribute.cpp"
 using namespace std;
 
 
@@ -249,7 +259,7 @@ void selectIndividual()
 int main()
 {
 
-    int choice;
+    /*int choice;
 
       cout << "Please select your role : " << endl;
       cout << "\t1- Government Agency" << endl;
@@ -278,15 +288,15 @@ int main()
 
         default:
           cerr << "Invalid choice. Please try again." << endl;
-       }
+       }*/
 
-  /*Read * r = new Read();
-  r -> readMeasurement("./data/measurements.csv");
+  Read * r = new Read();
+  r -> readMeasurement();
   for (auto measurement : r -> getMeasurementList())
   {
     cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
      " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
   }
-    */
+    
   return 0;
 }

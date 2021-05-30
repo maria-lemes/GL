@@ -14,7 +14,7 @@ gustavo.giunco-bertoldi@insa-lyon.fr ;
 #include <vector>
 #include <unordered_map>
 #include <cmath>
-#include <limits>
+#include <climits>
 #include "Read.h"
 #include "Date.h"
 using namespace std;
@@ -82,11 +82,12 @@ void Read :: readMeasurement(){
       getline(monFlux, sensorID, ';');
       getline(monFlux, attribute, ';');
       getline(monFlux, value,';');
-      monFlux.ignore();
+      //monFlux.ignore();
 
       try {
         Date * tmp = new Date(stoi(year),stoi(month),stoi(day),stoi(hour),
         stoi(minute), stoi(second));
+        cout << *tmp;
         measurementList.push_back(*(new Measurement(sensorID,attribute,
           stod(value), *tmp)));
       } catch (const exception &e) {
@@ -297,15 +298,15 @@ void Read :: readMeasurement(){
       }
       if(it->getAttribute() == SO2)
       {
-        sumNO2 += it->getValue();
+        sumSO2 += it->getValue();
       }
       if(it->getAttribute() == O3)
       {
-        sumNO2 += it->getValue();
+        sumO3 += it->getValue();
       }
       if(it->getAttribute() == PM10)
       {
-        sumNO2 += it->getValue();
+        sumPM10 += it->getValue();
       }
     }
 
