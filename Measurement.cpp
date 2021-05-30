@@ -15,7 +15,7 @@ using namespace std;
     Measurement::Measurement(string sID, string att, double val, Date time){
         sensorID = sID;
         value = val;
-        date = time;
+        timestamp = time;
         if (att == "NO2")
         {
           attribute = NO2;
@@ -39,7 +39,7 @@ using namespace std;
         sensorID = oneMeasurement.sensorID;
         attribute = oneMeasurement.attribute;
         value = oneMeasurement.value;
-        date = oneMeasurement.date;
+        timestamp = oneMeasurement.timestamp;
     }
 
 
@@ -57,5 +57,5 @@ using namespace std;
     }
 
     Date Measurement::getDate(){
-        return date;
+        return timestamp;
     }

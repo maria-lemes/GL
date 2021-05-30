@@ -17,7 +17,7 @@ gustavo.giunco-bertoldi@insa-lyon.fr ;
 #include "Read.h"
 #include "Date.h"
 using namespace std;
-
+int INT_MAX = 500; // j'ai mis au pif
 
 void Read::readSensor(string nom){
   ifstream monFlux;
@@ -42,22 +42,25 @@ void Read::readSensor(string nom){
 
 void Read :: readMeasurement(string nom){
   ifstream monFlux(nom.c_str());
-  string timestamp;
-  Date date;
+  string date;
+  string horaire;
+  Date dateM;
   string sensorID;
   string attribute;
   string value;
   if (monFlux){
     while (monFlux){
-      getline(monFlux, timestamp, ';');
-      getline(monFlux, sensorID, ';');
-      getline(monFlux, attribute, ';');
-      getline(monFlux, value,';');
-      date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2)),
-      stoi(timestamp.substr(8,2)),stoi(timestamp.substr(11,2)),
-      stoi(timestamp.substr(14,2)),stoi(timestamp.substr(16,2))));
+      getline(monFlux, date, ' ');
+      getline(monFlux, horaire, ';');
+      getline(monFlux,sensorID, ';');
+      getline(monFlux,attribute, ';');
+      getline(monFlux,value,';');
+     // cout << timestamp;
+      dateM = *(new Date(stoi(date.substr(0,5)),stoi(date.substr(6,2)),
+      stoi(date.substr(9,2)),stoi(horaire.substr(0,2)),
+      stoi(horaire.substr(3,2)),stoi(horaire.substr(6,2))));
 
-      Measurement * temporary = new Measurement (sensorID, attribute, stod(value), date);
+      Measurement * temporary = new Measurement (sensorID, attribute, stod(value), dateM);
       measurementList.push_back(*temporary);
     }
   }else {
@@ -98,22 +101,25 @@ void Read :: readCleaner(string nom){
   }
 }
 
-void Read :: readUser(string nom){
-  ifstream monFlux(nom.c_str());
-  string userID;
-  string sensorID;
-  int pointsAwarded;
-  if (monFlux){
-    while (monFlux){
-      getline(monFlux, userID, ';');
-      getline(monFlux,sensorID, ';');
-      // a creer une user class
-      PrivateIndividual * temporary = new PrivateIndividual(userID, sensorID, 0);
-      userList.push_back(temporary);
-    }
-  }else {
-    cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
-  }
+    void Read :: readUser(string nom){
+        ifstream monFlux(nom.c_str());
+        string userID;
+        string sensorID;
+        int pointsAwarded;
+        list <PrivateIndividual> privateIndividualList = getPrivateIndividualList();
+        if (monFlux){
+            while (monFlux){
+                getline(monFlux, userID, ';');
+                getline(monFlux,sensorID, ';');
+                cout << userID;
+                cout << sensorID;
+                // a creer une user class
+                PrivateIndividual * temporary = new PrivateIndividual(userID, sensorID, 0);
+                privateIndividualList.push_back(*temporary);
+            }
+        }else {
+            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+        }
 }
 
 void Read :: readProvider(string nom){
@@ -169,6 +175,10 @@ list<Sensor> Read::getSensorList() const{
   return sensorList;
 }
 
+list <Provider> Read:: getProviderList() const {
+  return providerList;
+}
+
 
 list<Measurement> Read::getMeasurementList() const{
   return measurementList;
@@ -178,23 +188,14 @@ list<Cleaner> Read::getCleanerList() const{
   return cleanerList;
 }
 
-
-list<User*> Read::getUserList() const{
-  return userList;
-}
-
-list<Provider> Read::getProviderList() const{
-  return providerList;
-}
-
-
 list<Attribute> Read::getAttributeList() const{
   return attributeList;
-
-
-
-
 }
+
+list<PrivateIndividual> Read ::getPrivateIndividualList() const{
+  return privateIndividualList;
+}
+
 
 // --------------------ancien statistics
 
@@ -322,6 +323,7 @@ list<string> Read::calculateSimilarity(string sensorID, Date startDate, Date end
   passed in parameter. When found, we add it to its sensor measurement vector
   in our measurements map.
   */
+
   for (Measurement m : allMeasurements)
   {
     if (m.getDate()>=startDate && m.getDate() <= endDate)

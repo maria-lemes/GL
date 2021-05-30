@@ -110,7 +110,7 @@ using namespace std;
             return(!((*this) < d1) || (*this) == d1);
     }
 
-    string Date::toString() const{
-      return to_string(day)+"/"+to_string(month)+"/"+to_string(year)+" - "+
-      to_string(hour)+":"+to_string(minute)+":"+to_string(second);
+    ostream& operator<<(ostream& os, const Date& dt) {
+    os << dt.getDay() << '/' << dt.getMonth() << '/' << dt.getYear() << " " << dt.getHour() << "-" << dt.getMinute() << "-" << dt.getSecond();
+    return os;
     }

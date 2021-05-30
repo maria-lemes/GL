@@ -42,7 +42,7 @@ class Measurement
             string sensorID;
             AttributeId attribute;
             float value;
-            Date date;
+            Date timestamp;
 
 };
 

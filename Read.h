@@ -25,7 +25,7 @@ list<Measurement> measurementList;
 list<Cleaner> cleanerList;
 list<Provider> providerList;
 list<Attribute> attributeList;
-list<User*> userList;
+list<PrivateIndividual> privateIndividualList;
 
 
 public:
@@ -35,13 +35,10 @@ void readCleaner(string nom);
 void readUser(string nom);
 void readAttribute(string nom);
 void readProvider(string nom);
-list<Measurement> getMeasurementsFromSensor(string sensorID) const;
-int calculateSensorCoefficient(list<double> mySensorMeasurements);
-list<Sensor> findNeighbors(Sensor mySensor, int radius);
 list<Sensor> getSensorList() const;
 list<Measurement> getMeasurementList() const;
-list<Cleaner> getCleanerList() const;
-list<User*> getUserList() const;
+list<Cleaner> getCleanerList()const;
+list<PrivateIndividual> getPrivateIndividualList() const;
 list<Provider> getProviderList() const;
 list<Attribute> getAttributeList() const;
 
@@ -52,7 +49,11 @@ bool sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int 
 
 double calculateDistance(Sensor s1, Sensor s2);
 list<Sensor> getNeighbors(Sensor sensor, double radius);
+list <Measurement> getMeasurementsFromSensor (string sensorID) const;
+int calculateSensorCoefficient(list<double> mySensorMeasurements);
+list <Sensor> findNeighbors(Sensor mySensor, int radius);
 };
+
 
 
 #endif // Read_H

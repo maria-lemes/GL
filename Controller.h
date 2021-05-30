@@ -11,6 +11,7 @@
 
 #include "Sensor.h"
 #include "Measurement.h"
+#include "Read.h"
 #include "Date.h"
 #include <string>
 #include <list>
@@ -19,6 +20,9 @@ using namespace std;
 class Controller
 {
     public:
+    
+    Read read;
+    int calculateAirQuality(double latitude, double longitude, int radius, Date myDate);
 
     int calculateAirQuality(float latitude, float longitude, int radius, Date date);
 

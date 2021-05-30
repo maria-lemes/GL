@@ -33,6 +33,7 @@ class Date
       bool operator==(const Date& d1);
       bool operator<=(const Date & d1);
       bool operator>=(const Date & d1);
+      friend ostream& operator<<(ostream& os, const Date& dt);
 
       string toString() const;
 
