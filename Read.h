@@ -3,6 +3,7 @@
 #define Read_H
 
 #include <list>
+#include <vector>
 #include <string>
 #include <iostream>
 #include "Attribute.h"
