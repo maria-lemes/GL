@@ -50,9 +50,9 @@ void Read :: readMeasurement(string nom){
   if (monFlux){
     while (monFlux){
       getline(monFlux, timestamp, ';');
-      getline(monFlux,sensorID, ';');
-      getline(monFlux,attribute, ';');
-      getline(monFlux,value,';');
+      getline(monFlux, sensorID, ';');
+      getline(monFlux, attribute, ';');
+      getline(monFlux, value,';');
       date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2)),
       stoi(timestamp.substr(8,2)),stoi(timestamp.substr(11,2)),
       stoi(timestamp.substr(14,2)),stoi(timestamp.substr(16,2))));
