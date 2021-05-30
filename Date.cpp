@@ -3,11 +3,6 @@
 #include "Date.h"
 using namespace std;
 
-    Date::Date()
-    {
-
-    }
-
     Date::Date (int oneYear, int oneMonth, int oneDay, int oneHour, int oneMinute, int oneSecond)
     {
       year = oneYear;
