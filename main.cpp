@@ -185,13 +185,13 @@ int selectGov()
 
 
       float threshold;
-      int nbDays;
+      /*int nbDays;
       int coeff;
 
-      cout << "Please input the sensorID :" << endl << endl;
+      cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
       cin >> sensorID;
 
-      cout << "Please input the date of measurement :" << endl;
+      cout << "Please input the date of measurement (yyyy-mm-dd) :" << endl;
       cin >> dateInput;
       int year = stoi(dateInput.substr(0,4));
       int month = stoi(dateInput.substr(5,2));
@@ -201,29 +201,31 @@ int selectGov()
       cin >> timeInput;
       int hour = stoi(timeInput.substr(0,2));
       int minute = stoi(timeInput.substr(3,2));
-      int second = stoi(timeInput.substr(6,2));
+      int second = stoi(timeInput.substr(6,2));*/
 
-      myDate = new Date(year,month,day,hour,minute,second);
+      //myDate = new Date(year,month,day,hour,minute,second);
+      myDate = new Date(2019,01,15,12,00,00);
 
       cout << "Please input the threshold of discrepancy allowed (in %) :" << endl;
       cin >> threshold;
 
-      cout << "Please input the number of days during which data are imported for the time comparison" << endl;
+      /*cout << "Please input the number of days during which data are imported for the time comparison" << endl;
       cin >> nbDays;
 
       cout << "Please input the preferred factor to evaluate the consistency of this sensor's data :" << endl;
       cout << "\t0- Data from neighboring sensors " << endl;
       cout << "\t1- Time" << endl;
-      cin >> coeff;
+      cin >> coeff;*/
 
-      bool validity = controller->sensorSanityCheck(sensorID, *myDate, threshold, nbDays, coeff);
+      //bool validity = controller->sensorSanityCheck(sensorID, *myDate, threshold/100);
+      bool validity = controller->sensorSanityCheck("Sensor0", *myDate, threshold/100);
 
-      if (validity)
+      /*if (validity)
       {
         cout << "The data provided by the sensor is valid." << endl;
       } else {
         cout << "The data provided by the sensor is NOT reliable." << endl;
-      }
+    }*/
 
       delete myDate;
 
@@ -251,7 +253,7 @@ void selectIndividual()
 int main()
 {
 
-   /* int choice;
+   /*int choice;
     menu:
       cout << "Please select your role : " << endl;
       cout << "\t1- Government Agency" << endl;
@@ -281,15 +283,17 @@ int main()
         default:
           cerr << "Invalid choice. Please try again." << endl;
           goto menu;
-       }*/
+      }*/
 
-  Read * r = new Read();
+  /*Read * r = new Read();
   r -> readMeasurement();
   for (auto measurement : r -> getMeasurementList())
   {
     cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
      " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
-  }
+ }*/
+
+    selectGov();
 
   return 0;
 }

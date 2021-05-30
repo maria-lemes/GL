@@ -15,6 +15,7 @@ gustavo.giunco-bertoldi@insa-lyon.fr ;
 #include <unordered_map>
 #include <cmath>
 #include <limits>
+#include <climits>
 #include "Read.h"
 #include "Date.h"
 using namespace std;
@@ -85,7 +86,7 @@ void Read :: readMeasurement(){
       monFlux.ignore();
 
       try {
-        cout<<"Month: "<< stoi(month)<< endl;
+        //cout<<"Month: "<< stoi(month)<< endl;
         Date * tmp = new Date(stoi(year),stoi(month),stoi(day),stoi(hour),
         stoi(minute), stoi(second));
         measurementList.push_back(*(new Measurement(sensorID,attribute,
@@ -351,6 +352,7 @@ void Read :: readMeasurement(){
 
 
 
+//------------------------------------------------------------------------------
   int Read::calculateSensorCoefficient(list<double> mySensorMeasurements)
   {
     return 0;
@@ -451,8 +453,8 @@ void Read :: readMeasurement(){
  }
 
 
-
-  bool Read::sensorSanityCheck(string sensorID, const Date date, int threshold, int nbDays, int coeff){
+//------------------------------------------------------------------------------
+  bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
     list<Sensor> neighbors;
@@ -470,8 +472,8 @@ void Read :: readMeasurement(){
     float avgO3 = 0;
     float avgPM10 = 0;
 
-    int scoreLocation = 0;
-    int scoreTime = 0;
+    int scoreLocation = 4;
+    int scoreTime = 4;
 
     // ------- LOCATION PART -------
     neighbors = findNeighbors(sensorID, 5); //5km arbitraire fichier
@@ -480,7 +482,7 @@ void Read :: readMeasurement(){
     //Lambda to use in find_if
     auto it =  measurementList.begin();
     const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
-    for(; it != measurementList.end(); ++it)
+    for( ; it != measurementList.end(); ++it)
     {
       if((find_if(neighbors.begin(), neighbors.end(), fun) != neighbors.end()) && (it -> getDate() == date))
       {
@@ -502,6 +504,14 @@ void Read :: readMeasurement(){
         }
       }
     }
+    cout << "--------------------------" << endl;
+    cout << "currentValNO2: " << currentValNO2 << endl;
+    cout << "currentValSO2: " << currentValSO2 << endl;
+    cout << "currentValO3: " << currentValO3 << endl;
+    cout << "currentValPM10: " << currentValPM10 << endl;
+
+    cout << endl;
+    cout << "nb of measurements in locationM: " << localMeasurements.size() << endl;
 
     //calculate local average for every attribute
     for(Measurement m : localMeasurements){
@@ -525,6 +535,7 @@ void Read :: readMeasurement(){
     avgO3 = sumO3 / neighbors.size();
     avgPM10 = sumPM10 / neighbors.size();
 
+    cout << "avg N02 location: " << avgNO2 << endl;
 
     if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
         scoreLocation++;
@@ -538,6 +549,7 @@ void Read :: readMeasurement(){
     if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
         scoreLocation++;
     }
+    cout << "score location before 1/0: " << scoreLocation << endl;
     if(scoreLocation == 4){
         scoreLocation = 1;
     }else{
@@ -552,6 +564,9 @@ void Read :: readMeasurement(){
             timeMeasurements.push_back(m);
         }
     }
+
+    cout << endl;
+    cout << "nb of measurements in timeM: " << timeMeasurements.size() << endl;
 
     sumNO2 = sumSO2 = sumO3 = sumPM10 = 0; //reset sum
     avgNO2 = avgSO2 = avgO3 = avgPM10 = 0; //reset avg
@@ -572,31 +587,40 @@ void Read :: readMeasurement(){
         break;
       }
     }
-    avgNO2 = sumNO2 / timeMeasurements.size();
-    avgSO2 = sumSO2 / timeMeasurements.size();
-    avgO3 = sumO3 / timeMeasurements.size();
-    avgPM10 = sumPM10 / timeMeasurements.size();
+    avgNO2 = sumNO2 / (timeMeasurements.size() / 4);
+    avgSO2 = sumSO2 / (timeMeasurements.size() / 4);
+    avgO3 = sumO3 / (timeMeasurements.size() / 4);
+    avgPM10 = sumPM10 / (timeMeasurements.size() / 4);
+
+    cout << "sum N02 time: " << sumNO2 << endl;
+    cout << "avg N02 time: " << avgNO2 << endl;
+    cout << "limite basse N02 time: " << (1-threshold)*avgNO2 << endl;
+    cout << "limite haute N02 time: " << (1+threshold)*avgNO2 << endl;
 
     if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
-        scoreTime++;
+        scoreTime--;
     }
     if(currentValNO2 < (1-threshold)*avgNO2 || currentValNO2 > (1+threshold)*avgNO2){
-        scoreTime++;
+        scoreTime--;
     }
     if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2){
-        scoreTime++;
+        scoreTime--;
     }
     if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
-        scoreTime++;
+        scoreTime--;
     }
-    if(scoreTime == 4){
+    cout << "score time before 1/0: " << scoreTime << endl;
+    if(scoreTime < 4){
+        scoreTime = 0;
+    }else if(scoreTime == 4){
         scoreTime = 1;
     }else{
-        scoreTime = 0;
+        cout << "pb with scoreTime" << endl;
     }
 
-    cout << "score location: " << scoreLocation << endl;
-    cout << "score time: " << scoreTime << endl;
+    cout << endl;
+    cout << "score location final: " << scoreLocation << endl;
+    cout << "score time final: " << scoreTime << endl;
 
     return min(scoreLocation, scoreTime);
 }
