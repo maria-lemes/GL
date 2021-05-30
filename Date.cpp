@@ -23,6 +23,7 @@ using namespace std;
       second = oneDate.getSecond();
     }
 
+
     //Getters
     int Date::getYear() const {return year;}
     int Date::getMonth() const {return month;}

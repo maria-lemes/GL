@@ -27,7 +27,6 @@ class Attribute
 
         string getDescription();
 
-        virtual ~Attribute();
 
     private:
             string attributeID;

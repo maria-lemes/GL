@@ -13,6 +13,13 @@
 #include "Date.h"
 using namespace std;
 
+enum AttributeId {NO2, SO2, O3, PM10};
+/*
+  NO2: 0
+  SO2: 1
+  O3: 2
+  PM10: 3
+*/
 
 class Measurement
 {
@@ -24,17 +31,16 @@ class Measurement
 
         string getSensorID();
 
-        string getAttribute();
+        AttributeId getAttribute();
 
         double getValue();
 
         Date getDate();
 
-        virtual ~Measurement();
 
     private:
             string sensorID;
-            string attribute;
+            AttributeId attribute;
             float value;
             Date timestamp;
 

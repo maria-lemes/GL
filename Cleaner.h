@@ -33,8 +33,6 @@ class Cleaner
 
         Date getStop();
 
-        virtual ~Cleaner();
-
     private:
             string cleanerID;
             double latitude;

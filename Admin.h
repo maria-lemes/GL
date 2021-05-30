@@ -15,7 +15,5 @@ class Admin : public User
 
         string getUserID();
 
-        virtual ~Admin();
-
 };
 #endif

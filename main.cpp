@@ -1,21 +1,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Controller.h"
-#include "Measurement.h"
-#include "Controller.h"
-#include "User.h"
-#include "Admin.h"
-#include "PrivateIndividual.h"
-#include "Date.h"
+#include <list>
+#include "Read.h"
+#include "Sensor.h"
 using namespace std;
 
+/*
 void selectGov()
 {
   string userID;
   cout << "Please provide your UserID :" << endl;
   cin >> userID;
-  Admin * ad = new Admin(userID); 
+  Admin * ad = new Admin(userID);
 
   int choice;
   cout << "===== Government Agency =====" << endl;
@@ -25,7 +22,7 @@ void selectGov()
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
-  switch(choice) 
+  switch(choice)
   {
     case 0:
       mainMenu();
@@ -167,7 +164,7 @@ void selectGov()
       cin >> coeff;
 
       bool validity = sensorSanityCheck(sensorID, *myDate, threshold, nbDays, coeff);
-      
+
       if (bool = true)
       {
         cout << "The data provided by the sensor are valid." << endl;
@@ -230,7 +227,7 @@ void mainMenu()
       continue;
    }
 }
-
+*/
 int main()
 {
   /*
@@ -239,9 +236,9 @@ int main()
     mainMenu();
   }
   */
-  Read r = new Read();
-  r.readSensor("./data/sensors.csv");
-  for (auto sensor : r.getSensorList())
+  Read * r = new Read();
+  r -> readSensor("./data/sensors.csv");
+  for (auto sensor : r -> getSensorList())
   {
     cout << sensor.getSensorID() << " || lat: " << sensor.getLatitude() <<
      " lon: " << sensor.getLongitude() << endl;

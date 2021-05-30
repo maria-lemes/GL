@@ -1,10 +1,10 @@
 /*************************************************************************
-                              Read.cpp -  description
-                             -------------------
-    début                : 05/2021
-    copyright            : (C) 2021
-    e-mail               : matthieu.moutot@insa-lyon.fr ;
-    gustavo.giunco-bertoldi@insa-lyon.fr ;
+Read.cpp -  description
+-------------------
+début                : 05/2021
+copyright            : (C) 2021
+e-mail               : matthieu.moutot@insa-lyon.fr ;
+gustavo.giunco-bertoldi@insa-lyon.fr ;
 *************************************************************************/
 #include <iostream>
 #include <cstring>
@@ -20,84 +20,84 @@ using namespace std;
 
 
 void Read::readSensor(string nom){
-    ifstream monFlux;
-    monFlux.open(nom.c_str());
-    string sensorID;
-    string latitude;
-    string longitude;
-    string inutile;
-    list <Sensor> sensorList = getSensorList();
-    if (monFlux){
-        while (monFlux){
-            getline(monFlux, sensorID, ';');
-            getline(monFlux,latitude, ';');
-            getline(monFlux,longitude, ';');
-            Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
-            sensorList.push_back(*temporary);
-         }
-    }  else {
-        cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+  ifstream monFlux;
+  monFlux.open(nom.c_str());
+  string sensorID;
+  string latitude;
+  string longitude;
+  string inutile;
+  if (monFlux){
+    while (monFlux){
+      getline(monFlux, sensorID, ';');
+      getline(monFlux,latitude, ';');
+      getline(monFlux,longitude, ';');
+      Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
+      sensorList.push_back(*temporary);
     }
+  }  else {
+    cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+  }
+
 }
 
 void Read :: readMeasurement(string nom){
-    ifstream monFlux(nom.c_str());
-    string timestamp;
-    Date date;
-    string sensorID;
-    string attribute;
-    string value;
-    list <Measurement> measurementList = getMeasurementList();
-    if (monFlux){
-        while (monFlux){
-            getline(monFlux, timestamp, ';');
-            getline(monFlux,sensorID, ';');
-            getline(monFlux,attribute, ';');
-            getline(monFlux,value,';');
-            date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2)),
-              stoi(timestamp.substr(8,2)),stoi(timestamp.substr(11,2)),
-              stoi(timestamp.substr(14,2)),stoi(timestamp.substr(16,2))));
+  ifstream monFlux(nom.c_str());
+  string timestamp;
+  Date date;
+  string sensorID;
+  string attribute;
+  string value;
+  list <Measurement> measurementList = getMeasurementList();
+  if (monFlux){
+    while (monFlux){
+      getline(monFlux, timestamp, ';');
+      getline(monFlux,sensorID, ';');
+      getline(monFlux,attribute, ';');
+      getline(monFlux,value,';');
+      date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2)),
+      stoi(timestamp.substr(8,2)),stoi(timestamp.substr(11,2)),
+      stoi(timestamp.substr(14,2)),stoi(timestamp.substr(16,2))));
 
-            Measurement * temporary = new Measurement (sensorID, attribute, stod(value), date);
-            measurementList.push_back(*temporary);
-         }
-    }else {
-        cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+      Measurement * temporary = new Measurement (sensorID, attribute, stod(value), date);
+      measurementList.push_back(*temporary);
     }
+  }else {
+    cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+  }
 
 }
 
 void Read :: readCleaner(string nom){
-    ifstream monFlux(nom.c_str());
-    string cleanerID;
-    string latitude;
-    string longitude;
-    string timestart;
-    string timestop;
-    Date start;
-    Date stop;
-    list <Cleaner> cleanerList = getCleanerList();
-    if (monFlux){
-        while (monFlux){
-            getline(monFlux, cleanerID, ';');
-            getline(monFlux,latitude, ';');
-            getline(monFlux,longitude, ';');
-            getline(monFlux,timestart,';');
-            getline(monFlux,timestop,';');
-            start = *(new Date(stoi(timestart.substr(0,4)),stoi(timestart.substr(5,2)),
-              stoi(timestart.substr(8,2)),stoi(timestart.substr(11,2)),
-              stoi(timestart.substr(14,2)),stoi(timestart.substr(16,2))));
+  ifstream monFlux(nom.c_str());
+  string cleanerID;
+  string latitude;
+  string longitude;
+  string timestart;
+  string timestop;
+  Date start;
+  Date stop;
+  list <Cleaner> cleanerList = getCleanerList();
+  if (monFlux){
+    while (monFlux){
+      getline(monFlux, cleanerID, ';');
+      getline(monFlux,latitude, ';');
+      getline(monFlux,longitude, ';');
+      getline(monFlux,timestart,';');
+      getline(monFlux,timestop,';');
+      start = *(new Date(stoi(timestart.substr(0,4)),stoi(timestart.substr(5,2)),
+      stoi(timestart.substr(8,2)),stoi(timestart.substr(11,2)),
+      stoi(timestart.substr(14,2)),stoi(timestart.substr(16,2))));
 
-            stop = *(new Date(stoi(timestop.substr(0,4)),stoi(timestop.substr(5,2)),
-              stoi(timestop.substr(8,2)),stoi(timestop.substr(11,2)),
-              stoi(timestop.substr(14,2)),stoi(timestop.substr(16,2))));
+      stop = *(new Date(stoi(timestop.substr(0,4)),stoi(timestop.substr(5,2)),
+      stoi(timestop.substr(8,2)),stoi(timestop.substr(11,2)),
+      stoi(timestop.substr(14,2)),stoi(timestop.substr(16,2))));
 
-            Cleaner * temporary = new Cleaner (cleanerID, stod(latitude), stod(longitude), start,stop);
-            cleanerList.push_back(*temporary);
-         }
-    }else {
-        cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+      Cleaner * temporary = new Cleaner (cleanerID, stod(latitude), stod(longitude), start,stop);
+      cleanerList.push_back(*temporary);
     }
+  }else {
+    cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+  }
 }
 
     void Read :: readUser(string nom){
@@ -118,156 +118,196 @@ void Read :: readCleaner(string nom){
             cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
         }
     }
+  }else {
+    cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+  }
+}
 
-    void Read :: readProvider(string nom){
-        ifstream monFlux(nom.c_str());
-        string providerID;
-        string cleanerID;
-        list <Provider> providerList = getProviderList();
-        if (monFlux){
-            while (monFlux){
-                getline(monFlux, providerID, ';');
-                getline(monFlux,cleanerID, ';');
-                Provider * temporary = new Provider(providerID, cleanerID);
-                providerList.push_back(*temporary);
-            }
-        }else {
-            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
-        }
+void Read :: readProvider(string nom){
+  ifstream monFlux(nom.c_str());
+  string providerID;
+  string cleanerID;
+  list <Provider> providerList = getProviderList();
+  if (monFlux){
+    while (monFlux){
+      getline(monFlux, providerID, ';');
+      getline(monFlux,cleanerID, ';');
+      Provider * temporary = new Provider(providerID, cleanerID);
+      providerList.push_back(*temporary);
     }
+  }else {
+    cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+  }
+}
 
-    void Read :: readAttribute(string nom){
-        ifstream monFlux(nom.c_str());
-        string attributeID;
-        string unit;
-        string description;
-        list <Attribute> attributeList = getAttributeList();
-        if (monFlux){
-            while (monFlux){
-                getline(monFlux, attributeID, ';');
-                getline(monFlux,unit, ';');
-                getline(monFlux,description, ';');
-                Attribute *  temporary = new Attribute(attributeID, unit, description);
-                attributeList.push_back(*temporary);
-            }
-        }else {
-            cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
-        }
+void Read :: readAttribute(string nom){
+  ifstream monFlux(nom.c_str());
+  string attributeID;
+  string unit;
+  string description;
+  list <Attribute> attributeList = getAttributeList();
+  if (monFlux){
+    while (monFlux){
+      getline(monFlux, attributeID, ';');
+      getline(monFlux,unit, ';');
+      getline(monFlux,description, ';');
+      Attribute *  temporary = new Attribute(attributeID, unit, description);
+      attributeList.push_back(*temporary);
     }
+  }else {
+    cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+  }
+}
 
-    list<Sensor> Read::getSensorList(){
-        return sensorList;
+list<Measurement> Read::getMeasurementsFromSensor(string sensorID) const
+{
+  list<Measurement> myMeasurements;
+
+  for (Measurement m : measurementList)
+  {
+    if (m.getSensorID()==sensorID)
+    {
+      myMeasurements.push_back(m);
     }
+  }
+
+  return myMeasurements;
+}
+
+list<Sensor> Read::getSensorList() const{
+  return sensorList;
+}
 
 
-    list<Measurement> Read::getMeasurementList(){
-        return measurementList;
-    }
+list<Measurement> Read::getMeasurementList() const{
+  return measurementList;
+}
 
-    list<Cleaner> Read::getCleanerList(){
-        return cleanerList;
-    }
+list<Cleaner> Read::getCleanerList() const{
+  return cleanerList;
+}
 
+
+list<User*> Read::getUserList() const{
+  return userList;
+}
+
+list<Provider> Read::getProviderList() const{
+  return providerList;
+}
+
+
+list<Attribute> Read::getAttributeList() const{
+  return attributeList;
 
     list<PrivateIndividual> Read::getPrivateIndividualList(){
         return privateIndividualList;
     }
 
-    list<Provider> Read::getProviderList(){
-        return providerList;
-    }
 
 
-   list<Attribute> Read::getAttributeList(){
-        return attributeList;
-    }   
+}
 
 // --------------------ancien statistics
 
 
 /*int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
 {
-    list<Measurement> measurements;
-    list<Sensor> sensors;
+  list<Measurement> measurements;
+  list<Sensor> sensors;
 
-    if(sensors.empty())
+  if(sensors.empty())
+  {
+    for(auto it = getSensorList().begin(); it != getSensorList().end(); it++)
     {
-        for(auto it = getSensorList().begin(); it != getSensorList().end(); it++)
-        {
-            if( (it->getLatitude() < latitude+radius) && (it->getLongitude() < longitude+radius) )
-            {
-                sensors.push_back(*it);
-            }
-        }
+      if( (it->getLatitude() < latitude+radius) && (it->getLongitude() < longitude+radius) )
+      {
+        sensors.push_back(*it);
+      }
     }
+  }
 
-    if(measurements.empty())
+  //Lambda to use in find_if
+  auto it = getMeasurementList().begin();
+  const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
+  if(measurements.empty())
+  {
+    for(; it != getMeasurementList().end(); it++)
     {
-        for(auto it = getMeasurementList().begin(); it != getMeasurementList().end(); it++)
-        {
-            if((find(sensors.begin(), sensors.end(), it->getSensorID()) != sensors.end()) && (it->getDate() == date))
-            {
-                measurements.push_back(*it);
-            }
-        }
+      if((find_if(sensors.begin(), sensors.end(), fun) != sensors.end()) && (it->getDate() == date))
+      {
+        measurements.push_back(*it);
+      }
     }
+  }
 
-    float sumNO2, sumSO2, sumO3, sumPM10;
-    float avgNO2, avgSO2, avgO3, avgPM10;
-    int nb = sensors.size();
+  float sumNO2, sumSO2, sumO3, sumPM10;
+  float avgNO2, avgSO2, avgO3, avgPM10;
+  int nb = sensors.size();
 
-    for(auto it = measurements.begin(); it != measurements.end(); it++)
+  for(auto it = measurements.begin(); it != measurements.end(); it++)
+  {
+    if(it->getAttribute() == NO2)
     {
-        if(it->getAttribute().compare("NO2") == 0)
-        {
-            sumNO2 += it->getValue();
-        }
-        if(it->getAttribute().compare("SO2") == 0)
-        {
-            sumNO2 += it->getValue();
-        }
-        if(it->getAttribute().compare("O3") == 0)
-        {
-            sumNO2 += it->getValue();
-        }
-        if(it->getAttribute().compare("PM10") == 0)
-        {
-            sumNO2 += it->getValue();
-        }
+      sumNO2 += it->getValue();
     }
-
-    avgNO2 = sumNO2 / nb;
-    avgSO2 = sumSO2 / nb;
-    avgO3 = sumO3 / nb;
-    avgPM10 = sumPM10 / nb;
-
-    int tabSO2 [10] = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
-    int tabNO2 [10] = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
-    int tabO3 [10]  = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
-    int tabPM10 [10]= {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
-
-    int indexNO2 = 0;
-    int indexSO2 = 0;
-    int indexO3 = 0;
-    int indexPM10 = 0;
-
-    while(avgNO2 > tabNO2[indexNO2]){
-        indexNO2++;
+    if(it->getAttribute() == SO2)
+    {
+      sumNO2 += it->getValue();
     }
-    while(avgSO2 > tabNO2[indexSO2]){
-        indexSO2++;
+    if(it->getAttribute() == O3)
+    {
+      sumNO2 += it->getValue();
     }
-    while(avgO3 > tabNO2[indexO3]){
-        indexO3++;
+    if(it->getAttribute() == PM10)
+    {
+      sumNO2 += it->getValue();
     }
-    while(avgPM10 > tabPM10[indexPM10]){
-        indexPM10++;
-    }
-    int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
-    int indexFinal = max_element(*tab, *(tab+4));
+  }
 
-    return indexFinal;
-}*/
+  avgNO2 = sumNO2 / nb;
+  avgSO2 = sumSO2 / nb;
+  avgO3 = sumO3 / nb;
+  avgPM10 = sumPM10 / nb;
+
+  int tabSO2 [10] = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
+  int tabNO2 [10] = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
+  int tabO3 [10]  = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
+  int tabPM10 [10]= {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
+
+  int indexNO2 = 0;
+  int indexSO2 = 0;
+  int indexO3 = 0;
+  int indexPM10 = 0;
+
+  while(avgNO2 > tabNO2[indexNO2]){
+    indexNO2++;
+  }
+  while(avgSO2 > tabNO2[indexSO2]){
+    indexSO2++;
+  }
+  while(avgO3 > tabNO2[indexO3]){
+    indexO3++;
+  }
+  while(avgPM10 > tabPM10[indexPM10]){
+    indexPM10++;
+  }
+  int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
+  int indexFinal = *(max_element(tab,tab+4));
+
+  return indexFinal;
+}
+
+int Read::calculateSensorCoefficient(list<double> mySensorMeasurements)
+{
+  return 0;
+}
+
+list<Sensor> Read::findNeighbors(Sensor mySensor, int radius)
+{
+  list<Sensor> neighbors;
+  return neighbors;
+}
 
 /*TODO:
 **Définir si les données des mésures seront recuperées de la base lors
@@ -279,15 +319,15 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-/*vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+list<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
 {
 
   list<Measurement> allMeasurements = getMeasurementList();
   //Key : SensorID. Value : Sensor's measurements in the specified period list
-  unordered_map<string,list<double>> otherSensorsMeasurements = new unordered_map();
+  unordered_map<string,list<double>> otherSensorsMeasurements;
   //Measurements from the sensor whose id is passed in parameter
-  vector<double> mySensorMeasurements = 
-  vector<string> similarSensors;
+  list<double> mySensorMeasurements;
+  list<string> similarSensors;
 
   /*
   We search in all measurements for those produced in the period of time
@@ -332,8 +372,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
   it's included in the difined tolerance interval, the sensor is added
   to the similar sensors list.
   */
- /*
-  for (pair<string,vector<double>> m : otherSensorsMeasurements)
+  for (pair<string,list<double>> m : otherSensorsMeasurements)
   {
     int coef = calculateSensorCoefficient(m.second);
 
@@ -348,65 +387,66 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 }
 
 bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff){
-    vector<Measurement> localMeasurements;
-    vector<Measurement> timeMeasurements;
-    vector<Sensor> neighbors;
+  list<Measurement> localMeasurements;
+  list<Measurement> timeMeasurements;
+  list<Sensor> neighbors;
 
-    float currentValNO2, currentValSPO2, currentValO3, currentValPM10;
-    float scoreLocation, scoreTime;
+  float currentValNO2, currentValSO2, currentValO3, currentValPM10;
+  float scoreLocation, scoreTime;
 
-    neighbors = findNeighbors(s, 5); //5km arbitraire fichier
+  neighbors = findNeighbors(sensor, 5); //5km arbitraire fichier
 
-    //add every measurement that is from the same date & from a neighboring sensor
-    for(auto it = Read::getMeasurementList().begin(); it != getMeasurementList().end(); it++)
+  //add every measurement that is from the same date & from a neighboring sensor
+  //Lambda to use in find_if
+  auto it =  measurementList.begin();
+  const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
+  for(; it != measurementList.end(); ++it)
+  {
+    if((find_if(neighbors.begin(), neighbors.end(), fun) != neighbors.end()) && (it -> getDate() == date))
     {
-        if((find(neighbors.begin(), neighbors.end(), it.getSensorID()) != neighbors.end()) && (it.getDate() == date))
-        {
-            localMeasurements.push_back(*it);
-        }
-        // get the current values of the suspicious sensor
-        if(it.getSensorID() == sensor.getSensorID() && it.getDate() == date){
-            if(it.getAttribute() == NO2){
-                currentValNO2 == it.getValue();
-            }
-            if(it.getAttribute() == SO2){
-                currentValSO2 == it.getValue();
-            }
-            if(it.getAttribute() == O3){
-                currentValO3 == it.getValue();
-            }
-            if(it.getAttribute() == PM10){
-                currentValPM10 == it.getValue();
-            }
-        }
+      localMeasurements.push_back(*it);
     }
-
-    float sumNO2 = sumSO2 = sumO3 = sumPM10 = 0;
-    float avgNO2 = avgSO2 = avgO3 = avgPM10 = 0;
-
-    for(Measurement m : localMeasurements){
-        switch (m.getAttribute()) {
-            case NO2: sumNO2 += m.getValue();
-                break;
-            case SO2: sumSO2 += m.getValue();
-                break;
-            case O3: sumO3 += m.getValue();
-                break;
-            case PM10: sumPM10 += m.getValue();
-                break;
-        }
+    // get the current values of the suspicious sensor
+    if(it -> getSensorID() == sensor.getSensorID() && it -> getDate() == date){
+      if(it -> getAttribute() == NO2){
+        currentValNO2 = it -> getValue();
+      }
+      if(it -> getAttribute() == SO2){
+        currentValSO2 = it -> getValue();
+      }
+      if(it -> getAttribute() == O3){
+        currentValO3 = it -> getValue();
+      }
+      if(it -> getAttribute() == PM10){
+        currentValPM10 = it -> getValue();
+      }
     }
-    avgNO2 = sumNO2 / neighbors.length();
-    avgSO2 = sumSO2 / neighbors.length();
-    avgO3 = sumO3 / neighbors.length();
-    avgPM10 = sumPM10 / neighbors.length();
-    
+  }
 
-    // trouver system qui aille bien pour le score
+  float sumNO2 = 0, sumSO2 = 0, sumO3 = 0, sumPM10 = 0;
+  float avgNO2 = 0, avgSO2 = 0, avgO3 = 0, avgPM10 = 0;
 
+  for(Measurement m : localMeasurements){
+    switch (m.getAttribute()) {
+      case NO2:
+        sumNO2 += m.getValue();
+        break;
+      case SO2:
+        sumSO2 += m.getValue();
+        break;
+      case O3:
+        sumO3 += m.getValue();
+        break;
+      case PM10:
+        sumPM10 += m.getValue();
+        break;
     }
+  }
+  avgNO2 = sumNO2 / neighbors.size();
+  avgSO2 = sumSO2 / neighbors.size();
+  avgO3 = sumO3 / neighbors.size();
+  avgPM10 = sumPM10 / neighbors.size();
 
-
-
+  // trouver system qui aille bien pour le score
 
 }*/
