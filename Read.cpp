@@ -286,9 +286,15 @@ void Read :: readMeasurement(){
       }
     }
 
-    float sumNO2, sumSO2, sumO3, sumPM10;
-    float avgNO2, avgSO2, avgO3, avgPM10;
-    int nb = sensors.size();
+    float sumNO2 = 0;
+    float sumSO2 = 0;
+    float sumO3 = 0;
+    float sumPM10 = 0;
+
+    float avgNO2 = 0;
+    float avgSO2 = 0;
+    float avgO3 = 0;
+    float avgPM10 = 0;
 
     for(auto it = measurements.begin(); it != measurements.end(); it++)
     {
@@ -310,10 +316,10 @@ void Read :: readMeasurement(){
       }
     }
 
-    avgNO2 = sumNO2 / nb;
-    avgSO2 = sumSO2 / nb;
-    avgO3 = sumO3 / nb;
-    avgPM10 = sumPM10 / nb;
+    avgNO2 = sumNO2 / sensors.size();
+    avgSO2 = sumSO2 / sensors.size();
+    avgO3 = sumO3 / sensors.size();
+    avgPM10 = sumPM10 / sensors.size();
 
     int tabSO2 [10] = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
     int tabNO2 [10] = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
@@ -328,10 +334,10 @@ void Read :: readMeasurement(){
     while(avgNO2 > tabNO2[indexNO2]){
       indexNO2++;
     }
-    while(avgSO2 > tabNO2[indexSO2]){
+    while(avgSO2 > tabSO2[indexSO2]){
       indexSO2++;
     }
-    while(avgO3 > tabNO2[indexO3]){
+    while(avgO3 > tabO3[indexO3]){
       indexO3++;
     }
     while(avgPM10 > tabPM10[indexPM10]){
@@ -446,7 +452,7 @@ void Read :: readMeasurement(){
 
 
 
-  bool Read::sensorSanityCheck(string sensorID, Date date, int threshold, int nbDays, int coeff){
+  bool Read::sensorSanityCheck(string sensorID, const Date date, int threshold, int nbDays, int coeff){
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
     list<Sensor> neighbors;
@@ -454,8 +460,15 @@ void Read :: readMeasurement(){
     float currentValNO2, currentValSO2, currentValO3, currentValPM10;
     //float scoreLocation, scoreTime;
 
-    float sumNO2 = 0, sumSO2 = 0, sumO3 = 0, sumPM10 = 0;
-    float avgNO2 = 0, avgSO2 = 0, avgO3 = 0, avgPM10 = 0;
+    float sumNO2 = 0;
+    float sumSO2 = 0;
+    float sumO3 = 0;
+    float sumPM10 = 0;
+
+    float avgNO2 = 0;
+    float avgSO2 = 0;
+    float avgO3 = 0;
+    float avgPM10 = 0;
 
     int scoreLocation = 0;
     int scoreTime = 0;
@@ -535,8 +548,8 @@ void Read :: readMeasurement(){
     // ------- TIME PART -------
     //create list with all measurements from the sensor up to current date
     for(Measurement m : measurementList){
-        if(m.getSensorID() == sensorID && m.getDate() > date - nbDays && m.getDate() <= date-1){
-            timeMeasurements.push_back(*m);
+        if(m.getSensorID() == sensorID && m.getDate() <= date){ // toutes les données du sensor importées
+            timeMeasurements.push_back(m);
         }
     }
 

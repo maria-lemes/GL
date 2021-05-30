@@ -30,6 +30,7 @@ class Date
       void setSecond(int aSecond);
 
       bool operator<(const Date& d1);
+      bool operator>(const Date& d1);
       bool operator==(const Date& d1);
       bool operator<=(const Date & d1);
       bool operator>=(const Date & d1);
