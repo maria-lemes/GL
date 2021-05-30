@@ -41,22 +41,24 @@ void Read::readSensor(string nom){
 }
 
 void Read :: readMeasurement(string nom){
-  cout << "yo";
   ifstream monFlux(nom.c_str());
-  string timestamp;
-  Date date;
+  string date;
+  string horaire;
+  Date dateM;
   string sensorID;
   string attribute;
   string value;
   if (monFlux){
     while (monFlux){
-      getline(monFlux, timestamp, ';');
+      getline(monFlux, date, ' ');
+      getline(monFlux, horaire, ';');
       getline(monFlux,sensorID, ';');
       getline(monFlux,attribute, ';');
       getline(monFlux,value,';');
-      date = *(new Date(atoi((timestamp.substr(0,4)).c_str()),atoi((timestamp.substr(5,2)).c_str()),
-      atoi((timestamp.substr(8,2)).c_str()),atoi((timestamp.substr(11,2)).c_str()),
-      atoi((timestamp.substr(14,2)).c_str()),atoi((timestamp.substr(16,2)).c_str())));
+      cout << timestamp;
+      dateM = *(new Date(atoi((date.substr(0,4)).c_str()),atoi((date.substr(5,2)).c_str()),
+      atoi((date.substr(8,2)).c_str()),atoi((horaire.substr(11,2)).c_str()),
+      atoi((horaire.substr(14,2)).c_str()),atoi((horaire.substr(16,2)).c_str())));
 
       Measurement * temporary = new Measurement (sensorID, attribute, stod(value), date);
       measurementList.push_back(*temporary);
