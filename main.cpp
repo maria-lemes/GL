@@ -111,8 +111,8 @@ void selectGov()
 
       endDate = new Date(year_end,month_end,day_end,hour_end,minute_end,second_end);
 
-      vector <string> similarSensors = calculateSimilarity(sensorID, *startDate, *endDate);
-      vector <string> :: iterator it;
+      list <string> similarSensors = calculateSimilarity(sensorID, *startDate, *endDate);
+      list <string> :: iterator it;
       cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
       for(it = similarSensors.begin(); it != similarSensors.end(); it++)
       {
