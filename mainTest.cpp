@@ -1,7 +1,16 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-#include "Read.h"
+#include <iostream>
+#include "Attribute.cpp"
+#include "Cleaner.cpp"
+#include "Measurement.cpp"
+#include "PrivateIndividual.h"
+#include "PrivateIndividual.cpp"
+#include "Provider.cpp"
+#include "Sensor.cpp"
+#include "Read.cpp"
+#include "Date.cpp"
 using namespace std;
 
 int main()
