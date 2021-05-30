@@ -5,9 +5,16 @@
 #include "Read.h"
 using namespace std;
 
-/*
+
+Controller * controller = new Controller();
+
 void selectGov()
 {
+  string sensorID;
+  Date * myDate;
+  string dateInput;
+  string timeInput;
+
   string userID;
   cout << "Please provide your UserID :" << endl;
   cin >> userID;
@@ -24,17 +31,16 @@ void selectGov()
   switch(choice)
   {
     case 0:
-      mainMenu();
-    case 1:
+      break;
+    case 1: {
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
 
       float latitude;
       float longitude;
       int radius;
-      Date * myDate;
-      string dateInput;
-      string timeInput;
+      int timeChoice;
+
 
       cout << "Please input the latitude of the location :" << endl;
       cin >> latitude;
@@ -45,6 +51,15 @@ void selectGov()
       cout << "Please input the radius to define the circular area (with the chosen location as center) :" << endl;
       cin >> radius;
 
+      cout << "Would you like to obtain the results for a given moment or a specified period of time?" << endl;
+      cout << "1- Given moment" << endl;
+      cout << "2- Period of time" << endl;
+
+
+     while(1){
+
+      cin >>timeChoice;
+      if(timeChoice == 1){
       cout << "Please input the date of measurement (yyyy-mm-dd) :" << endl;
       cin >> dateInput;
       int year = stoi(dateInput.substr(0,4));
@@ -58,18 +73,56 @@ void selectGov()
       int second = stoi(timeInput.substr(6,2));
 
       myDate = new Date(year,month,day,hour,minute,second);
-
-      int index = CalculateAirQuality(latitude, longitude, radius, *myDate);
+      int index = controller->calculateAirQuality(latitude, longitude, radius, *myDate);
       cout << "The air quality is: " <<  index << endl;
 
       delete myDate;
+      break;
+
+      } else if (timeChoice == 2){
+
+      cout << "Please input the starting date of measurement (yyyy-mm-dd) :" << endl;
+      cin >> dateInput;
+      int year = stoi(dateInput.substr(0,4));
+      int month = stoi(dateInput.substr(5,2));
+      int day = stoi(dateInput.substr(8,2));
+
+      cout << "Please input the starting time of measurement (hh:mm:ss) :" << endl;
+      cin >> timeInput;
+      int hour = stoi(timeInput.substr(0,2));
+      int minute = stoi(timeInput.substr(3,2));
+      int second = stoi(timeInput.substr(6,2));
+
+      Date * myStartDate = new Date(year,month,day,hour,minute,second);
+
+
+      cout << "Please input the ending date of measurement (yyyy-mm-dd) :" << endl;
+      cin >> dateInput;
+      year = stoi(dateInput.substr(0,4));
+      month = stoi(dateInput.substr(5,2));
+      day = stoi(dateInput.substr(8,2));
+
+      cout << "Please input the ending time of measurement (hh:mm:ss) :" << endl;
+      cin >> timeInput;
+      hour = stoi(timeInput.substr(0,2));
+      minute = stoi(timeInput.substr(3,2));
+      second = stoi(timeInput.substr(6,2));
+
+      Date * myEndingDate = new Date(year,month,day,hour,minute,second);
 
       break;
-    case 2:
+
+      }else{
+        cout << "Please enter a valid choice" << endl;
+      }
+    }
+
+      break;
+    }
+    case 2: {
       cout << "===== Calculate sensors similarity =====" << endl;
       cout << "Rank the similarity of sensors comparing to one specific sensor" << endl << endl;
 
-      string sensorID;
 
       Date * startDate;
       string startDateInput;
@@ -110,26 +163,24 @@ void selectGov()
 
       endDate = new Date(year_end,month_end,day_end,hour_end,minute_end,second_end);
 
-      list <string> similarSensors = calculateSimilarity(sensorID, *startDate, *endDate);
-      list <string> :: iterator it;
+      list <string> similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
+
       cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
-      for(it = similarSensors.begin(); it != similarSensors.end(); it++)
+      for(auto s : similarSensors)
       {
-        cout << it->sensorID << endl;
+        cout << s << endl;
       }
 
       delete startDate;
       delete endDate;
 
       break;
-
-    case 3:
+    }
+    case 3: {
       cout << "===== Classify sensor's behavior =====" << endl;
       cout << "Check sensor's data validity" << endl << endl;
 
-      string sensorID;
-      Date * myDate;
-      string dateInput;
+
       float threshold;
       int nbDays;
       int coeff;
@@ -162,9 +213,9 @@ void selectGov()
       cout << "\t1- Time" << endl;
       cin >> coeff;
 
-      bool validity = sensorSanityCheck(sensorID, *myDate, threshold, nbDays, coeff);
+      bool validity = controller->sensorSanityCheck(sensorID, *myDate, threshold, nbDays, coeff);
 
-      if (bool = true)
+      if (validity)
       {
         cout << "The data provided by the sensor are valid." << endl;
       } else {
@@ -174,12 +225,12 @@ void selectGov()
       delete myDate;
 
       break;
-
-    default:
+    }
+    default: {
       cerr << "Invalid choice. Please try again." << endl;
-      continue;
+    }
   }
-  delete ad;
+
 }
 
 void selectProvider()
@@ -192,53 +243,48 @@ void selectIndividual()
 
 }
 
-void mainMenu()
-{
-  int choice;
 
-  cout << "Please select your role : " << endl;
-  cout << "\t1- Government Agency" << endl;
-  cout << "\t2- Air Cleaner Provider" << endl;
-  cout << "\t3- Private Individual" << endl;
-  cout << "\t0: Quit" << endl;
-
-  cin >> choice;
-
-  switch (choice)
-  {
-    case 0:
-    return 0;
-
-    case 1:
-      selectGov();
-      break;
-
-    case 2:
-      selectProvider();
-      break;
-
-    case 3:
-      selectIndividual();
-      break;
-
-    default:
-      cerr << "Invalid choice. Please try again." << endl;
-      continue;
-   }
-}
-*/
 int main()
 {
-  /*
-  while (1)
-  {
-    mainMenu();
-  }
-  */
-  Read * r = new Read();
+
+    int choice;
+
+      cout << "Please select your role : " << endl;
+      cout << "\t1- Government Agency" << endl;
+      cout << "\t2- Air Cleaner Provider" << endl;
+      cout << "\t3- Private Individual" << endl;
+      cout << "\t0: Quit" << endl;
+
+      cin >> choice;
+
+      switch (choice)
+      {
+        case 0:
+          return 0;
+
+        case 1:
+          selectGov();
+          break;
+
+        case 2:
+          selectProvider();
+          break;
+
+        case 3:
+          selectIndividual();
+          break;
+
+        default:
+          cerr << "Invalid choice. Please try again." << endl;
+       }
+
+  /*Read * r = new Read();
   r -> readMeasurement("./data/measurements.csv");
-  for (auto x : r -> getMeasurementList())
+  for (auto measurement : r -> getMeasurementList())
   {
-    cout << x.getSensorID() << " attribute : " << x.getAttribute() << " || value: " << x.getValue() << "Date : " << x.getDate() << endl;
+    cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
+     " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
   }
+    */
+  return 0;
 }

@@ -29,6 +29,6 @@ Read read;
             return read.calculateSimilarity(sensorID, startDate, endDate);
     }
 
-    bool Controller::sensorSanityCheck(Sensor sensor, Date myDate, int threshold, int nbDays, int coeff){
-            return read.sensorSanityCheck(sensor, myDate, threshold, nbDays, coeff);
+    bool Controller::sensorSanityCheck(string sensorID, Date myDate, int threshold, int nbDays, int coeff){
+            return read.sensorSanityCheck(sensorID, myDate, threshold, nbDays, coeff);
     }
