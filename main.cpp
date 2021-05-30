@@ -237,7 +237,7 @@ int main()
   }
   */
   Read * r = new Read();
-  r -> readSensor("./data/measurements.csv");
+  r -> readMeasurement("./data/measurements.csv");
   for (auto measurement : r -> getMeasurementList())
   {
     cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
