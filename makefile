@@ -22,8 +22,17 @@ $(EXE) : $(OBJS)
 
 clean:
 	@echo "Nettoyage des binaires et executables"
+
+	ifeq($(OS),Windows_NT){
+	@del /Q $(OBJS)
+	@del /Q $(EXE)
+	}
+	else{
 	@rm -f $(OBJS)
 	@rm -f $(EXE)
+	}
+	endif
+
 
 cleanbin:
 	@echo "Nettoyage des binaires"
