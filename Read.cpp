@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <cmath>
 #include "Read.h"
+#include "Date.h"
 using namespace std;
 
 
@@ -53,7 +54,7 @@ void Read :: readMeasurement(string nom){
             getline(monFlux,sensorID, ';');
             getline(monFlux,attribute, ';');
             getline(monFlux,value,';');
-            date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2),
+            date = *(new Date(stoi(timestamp.substr(0,4)),stoi(timestamp.substr(5,2)),
               stoi(timestamp.substr(8,2)),stoi(timestamp.substr(11,2)),
               stoi(timestamp.substr(14,2)),stoi(timestamp.substr(16,2))));
 
@@ -83,19 +84,14 @@ void Read :: readCleaner(string nom){
             getline(monFlux,longitude, ';');
             getline(monFlux,timestart,';');
             getline(monFlux,timestop,';');
-            start.year = stoi(timestart.substr(0,4));
-            start.month = stoi(timestart.substr(5,2));
-            start.day = stoi(timestart.substr(8,2));
-            start.hour = stoi(timestart.substr(11,2));
-            start.minute = stoi(timestart.substr(14,2));
-            start.second = stoi(timestart.substr(16,2));
+            start = *(new Date(stoi(timestart.substr(0,4)),stoi(timestart.substr(5,2)),
+              stoi(timestart.substr(8,2)),stoi(timestart.substr(11,2)),
+              stoi(timestart.substr(14,2)),stoi(timestart.substr(16,2))));
 
-            stop.year = stoi(timestop.substr(0,4));
-            stop.month = stoi(timestop.substr(5,2));
-            stop.day = stoi(timestop.substr(8,2));
-            stop.hour = stoi(timestop.substr(11,2));
-            stop.minute = stoi(timestop.substr(14,2));
-            stop.second = stoi(timestop.substr(16,2));
+            stop = *(new Date(stoi(timestop.substr(0,4)),stoi(timestop.substr(5,2)),
+              stoi(timestop.substr(8,2)),stoi(timestop.substr(11,2)),
+              stoi(timestop.substr(14,2)),stoi(timestop.substr(16,2))));
+
             Cleaner * temporary = new Cleaner (cleanerID, stod(latitude), stod(longitude), start,stop);
             cleanerList.push_back(*temporary);
          }
@@ -109,7 +105,7 @@ void Read :: readCleaner(string nom){
         string userID;
         string sensorID;
         int pointsAwarded;
-        vector<User*> userList = getUserList();
+        list<User*> userList = getUserList();
         if (monFlux){
             while (monFlux){
                 getline(monFlux, userID, ';');
@@ -177,7 +173,7 @@ void Read :: readCleaner(string nom){
         return userList;
     }
 
-    vector<Provider> Read::getProviderList(){
+    list<Provider> Read::getProviderList(){
         return providerList;
     }
 
@@ -270,7 +266,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
     int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
     int indexFinal = max_element(*tab, *(tab+4));
 
-    return(*indexFinal);
+    return indexFinal;
 }
 
 /*TODO:
@@ -288,7 +284,7 @@ vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date e
 
   vector<Measurement> allMeasurements;
   //Key : SensorID. Value : Sensor's measurements in the specified period list
-  unordered_map<string,vector<double>> otherSensorsMeasurements;
+  unordered_map<string,list<double>> otherSensorsMeasurements;
   //Measurements from the sensor whose id is passed in parameter
   vector<double> mySensorMeasurements;
   vector<string> similarSensors;
@@ -300,7 +296,7 @@ vector<string> Read::calculateSimilarity(string sensorID, Date startDate, Date e
   */
   for (Measurement m : allMeasurements)
   {
-    if (m.getDate() >=  startDate && m.getDate() <= endDate)
+    if (m.getDate()>=startDate && m.getDate() <= endDate)
     {
       //Sensor is the one passed in parameter
       if (m.getSensorID() == sensorID)
