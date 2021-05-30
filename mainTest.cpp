@@ -1,16 +1,15 @@
-#include <iostream>
+/*#include <iostream>
 #include <string.h>
 #include <vector>
 #include <iostream>
-#include "Attribute.cpp"
-#include "Cleaner.cpp"
-#include "Measurement.cpp"
+#include "Attribute.h"
+#include "Cleaner.h"
+#include "Measurement.h"
 #include "PrivateIndividual.h"
-#include "PrivateIndividual.cpp"
-#include "Provider.cpp"
-#include "Sensor.cpp"
-#include "Read.cpp"
-#include "Date.cpp"
+#include "Provider.h"
+#include "Sensor.h"
+#include "Read.h"
+#include "Date.h"
 using namespace std;
 
 int main()
@@ -23,3 +22,4 @@ int main()
      " lon: " << sensor.getLongitude() << "timestart : " << sensor.getStart() << "timestop : " << sensor.getStop();
   }
 }
+*/

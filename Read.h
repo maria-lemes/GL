@@ -45,13 +45,13 @@ list<Attribute> getAttributeList() const;
 //anciennement dans Statistics
 int calculateAirQuality(float latitude, float longitude, int radius, Date date);
 list<string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
-bool sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff);
+bool sensorSanityCheck(string sensorID, Date date, int threshold, int nbDays, int coeff);
 
 double calculateDistance(Sensor s1, Sensor s2);
 list<Sensor> getNeighbors(Sensor sensor, double radius);
 list <Measurement> getMeasurementsFromSensor (string sensorID) const;
 int calculateSensorCoefficient(list<double> mySensorMeasurements);
-list <Sensor> findNeighbors(Sensor mySensor, int radius);
+list <Sensor> findNeighbors(string sensorID, int radius);
 };
 
 

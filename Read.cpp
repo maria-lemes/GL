@@ -17,7 +17,7 @@ gustavo.giunco-bertoldi@insa-lyon.fr ;
 #include "Read.h"
 #include "Date.h"
 using namespace std;
-int INT_MAX = 500; // j'ai mis au pif
+
 
 void Read::readSensor(string nom){
   ifstream monFlux;
@@ -292,7 +292,7 @@ int Read::calculateSensorCoefficient(list<double> mySensorMeasurements)
   return 0;
 }
 
-list<Sensor> Read::findNeighbors(Sensor mySensor, int radius)
+list<Sensor> Read::findNeighbors(string sensorID, int radius)
 {
   list<Sensor> neighbors;
   return neighbors;
@@ -376,7 +376,7 @@ list<string> Read::calculateSimilarity(string sensorID, Date startDate, Date end
   return similarSensors;
 }
 
-bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays, int coeff){
+bool Read::sensorSanityCheck(string sensorID, Date date, int threshold, int nbDays, int coeff){
   list<Measurement> localMeasurements;
   list<Measurement> timeMeasurements;
   list<Sensor> neighbors;
@@ -384,7 +384,7 @@ bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays
   float currentValNO2, currentValSO2, currentValO3, currentValPM10;
   float scoreLocation, scoreTime;
 
-  neighbors = findNeighbors(sensor, 5); //5km arbitraire fichier
+  neighbors = findNeighbors(sensorID, 5); //5km arbitraire fichier
 
   //add every measurement that is from the same date & from a neighboring sensor
   //Lambda to use in find_if
@@ -397,7 +397,7 @@ bool Read::sensorSanityCheck(Sensor sensor, Date date, int threshold, int nbDays
       localMeasurements.push_back(*it);
     }
     // get the current values of the suspicious sensor
-    if(it -> getSensorID() == sensor.getSensorID() && it -> getDate() == date){
+    if(it -> getSensorID() == sensorID && it -> getDate() == date){
       if(it -> getAttribute() == NO2){
         currentValNO2 = it -> getValue();
       }
