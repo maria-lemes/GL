@@ -5,12 +5,12 @@ using namespace std;
 
 Date::Date (int oneYear, int oneMonth, int oneDay, int oneHour, int oneMinute, int oneSecond)
 {
-  year = oneYear;
-  month = oneMonth;
-  day = oneDay;
-  hour = oneHour;
-  minute = oneMinute;
-  second = oneSecond;
+  setYear(oneYear);
+  setMonth(oneMonth);
+  setDay(oneDay);
+  setHour(oneHour);
+  setMinute(oneMinute);
+  setSecond(oneSecond);
 }
 
 Date::Date (const Date &oneDate)
@@ -33,12 +33,36 @@ int Date::getMinute() const {return minute;}
 int Date::getSecond() const {return second;}
 
 //Setters
-void Date::setYear(int aYear) {year = aYear;}
-void Date::setMonth(int aMonth) {month = aMonth;}
-void Date::setDay(int aDay) {day = aDay;}
-void Date::setHour(int anHour) {hour = anHour;}
-void Date::setMinute(int aMinute) {minute = aMinute;}
-void Date::setSecond(int aSecond) {second = aSecond;}
+void Date::setYear(int oneYear) {
+  if (year < 0) {year = 1900;}
+  else {year = oneYear;}
+}
+void Date::setMonth(int oneMonth) {
+  if (month < 1) {month = 1;}
+  else if (month > 12) {month = 12;}
+  else {month = oneMonth;}
+}
+void Date::setDay(int oneDay) {
+  if (day < 1) {day = 1;}
+  else if (day > 31) {day = 31;}
+  else {day = oneDay;}
+}
+void Date::setHour(int oneHour) {
+  if (hour < 0) {hour = 0;}
+  else if (hour > 23) {hour = 23;}
+  else {hour = oneHour;}
+}
+void Date::setMinute(int oneMinute) {
+  if (minute < 0) {minute = 0;}
+  else if (minute > 59) {minute = 59;}
+  else {minute = oneMinute;}
+}
+
+void Date::setSecond(int oneSecond) {
+  if (second < 0) {second = 0;}
+  else if (second > 59) {second = 59;}
+  else {second = oneSecond;}
+}
 
 bool Date::operator<(const Date & d1)
 {

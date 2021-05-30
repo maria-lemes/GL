@@ -35,3 +35,5 @@ using namespace std;
     int PrivateIndividual::getPointsAwarded(){
         return pointsAwarded;
     }
+
+    PrivateIndividual::~PrivateIndividual(){}

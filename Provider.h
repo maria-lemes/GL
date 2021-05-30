@@ -16,7 +16,9 @@ public:
 
     string getUserID();
     string getCleanerID();
-  
+
+    virtual ~Provider();
+
 
 private:
     string cleanerID;

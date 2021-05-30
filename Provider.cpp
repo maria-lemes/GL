@@ -1,6 +1,6 @@
 //
 //  Provider.cpp
-//  
+//
 //
 //  Created by Maria Eduarda Zen Lemes on 05/05/2021.
 //
@@ -25,7 +25,9 @@ using namespace std;
     string Provider::getUserID(){
         return userID;
     }
-   
+
     string Provider::getCleanerID(){
         return cleanerID;
     }
+
+    Provider::~Provider(){}

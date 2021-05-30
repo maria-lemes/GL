@@ -20,7 +20,9 @@ class PrivateIndividual : public User
         string getSensorID();
 
         int getPointsAwarded();
-  
+
+        virtual ~PrivateIndividual();
+
 
     private:
             string sensorID;

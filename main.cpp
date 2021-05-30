@@ -3,6 +3,8 @@
 #include <vector>
 #include <list>
 #include "Read.h"
+#include "Controller.h"
+#include "Admin.h"
 using namespace std;
 
 
@@ -42,13 +44,13 @@ void selectGov()
       int timeChoice;
 
 
-      cout << "Please input the latitude of the location :" << endl;
+      cout << "Please enter the latitude of the location :" << endl;
       cin >> latitude;
 
-      cout << "Please input the longitude of the location :" << endl;
+      cout << "Please enter the longitude of the location :" << endl;
       cin >> longitude;
 
-      cout << "Please input the radius to define the circular area (with the chosen location as center) :" << endl;
+      cout << "Please enter the radius to define the circular area (with the chosen location as center) :" << endl;
       cin >> radius;
 
       cout << "Would you like to obtain the results for a given moment or a specified period of time?" << endl;
@@ -135,7 +137,7 @@ void selectGov()
       cout << "Please input the sensorID :" << endl;
       cin >> sensorID;
 
-      cout << "Please input the starting date from which measurements are taken into account :" << endl;
+      cout << "Please input the starting date from which measurements are taken into account (yyyy-mm-dd) :" << endl;
       cin >> startDateInput;
       int year_start = stoi(startDateInput.substr(0,4));
       int month_start = stoi(startDateInput.substr(5,2));
@@ -149,7 +151,7 @@ void selectGov()
 
       startDate = new Date(year_start,month_start,day_start,hour_start,minute_start,second_start);
 
-      cout << "Please input the ending date on which measurements are taken into account :" << endl;
+      cout << "Please input the ending date on which measurements are taken into account (yyyy-mm-dd) :" << endl;
       cin >> endDateInput;
       int year_end = stoi(endDateInput.substr(0,4));
       int month_end = stoi(endDateInput.substr(5,2));
