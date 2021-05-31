@@ -50,7 +50,10 @@ void Read::readSensor(){
   string inutile;
   if (monFlux){
     while (monFlux){
+      getline(monFlux, inutile, '\n');
       getline(monFlux, sensorID, ';');
+      
+      //cout << sensorID;
       getline(monFlux,latitude, ';');
       getline(monFlux,longitude, ';');
       Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
@@ -112,10 +115,12 @@ void Read :: readMeasurement(){
     string longitude;
     string timestart;
     string timestop;
+    string inutile;
     Date start;
     Date stop;
     if (monFlux){
       while (monFlux){
+      //  getline(monFlux, inutile, '\n');
         getline(monFlux, cleanerID, ';');
         getline(monFlux,latitude, ';');
         getline(monFlux,longitude, ';');
@@ -361,10 +366,10 @@ void Read :: readMeasurement(){
       }
     }
 
-    avgNO2 = sumNO2 / sensors.size();
-    avgSO2 = sumSO2 / sensors.size();
-    avgO3 = sumO3 / sensors.size();
-    avgPM10 = sumPM10 / sensors.size();
+   // avgNO2 = sumNO2 / sensors.size();
+   // avgSO2 = sumSO2 / sensors.size();
+   // avgO3 = sumO3 / sensors.size();
+   // avgPM10 = sumPM10 / sensors.size();
 
     int tabSO2 [10] = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
     int tabNO2 [10] = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
