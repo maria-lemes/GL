@@ -26,7 +26,7 @@ Read read;
             return read.calculateAirQuality(latitude, longitude, radius, date);
     }
 
-    map <double,string> Controller::calculateSimilarity(string sensorID, Date startDate, Date endDate){
+    multimap<double,string> Controller::calculateSimilarity(string sensorID, Date startDate, Date endDate){
             return read.calculateSimilarity(sensorID, startDate, endDate);
     }
 

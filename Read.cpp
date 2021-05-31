@@ -17,7 +17,7 @@ e-mail               : matthieu.moutot@insa-lyon.fr ;
 #include <cmath>
 #include <limits>
 #include <climits>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "Read.h"
 #include "Date.h"
 using namespace std;
@@ -50,14 +50,13 @@ void Read::readSensor(){
   string inutile;
   if (monFlux){
     while (monFlux){
-      getline(monFlux, inutile, '\n');
-      getline(monFlux, sensorID, ';');
-      
-      //cout << sensorID;
-      getline(monFlux,latitude, ';');
-      getline(monFlux,longitude, ';');
+      getline(monFlux, inutile,'\n');
+      getline(monFlux, sensorID,';');
+      getline(monFlux, latitude,';');
+      getline(monFlux, longitude,';');
       Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
       sensorList.push_back(*temporary);
+
     }
   }  else {
     cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -77,8 +76,10 @@ void Read :: readMeasurement(){
   string sensorID;
   string attribute;
   string value;
+  string inutile;
   if (monFlux){
     while (monFlux){
+      getline(monFlux, inutile,'\n');
       getline(monFlux, year,'-');
       getline(monFlux, month,'-');
       getline(monFlux, day,' ');
@@ -120,7 +121,7 @@ void Read :: readMeasurement(){
     Date stop;
     if (monFlux){
       while (monFlux){
-      //  getline(monFlux, inutile, '\n');
+        getline(monFlux, inutile,'\n');
         getline(monFlux, cleanerID, ';');
         getline(monFlux,latitude, ';');
         getline(monFlux,longitude, ';');
@@ -152,10 +153,12 @@ void Read :: readMeasurement(){
     ifstream monFlux(userPath);
     string userID;
     string sensorID;
+    string inutile;
     int pointsAwarded;
     list <PrivateIndividual> privateIndividualList = getPrivateIndividualList();
     if (monFlux){
       while (monFlux){
+        getline(monFlux, inutile,'\n');
         getline(monFlux, userID, ';');
         getline(monFlux,sensorID, ';');
 
@@ -177,8 +180,10 @@ void Read :: readMeasurement(){
     ifstream monFlux(providerPath);
     string providerID;
     string cleanerID;
+    string inutile;
     if (monFlux){
       while (monFlux){
+        getline(monFlux, inutile,'\n');
         getline(monFlux, providerID, ';');
         getline(monFlux,cleanerID, ';');
         try {
@@ -200,8 +205,10 @@ void Read :: readMeasurement(){
     string attributeID;
     string unit;
     string description;
+    string inutile;
     if (monFlux){
       while (monFlux){
+        getline(monFlux, inutile,'\n');
         getline(monFlux, attributeID, ';');
         getline(monFlux,unit, ';');
         getline(monFlux,description, ';');
@@ -297,7 +304,6 @@ void Read :: readMeasurement(){
             ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
             ans = 2 * asin(sqrt(ans));
             ans *= 6371; //radius of earth in km
-
             if(ans <= radius){
                 neighbors.push_back(it);
             }
@@ -308,23 +314,21 @@ void Read :: readMeasurement(){
 
 
 //-------Functionality 1 ------------------------------------------------------
-  int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+{
+  list<Measurement> measurements;
+  list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
+
+  /*for(auto itM = measurementList.begin(); itM != measurementList.end(); ++itM)
   {
-    list<Measurement> measurements;
-    list<Sensor> neighbors;
-
-    neighbors = findNeighbors(latitude, longitude, radius);
-
-    //Lambda to use in find_if
-    /*auto it = getMeasurementList().begin();
-    const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
-    if(measurements.empty())
+    if (itM -> getDate() == date)
     {
-      for(; it != getMeasurementList().end(); it++)
+      for (Sensor s : neighbors)
       {
-        if((find_if(sensors.begin(), sensors.end(), fun) != sensors.end()) && (it->getDate() == date))
+
+        if (s.getSensorID().compare(itM -> getSensorID()) == 0)
         {
-          measurements.push_back(*it);
+          measurements.push_back(*itM);
         }
       }
   }*/
@@ -336,68 +340,69 @@ void Read :: readMeasurement(){
         }
     }
 
-    float sumNO2 = 0;
-    float sumSO2 = 0;
-    float sumO3 = 0;
-    float sumPM10 = 0;
 
-    float avgNO2 = 0;
-    float avgSO2 = 0;
-    float avgO3 = 0;
-    float avgPM10 = 0;
+  float sumNO2 = 0.0;
+  float sumSO2 = 0.0;
+  float sumO3 = 0.0;
+  float sumPM10 = 0.0;
 
-    for(auto it = measurements.begin(); it != measurements.end(); it++)
+  float avgNO2 = 0.0;
+  float avgSO2 = 0.0;
+  float avgO3 = 0.0;
+  float avgPM10 = 0.0;
+
+  for(Measurement m : measurements)
+  {
+    if(m.getAttribute() == NO2)
     {
-      if(it->getAttribute() == NO2)
-      {
-        sumNO2 += it->getValue();
-      }
-      if(it->getAttribute() == SO2)
-      {
-        sumNO2 += it->getValue();
-      }
-      if(it->getAttribute() == O3)
-      {
-        sumNO2 += it->getValue();
-      }
-      if(it->getAttribute() == PM10)
-      {
-        sumNO2 += it->getValue();
-      }
+      sumNO2 += m.getValue();
     }
-
-   // avgNO2 = sumNO2 / sensors.size();
-   // avgSO2 = sumSO2 / sensors.size();
-   // avgO3 = sumO3 / sensors.size();
-   // avgPM10 = sumPM10 / sensors.size();
-
-    int tabSO2 [10] = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
-    int tabNO2 [10] = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
-    int tabO3 [10]  = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
-    int tabPM10 [10]= {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
-
-    int indexNO2 = 0;
-    int indexSO2 = 0;
-    int indexO3 = 0;
-    int indexPM10 = 0;
-
-    while(avgNO2 > tabNO2[indexNO2]){
-      indexNO2++;
+    if(m.getAttribute() == SO2)
+    {
+      sumNO2 += m.getValue();
     }
-    while(avgSO2 > tabSO2[indexSO2]){
-      indexSO2++;
+    if(m.getAttribute() == O3)
+    {
+      sumNO2 += m.getValue();
     }
-    while(avgO3 > tabO3[indexO3]){
-      indexO3++;
+    if(m.getAttribute() == PM10)
+    {
+      sumNO2 += m.getValue();
     }
-    while(avgPM10 > tabPM10[indexPM10]){
-      indexPM10++;
-    }
-    int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
-    int indexFinal = *(max_element(tab,tab+4));
-
-    return indexFinal;
   }
+
+  avgNO2 = sumNO2 / neighbors.size();
+  avgSO2 = sumSO2 / neighbors.size();
+  avgO3 = sumO3 / neighbors.size();
+  avgPM10 = sumPM10 / neighbors.size();
+
+  int tabSO2 [10] = {40, 80, 120, 160, 200, 250, 300, 400, 500, INT_MAX};
+  int tabNO2 [10] = {30, 55, 85, 110, 135, 165, 200, 275, 400, INT_MAX};
+  int tabO3 [10]  = {30, 55, 80, 105, 130, 150, 180, 210, 240, INT_MAX};
+  int tabPM10 [10]= {7, 14, 21, 28, 35, 42, 50, 65, 80, INT_MAX};
+
+  int indexNO2 = 0;
+  int indexSO2 = 0;
+  int indexO3 = 0;
+  int indexPM10 = 0;
+
+  while(avgNO2 > tabNO2[indexNO2]){
+    indexNO2++;
+  }
+  while(avgSO2 > tabSO2[indexSO2]){
+    indexSO2++;
+  }
+  while(avgO3 > tabO3[indexO3]){
+    indexO3++;
+  }
+  while(avgPM10 > tabPM10[indexPM10]){
+    indexPM10++;
+  }
+  int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
+  int indexFinal = *(max_element(tab,tab+4));
+
+  return indexFinal;
+}
 
 
 
@@ -413,7 +418,7 @@ void Read :: readMeasurement(){
 
   **Définir le format de la date
   */
-  map<double,string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+  multimap<double,string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
   {
 
     list<Measurement> allMeasurements = getMeasurementList();
@@ -429,7 +434,7 @@ void Read :: readMeasurement(){
     //Measurements from the sensor whose id is passed in parameter
     list<Measurement> mySensorMeasurements;
 
-    map<double, string> similarSensors;
+    multimap<double, string> similarSensors;
 
     /*
     We search in all measurements for those produced in the period of time
@@ -494,21 +499,21 @@ void Read :: readMeasurement(){
  }
 
 
-bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
+/*bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
     for(Sensor s : neighbors){
         if(s.getSensorID() == sensorID){
             return true;
         }
     }
     return false;
-}
+}*/
 
  //-------Functionality 3 ------------------------------------------------------
   bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
     list<Sensor> neighbors;
-    list<string> neighborsID;
+    //list<string> neighborsID;
 
     float currentValNO2, currentValSO2, currentValO3, currentValPM10;
 
@@ -538,7 +543,7 @@ bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
 
     neighbors = findNeighbors(lat1, long1, 100); //10km arbitraire fichier
 
-    for(Sensor s : neighbors){
+    /*for(Sensor s : neighbors){
         neighborsID.push_back(s.getSensorID());
     }
 
@@ -546,6 +551,8 @@ bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
         cout << s << endl;
     }
 
+
+VERSION 1
     //add every measurement that is from the same date & from a neighboring sensor
     /*auto it =  measurementList.begin();
     const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
@@ -572,32 +579,9 @@ bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
       }
   }*/
 
-    /*//alternative moins performante
     for(Measurement m : measurementList){
-        if( find  && m.getDate() == date){
-            localMeasurements.push_back(m);
-        }
-        if(m.getSensorID() == sensorID && m.getDate() == date){
-            if(m.getAttribute() == NO2){
-              currentValNO2 = m.getValue();
-            }
-            if(m.getAttribute() == SO2){
-              currentValSO2 = m.getValue();
-            }
-            if(m.getAttribute() == O3){
-              currentValO3 = m.getValue();
-            }
-            if(m.getAttribute() == PM10){
-              currentValPM10 = m.getValue();
-            }
-        }
-    }*/
-    /*auto n_begin = neighborsID.begin();
-    auto n_end = neighborsID.end();*/
-
-    for(Measurement m : measurementList){
-        for(string s : neighborsID){
-            if( m.getSensorID() == s && m.getDate() == date){
+        for(Sensor s : neighbors){
+            if( m.getSensorID() == s.getSensorID() && m.getDate() == date){
                 localMeasurements.push_back(m);
             }
         }
