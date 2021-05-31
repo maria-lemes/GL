@@ -17,7 +17,7 @@ e-mail               : matthieu.moutot@insa-lyon.fr ;
 #include <cmath>
 #include <limits>
 #include <climits>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "Read.h"
 #include "Date.h"
 using namespace std;
@@ -50,6 +50,8 @@ void Read::readSensor(){
   string inutile;
   if (monFlux){
     while (monFlux){
+
+      getline(monFlux,inutile,'\n');
       getline(monFlux, sensorID, ';');
       getline(monFlux,latitude, ';');
       getline(monFlux,longitude, ';');
@@ -309,30 +311,24 @@ void Read :: readMeasurement(){
     list<Measurement> measurements;
     list<Sensor> sensors;
 
-    if(sensors.empty())
+    sensors = findNeighbors(latitude, longitude, radius);
+
+
+    if(measurements.empty())
     {
-      for(auto it = getSensorList().begin(); it != getSensorList().end(); it++)
+    for( Sensor s : sensors ){
+        cout<<s.getSensorID()<<endl;
+      for(Measurement m : measurementList)
       {
-        if( (it->getLatitude() < latitude+radius) && (it->getLongitude() < longitude+radius) )
-        {
-          sensors.push_back(*it);
+            if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
+              measurements.push_back(m);
+            }
         }
       }
     }
 
-    //Lambda to use in find_if
-    auto it = getMeasurementList().begin();
-    const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
-    if(measurements.empty())
-    {
-      for(; it != getMeasurementList().end(); it++)
-      {
-        if((find_if(sensors.begin(), sensors.end(), fun) != sensors.end()) && (it->getDate() == date))
-        {
-          measurements.push_back(*it);
-        }
-      }
-    }
+
+
 
     float sumNO2 = 0;
     float sumSO2 = 0;

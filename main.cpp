@@ -35,7 +35,7 @@ int selectGov()
   switch(choice)
   {
     case 0:
-      return 1;
+      break;
     case 1: {
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
@@ -80,8 +80,7 @@ int selectGov()
       int index = controller->calculateAirQuality(latitude, longitude, radius, *myDate);
       cout << "The air quality is: " <<  index << endl;
 
-      delete myDate;
-      return 0;
+      goto menu;
 
       } else if (timeChoice == 2){
 
@@ -114,7 +113,7 @@ int selectGov()
 
       Date * myEndingDate = new Date(year,month,day,hour,minute,second);
 
-      return 0;
+      goto menu;
 
       }else{
         cout << "Please enter a valid choice" << endl;
@@ -180,7 +179,7 @@ int selectGov()
       delete startDate;
       delete endDate;
 
-      return 0;
+      goto menu;
     }
     case 3: {
       cout << "===== Classify sensor's behavior =====" << endl;
@@ -232,7 +231,7 @@ int selectGov()
 
       delete myDate;
 
-      return 0;
+      goto menu;
     }
     default: {
       cerr << "Invalid choice. Please try again." << endl;
@@ -256,7 +255,7 @@ void selectIndividual()
 int main()
 {
 
-   /*int choice;
+   /* int choice;
     menu:
       cout << "Please select your role : " << endl;
       cout << "\t1- Government Agency" << endl;
@@ -272,8 +271,8 @@ int main()
           return 0;
 
         case 1:
-          if (!selectGov()){goto menu;}
-          else{break;}
+          selectGov();
+          break;
 
         case 2:
           selectProvider();
@@ -296,8 +295,9 @@ int main()
      " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
  }*/
 
-    selectGov();
-
+    Read * r = new Read();
+    Date * d = new Date(2019,02,05,12);
+    cout << r->calculateAirQuality(44, 3.9,100, *d)<<endl;
 
 
 
