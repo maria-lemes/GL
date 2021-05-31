@@ -78,6 +78,7 @@ void Read :: readMeasurement(){
   string inutile;
   if (monFlux){
     while (monFlux){
+      getline(monFlux, inutile,'\n');
       getline(monFlux, year,'-');
       getline(monFlux, month,'-');
       getline(monFlux, day,' ');
@@ -114,11 +115,13 @@ void Read :: readMeasurement(){
     string longitude;
     string timestart;
     string timestop;
+    string inutile;
     Date start;
     Date stop;
     string inutile;
     if (monFlux){
       while (monFlux){
+        getline(monFlux, inutile,'\n');
         getline(monFlux, cleanerID, ';');
         getline(monFlux,latitude, ';');
         getline(monFlux,longitude, ';');
@@ -151,10 +154,12 @@ void Read :: readMeasurement(){
     ifstream monFlux(userPath);
     string userID;
     string sensorID;
+    string inutile;
     int pointsAwarded;
     list <PrivateIndividual> privateIndividualList = getPrivateIndividualList();
     if (monFlux){
       while (monFlux){
+        getline(monFlux, inutile,'\n');
         getline(monFlux, userID, ';');
         getline(monFlux,sensorID, ';');
 
@@ -176,8 +181,10 @@ void Read :: readMeasurement(){
     ifstream monFlux(providerPath);
     string providerID;
     string cleanerID;
+    string inutile;
     if (monFlux){
       while (monFlux){
+        getline(monFlux, inutile,'\n');
         getline(monFlux, providerID, ';');
         getline(monFlux,cleanerID, ';');
         try {
@@ -199,8 +206,10 @@ void Read :: readMeasurement(){
     string attributeID;
     string unit;
     string description;
+    string inutile;
     if (monFlux){
       while (monFlux){
+        getline(monFlux, inutile,'\n');
         getline(monFlux, attributeID, ';');
         getline(monFlux,unit, ';');
         getline(monFlux,description, ';');
@@ -296,7 +305,6 @@ void Read :: readMeasurement(){
             ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
             ans = 2 * asin(sqrt(ans));
             ans *= 6371; //radius of earth in km
-
             if(ans <= radius){
                 neighbors.push_back(it);
             }
@@ -324,8 +332,15 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
           measurements.push_back(*itM);
         }
       }
+  }*/
+    for(Measurement m : measurementList){
+        for(Sensor s : neighbors){
+            if(m.getSensorID() == s.getSensorID() && m.getDate() == date){
+                measurements.push_back(m);
+            }
+        }
     }
-  }
+
 
   float sumNO2 = 0.0;
   float sumSO2 = 0.0;
@@ -337,23 +352,23 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
   float avgO3 = 0.0;
   float avgPM10 = 0.0;
 
-  for(auto itM = measurements.begin(); itM != measurements.end(); ++itM)
+  for(Measurement m : measurements)
   {
-    if(itM->getAttribute() == NO2)
+    if(m.getAttribute() == NO2)
     {
-      sumNO2 += itM->getValue();
+      sumNO2 += m.getValue();
     }
-    if(itM->getAttribute() == SO2)
+    if(m.getAttribute() == SO2)
     {
-      sumNO2 += itM->getValue();
+      sumNO2 += m.getValue();
     }
-    if(itM->getAttribute() == O3)
+    if(m.getAttribute() == O3)
     {
-      sumNO2 += itM->getValue();
+      sumNO2 += m.getValue();
     }
-    if(itM->getAttribute() == PM10)
+    if(m.getAttribute() == PM10)
     {
-      sumNO2 += itM->getValue();
+      sumNO2 += m.getValue();
     }
   }
 
@@ -488,7 +503,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
     list<Sensor> neighbors;
-    list<string> neighborsID;
+    //list<string> neighborsID;
 
     float currentValNO2, currentValSO2, currentValO3, currentValPM10;
 
@@ -518,7 +533,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
 
     neighbors = findNeighbors(lat1, long1, 100); //10km arbitraire fichier
 
-    for(Sensor s : neighbors){
+    /*for(Sensor s : neighbors){
         neighborsID.push_back(s.getSensorID());
     }
 
@@ -526,6 +541,8 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
         cout << s << endl;
     }
 
+
+VERSION 1
     //add every measurement that is from the same date & from a neighboring sensor
     /*auto it =  measurementList.begin();
     const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
@@ -552,32 +569,9 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
       }
   }*/
 
-    /*//alternative moins performante
     for(Measurement m : measurementList){
-        if( find  && m.getDate() == date){
-            localMeasurements.push_back(m);
-        }
-        if(m.getSensorID() == sensorID && m.getDate() == date){
-            if(m.getAttribute() == NO2){
-              currentValNO2 = m.getValue();
-            }
-            if(m.getAttribute() == SO2){
-              currentValSO2 = m.getValue();
-            }
-            if(m.getAttribute() == O3){
-              currentValO3 = m.getValue();
-            }
-            if(m.getAttribute() == PM10){
-              currentValPM10 = m.getValue();
-            }
-        }
-    }*/
-    /*auto n_begin = neighborsID.begin();
-    auto n_end = neighborsID.end();*/
-
-    for(Measurement m : measurementList){
-        for(string s : neighborsID){
-            if( m.getSensorID() == s && m.getDate() == date){
+        for(Sensor s : neighbors){
+            if( m.getSensorID() == s.getSensorID() && m.getDate() == date){
                 localMeasurements.push_back(m);
             }
         }
