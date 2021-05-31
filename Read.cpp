@@ -47,14 +47,13 @@ void Read::readSensor(){
   string sensorID;
   string latitude;
   string longitude;
-  string inutile;
   if (monFlux){
     while (monFlux){
       getline(monFlux, sensorID, ';');
       getline(monFlux,latitude, ';');
       getline(monFlux,longitude, ';');
-      Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
-      sensorList.push_back(*temporary);
+      //Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
+      sensorList.push_back(*(new Sensor (sensorID,stod(latitude),stod(longitude))));
     }
   }  else {
     cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
@@ -306,9 +305,9 @@ void Read :: readMeasurement(){
   int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
   {
     list<Measurement> measurements;
-    list<Sensor> neighbors;
+    list<Sensor> sensors;
 
-    neighbors = findNeighbors(latitude, longitude, radius);
+    sensors = findNeighbors(latitude, longitude, radius);
 
     //Lambda to use in find_if
     /*auto it = getMeasurementList().begin();
@@ -324,7 +323,7 @@ void Read :: readMeasurement(){
       }
   }*/
     for(Measurement m : measurementList){
-        for(Sensor s : neighbors){
+        for(Sensor s : sensors){
             if(m.getSensorID() == s.getSensorID() && m.getDate() == date){
                 measurements.push_back(m);
             }
@@ -489,14 +488,14 @@ void Read :: readMeasurement(){
  }
 
 
-bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
+/*bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
     for(Sensor s : neighbors){
         if(s.getSensorID() == sensorID){
             return true;
         }
     }
     return false;
-}
+}*/
 
  //-------Functionality 3 ------------------------------------------------------
   bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){

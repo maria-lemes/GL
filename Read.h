@@ -49,7 +49,7 @@ int calculateAirQuality(float latitude, float longitude, int radius , Date date)
 map<double,string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
 bool sensorSanityCheck(string sensorID, Date date, float threshold);
 
-bool isInNeighbors(list<Sensor> neighbors, string sensorID);
+//bool isInNeighbors(list<Sensor> neighbors, string sensorID);
 list <Measurement> getMeasurementsFromSensor (string sensorID) const;
 void calculateSensorCoefficient(list<Measurement> mySensorMeasurements, double * sums);
 list <Sensor> findNeighbors(double lat1, double long1, double radius);
