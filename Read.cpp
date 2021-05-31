@@ -85,10 +85,10 @@ void Read :: readMeasurement(){
       //monFlux.ignore();
 
       try {
-        cout<<"Month: "<< stoi(month)<< endl;
+       // cout<<"Month: "<< stoi(month)<< endl;
         Date * tmp = new Date(stoi(year),stoi(month),stoi(day),stoi(hour),
         stoi(minute), stoi(second));
-        cout << *tmp;
+       // cout << *tmp;
         measurementList.push_back(*(new Measurement(sensorID,attribute,
           stod(value), *tmp)));
       } catch (const exception &e) {
@@ -108,28 +108,46 @@ void Read :: readMeasurement(){
     string cleanerID;
     string latitude;
     string longitude;
-    string timestart;
-    string timestop;
-    Date start;
-    Date stop;
+    string year; 
+    string year2;
+    string month;
+    string month2;
+    string day;
+    string day2;
+    string hour;
+    string hour2;
+    string minute;
+    string minute2;
+    string second;
+    string second2;
+    Date * start;
+    Date * stop;
     if (monFlux){
       while (monFlux){
         getline(monFlux, cleanerID, ';');
         getline(monFlux,latitude, ';');
         getline(monFlux,longitude, ';');
-        getline(monFlux,timestart,';');
-        getline(monFlux,timestop,';');
+        getline(monFlux, year,'-');
+        getline(monFlux, month,'-');
+        getline(monFlux, day,' ');
+        getline(monFlux, hour,':');
+        getline(monFlux, minute,':');
+        getline(monFlux, second,';');
+        getline(monFlux, year2,'-');
+        getline(monFlux, month2,'-');
+        getline(monFlux, day2,' ');
+        getline(monFlux, hour2,':');
+        getline(monFlux, minute2,':');
+        getline(monFlux, second2,';');
 
         try {
-          start = *(new Date(stoi(timestart.substr(0,4)),stoi(timestart.substr(5,2)),
-          stoi(timestart.substr(8,2)),stoi(timestart.substr(11,2)),
-          stoi(timestart.substr(14,2)),stoi(timestart.substr(16,2))));
+          start = new Date(stoi(year),stoi(month),stoi(day),stoi(hour),
+          stoi(minute), stoi(second));
 
-          stop = *(new Date(stoi(timestop.substr(0,4)),stoi(timestop.substr(5,2)),
-          stoi(timestop.substr(8,2)),stoi(timestop.substr(11,2)),
-          stoi(timestop.substr(14,2)),stoi(timestop.substr(16,2))));
+          stop = new Date(stoi(year2),stoi(month2),stoi(day2),stoi(hour2),
+          stoi(minute2), stoi(second2));
 
-          Cleaner * temporary = new Cleaner (cleanerID, stod(latitude), stod(longitude), start,stop);
+          Cleaner * temporary = new Cleaner (cleanerID, stod(latitude), stod(longitude), *(start),*(stop));
           cleanerList.push_back(*temporary);
         } catch (const exception &e) {
             //Bad formated line - go to next
@@ -146,7 +164,6 @@ void Read :: readMeasurement(){
     string userID;
     string sensorID;
     int pointsAwarded;
-    list <PrivateIndividual> privateIndividualList = getPrivateIndividualList();
     if (monFlux){
       while (monFlux){
         getline(monFlux, userID, ';');

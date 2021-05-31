@@ -294,11 +294,11 @@ int main()
        }*/
 
   Read * r = new Read();
-  r -> readMeasurement();
-  for (auto measurement : r -> getMeasurementList())
+  r -> readUser();
+  for (auto measurement : r -> getPrivateIndividualList())
   {
-    cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
-     " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
+    cout << measurement.getUserID() << " || lat: " << measurement.getSensorID() << endl;
+    // " long: " << measurement.getLongitude() << "|| start : " << measurement.getStart() << "|| stop : " << measurement.getStop() << endl;
   }
   return 0;
 }
