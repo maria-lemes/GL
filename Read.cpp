@@ -515,10 +515,11 @@ void Read :: readMeasurement(){
         }
     }
 
-    neighbors = findNeighbors(lat1, long1, 5); //10km arbitraire fichier
+    neighbors = findNeighbors(lat1, long1, 100); //10km arbitraire fichier
+
 
     //add every measurement that is from the same date & from a neighboring sensor
-    auto it =  measurementList.begin();
+    /*auto it =  measurementList.begin();
     const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
     for( ; it != measurementList.end(); ++it)
     {
@@ -541,7 +542,31 @@ void Read :: readMeasurement(){
           currentValPM10 = it -> getValue();
         }
       }
+  }*/
+    //alternative moins performante
+    for(Measurement m : measurementList){
+        for(Sensor s : neighbors){
+            if(s.getSensorID() == m.getSensorID() && m.getDate() == date){
+                localMeasurements.push_back(m);
+            }
+        }
+        if(m.getSensorID() == sensorID && m.getDate() == date){
+            if(m.getAttribute() == NO2){
+              currentValNO2 = m.getValue();
+            }
+            if(m.getAttribute() == SO2){
+              currentValSO2 = m.getValue();
+            }
+            if(m.getAttribute() == O3){
+              currentValO3 = m.getValue();
+            }
+            if(m.getAttribute() == PM10){
+              currentValPM10 = m.getValue();
+            }
+        }
     }
+
+
     cout << "--------------------------" << endl;
     cout << "currentValNO2: " << currentValNO2 << endl;
     cout << "currentValSO2: " << currentValSO2 << endl;
