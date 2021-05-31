@@ -282,7 +282,6 @@ void Read :: readMeasurement(){
 
         double lat2, long2, dlat, dlong;
         double ans = 0; //in km
-        cout << "avant for" << endl;
         for(Sensor it : sensorList){
             lat2 = it.getLatitude() * oneDegree;
             long2 = it.getLongitude() * oneDegree;
@@ -307,21 +306,12 @@ void Read :: readMeasurement(){
   int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
   {
     list<Measurement> measurements;
-    list<Sensor> sensors;
+    list<Sensor> neighbors;
 
-    if(sensors.empty())
-    {
-      for(auto it = getSensorList().begin(); it != getSensorList().end(); it++)
-      {
-        if( (it->getLatitude() < latitude+radius) && (it->getLongitude() < longitude+radius) )
-        {
-          sensors.push_back(*it);
-        }
-      }
-    }
+    neighbors = findNeighbors(latitude, longitude, radius);
 
     //Lambda to use in find_if
-    auto it = getMeasurementList().begin();
+    /*auto it = getMeasurementList().begin();
     const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
     if(measurements.empty())
     {
@@ -332,6 +322,13 @@ void Read :: readMeasurement(){
           measurements.push_back(*it);
         }
       }
+  }*/
+    for(Measurement m : measurementList){
+        for(Sensor s : neighbors){
+            if(m.getSensorID() == s.getSensorID() && m.getDate() == date){
+                measurements.push_back(m);
+            }
+        }
     }
 
     float sumNO2 = 0;
@@ -492,12 +489,21 @@ void Read :: readMeasurement(){
  }
 
 
+bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
+    for(Sensor s : neighbors){
+        if(s.getSensorID() == sensorID){
+            return true;
+        }
+    }
+    return false;
+}
 
  //-------Functionality 3 ------------------------------------------------------
   bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
     list<Sensor> neighbors;
+    list<string> neighborsID;
 
     float currentValNO2, currentValSO2, currentValO3, currentValPM10;
 
@@ -527,6 +533,13 @@ void Read :: readMeasurement(){
 
     neighbors = findNeighbors(lat1, long1, 100); //10km arbitraire fichier
 
+    for(Sensor s : neighbors){
+        neighborsID.push_back(s.getSensorID());
+    }
+
+    for(string s : neighborsID){
+        cout << s << endl;
+    }
 
     //add every measurement that is from the same date & from a neighboring sensor
     /*auto it =  measurementList.begin();
@@ -553,10 +566,33 @@ void Read :: readMeasurement(){
         }
       }
   }*/
-    //alternative moins performante
+
+    /*//alternative moins performante
     for(Measurement m : measurementList){
-        for(Sensor s : neighbors){
-            if(s.getSensorID() == m.getSensorID() && m.getDate() == date){
+        if( find  && m.getDate() == date){
+            localMeasurements.push_back(m);
+        }
+        if(m.getSensorID() == sensorID && m.getDate() == date){
+            if(m.getAttribute() == NO2){
+              currentValNO2 = m.getValue();
+            }
+            if(m.getAttribute() == SO2){
+              currentValSO2 = m.getValue();
+            }
+            if(m.getAttribute() == O3){
+              currentValO3 = m.getValue();
+            }
+            if(m.getAttribute() == PM10){
+              currentValPM10 = m.getValue();
+            }
+        }
+    }*/
+    /*auto n_begin = neighborsID.begin();
+    auto n_end = neighborsID.end();*/
+
+    for(Measurement m : measurementList){
+        for(string s : neighborsID){
+            if( m.getSensorID() == s && m.getDate() == date){
                 localMeasurements.push_back(m);
             }
         }
@@ -585,6 +621,7 @@ void Read :: readMeasurement(){
 
     cout << endl;
     cout << "nb of measurements in locationM: " << localMeasurements.size() << endl;
+    cout << "nb of measurements in measurementList: " << measurementList.size() << endl;
 
     //calculate local average for every attribute
     for(Measurement m : localMeasurements){
