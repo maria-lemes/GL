@@ -49,7 +49,7 @@ list<string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
 bool sensorSanityCheck(string sensorID, Date date, float threshold);
 
 list <Measurement> getMeasurementsFromSensor (string sensorID) const;
-int calculateSensorCoefficient(list<double> mySensorMeasurements);
+void calculateSensorCoefficient(list<Measurement> mySensorMeasurements, double * sums);
 list <Sensor> findNeighbors(double lat1, double long1, double radius);
 };
 
