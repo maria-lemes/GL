@@ -34,33 +34,33 @@ int Date::getSecond() const {return second;}
 
 //Setters
 void Date::setYear(int oneYear) {
-  if (year < 0) {year = 1900;}
+  if (oneYear < 0) {year = 1900;}
   else {year = oneYear;}
 }
 void Date::setMonth(int oneMonth) {
-  if (month < 1) {month = 1;}
-  else if (month > 12) {month = 12;}
+  if (oneMonth < 1) {month = 1;}
+  else if (oneMonth > 12) {month = 12;}
   else {month = oneMonth;}
 }
 void Date::setDay(int oneDay) {
-  if (day < 1) {day = 1;}
-  else if (day > 31) {day = 31;}
+  if (oneDay < 1) {day = 1;}
+  else if (oneDay > 31) {day = 31;}
   else {day = oneDay;}
 }
 void Date::setHour(int oneHour) {
-  if (hour < 0) {hour = 0;}
-  else if (hour > 23) {hour = 23;}
+  if (oneHour < 0) {hour = 0;}
+  else if (oneHour > 23) {hour = 23;}
   else {hour = oneHour;}
 }
 void Date::setMinute(int oneMinute) {
-  if (minute < 0) {minute = 0;}
-  else if (minute > 59) {minute = 59;}
+  if (oneMinute < 0) {minute = 0;}
+  else if (oneMinute > 59) {minute = 59;}
   else {minute = oneMinute;}
 }
 
 void Date::setSecond(int oneSecond) {
-  if (second < 0) {second = 0;}
-  else if (second > 59) {second = 59;}
+  if (oneSecond < 0) {second = 0;}
+  else if (oneSecond > 59) {second = 59;}
   else {second = oneSecond;}
 }
 
@@ -119,6 +119,62 @@ bool Date::operator<(const Date & d1)
   }
 }
 
+bool Date::operator>(const Date & d1)
+{
+  if (getYear() > d1.getYear())
+  {
+    return true;
+} else if (getYear() < d1.getYear())
+  {
+    return false;
+  } else {
+    if (getMonth() > d1.getMonth())
+    {
+      return true;
+  } else if (getMonth() < d1.getMonth())
+    {
+      return false;
+    }
+    else{
+      if (getDay() > d1.getDay())
+      {
+        return true;
+    } else if (getDay() < d1.getDay())
+      {
+        return false;
+      }
+      else{
+        if (getHour() > d1.getHour())
+        {
+          return true;
+      } else if (getHour() < d1.getHour())
+        {
+          return false;
+        }
+        else{
+          if (getMinute() > d1.getMinute())
+          {
+            return true;
+        } else if (getMinute() < d1.getMinute())
+          {
+            return false;
+          }
+          else{
+            if (getSecond() > d1.getSecond())
+            {
+              return true;
+            } else
+            {
+              return false;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
 bool Date::operator==(const Date & d1)
 {
   return getYear()==d1.getYear() && getMonth()==d1.getMonth()
@@ -131,7 +187,7 @@ bool Date::operator<=(const Date & d1){
 }
 
 bool Date::operator>=(const Date & d1){
-  return(!((*this) < d1) || (*this) == d1);
+  return(!((*this) > d1) || (*this) == d1);
 }
 
 ostream& operator<<(ostream& os, const Date& dt) {
