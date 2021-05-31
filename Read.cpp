@@ -47,6 +47,7 @@ void Read::readSensor(){
   string sensorID;
   string latitude;
   string longitude;
+  string inutile;
   if (monFlux){
     while (monFlux){
       getline(monFlux, inutile,'\n');
@@ -307,9 +308,7 @@ void Read :: readMeasurement(){
 int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
 {
   list<Measurement> measurements;
-  list<Sensor> neighbors;
-  neighbors = findNeighbors(latitude, longitude, radius);
-
+  list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
 
   for(auto itM = measurementList.begin(); itM != measurementList.end(); ++itM)
   {
@@ -317,18 +316,12 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
     {
       for (Sensor s : neighbors)
       {
+
         if (s.getSensorID().compare(itM -> getSensorID()) == 0)
         {
           measurements.push_back(*itM);
         }
       }
-  }*/
-    for(Measurement m : measurementList){
-        for(Sensor s : sensors){
-            if(m.getSensorID() == s.getSensorID() && m.getDate() == date){
-                measurements.push_back(m);
-            }
-        }
     }
   }
 
