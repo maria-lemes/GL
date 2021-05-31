@@ -17,7 +17,7 @@ e-mail               : matthieu.moutot@insa-lyon.fr ;
 #include <cmath>
 #include <limits>
 #include <climits>
-//#include <bits/stdc++.h>
+#include <bits/stdc++.h>
 #include "Read.h"
 #include "Date.h"
 using namespace std;
