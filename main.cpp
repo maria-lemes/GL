@@ -248,7 +248,7 @@ void selectIndividual()
 
 int main()
 {
-
+/*
     int choice;
 
       cout << "Please select your role : " << endl;
@@ -279,14 +279,14 @@ int main()
         default:
           cerr << "Invalid choice. Please try again." << endl;
        }
+       */
 
-  /*Read * r = new Read();
-  r -> readMeasurement("./data/measurements.csv");
-  for (auto measurement : r -> getMeasurementList())
+  Read * r = new Read();
+  auto neighbors = r -> findNeighbors(44,-1,2);
+  for (auto n : neighbors)
   {
-    cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
-     " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
+    cout << n.getSensorID() << endl; 
   }
-    */
+
   return 0;
 }
