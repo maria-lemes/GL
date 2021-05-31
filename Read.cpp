@@ -4,7 +4,7 @@ Read.cpp -  description
 début                : 05/2021
 copyright            : (C) 2021
 e-mail               : matthieu.moutot@insa-lyon.fr ;
-gustavo.giunco-bertoldi@insa-lyon.fr ;
+                       gustavo.giunco-bertoldi@insa-lyon.fr ;
 *************************************************************************/
 #include <iostream>
 #include <cstring>
@@ -16,6 +16,7 @@ gustavo.giunco-bertoldi@insa-lyon.fr ;
 #include <cmath>
 #include <limits>
 #include <climits>
+#include <bits/stdc++.h>
 #include "Read.h"
 #include "Date.h"
 using namespace std;
@@ -254,9 +255,47 @@ void Read :: readMeasurement(){
   }
 
 
-  // --------------------ancien statistics
+  //------------------------------------------------------------------------------
+    int Read::calculateSensorCoefficient(list<double> mySensorMeasurements)
+    {
+      return 0;
+    }
 
 
+
+  //------------------------------------------------------------------------------
+    list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
+    {
+        list<Sensor> neighbors; //list of sensors included in the radius provided
+        double oneDegree = (M_PI) / 180;
+
+        lat1 *=  oneDegree; //convert to radians
+        long1 *= oneDegree;
+
+        double lat2, long2, dlat, dlong;
+        double ans = 0; //in km
+        cout << "avant for" << endl;
+        for(Sensor it : sensorList){
+            lat2 = it.getLatitude() * oneDegree;
+            long2 = it.getLongitude() * oneDegree;
+
+            dlat = lat2 - lat1;
+            dlong = long2 - long1;
+
+            ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
+            ans = 2 * asin(sqrt(ans));
+            ans *= 6371; //radius of earth in km
+
+            if(ans <= radius){
+                neighbors.push_back(it);
+            }
+        }
+        cout << "#nb of neighbors: " << neighbors.size() << endl;
+        return neighbors;
+    }
+
+
+//-------Functionality 1 ------------------------------------------------------
   int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
   {
     list<Measurement> measurements;
@@ -352,17 +391,7 @@ void Read :: readMeasurement(){
 
 
 
-//------------------------------------------------------------------------------
-  int Read::calculateSensorCoefficient(list<double> mySensorMeasurements)
-  {
-    return 0;
-  }
-
-  list<Sensor> Read::findNeighbors(string sensorID, int radius)
-  {
-    list<Sensor> neighbors;
-    return neighbors;
-  }
+  //-------Functionality 2 ------------------------------------------------------
 
   /*TODO:
   **Définir si les données des mésures seront recuperées de la base lors
@@ -453,14 +482,14 @@ void Read :: readMeasurement(){
  }
 
 
-//------------------------------------------------------------------------------
+
+ //-------Functionality 3 ------------------------------------------------------
   bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
     list<Sensor> neighbors;
 
     float currentValNO2, currentValSO2, currentValO3, currentValPM10;
-    //float scoreLocation, scoreTime;
 
     float sumNO2 = 0;
     float sumSO2 = 0;
@@ -476,10 +505,19 @@ void Read :: readMeasurement(){
     int scoreTime = 4;
 
     // ------- LOCATION PART -------
-    neighbors = findNeighbors(sensorID, 5); //5km arbitraire fichier
+
+    //get lat and long from sensor
+    double lat1, long1;
+    for(Sensor s : sensorList){
+        if(s.getSensorID() == sensorID){
+            lat1 = s.getLatitude();
+            long1 = s.getLongitude();
+        }
+    }
+
+    neighbors = findNeighbors(lat1, long1, 5); //10km arbitraire fichier
 
     //add every measurement that is from the same date & from a neighboring sensor
-    //Lambda to use in find_if
     auto it =  measurementList.begin();
     const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
     for( ; it != measurementList.end(); ++it)
@@ -538,22 +576,24 @@ void Read :: readMeasurement(){
     cout << "avg N02 location: " << avgNO2 << endl;
 
     if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
-        scoreLocation++;
+        scoreLocation--;
     }
     if(currentValNO2 < (1-threshold)*avgNO2 || currentValNO2 > (1+threshold)*avgNO2){
-        scoreLocation++;
+        scoreLocation--;
     }
     if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2){
-        scoreLocation++;
+        scoreLocation--;
     }
     if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
-        scoreLocation++;
+        scoreLocation--;
     }
     cout << "score location before 1/0: " << scoreLocation << endl;
-    if(scoreLocation == 4){
+    if(scoreLocation < 4){
+        scoreLocation = 0;
+    }else if(scoreLocation == 4){
         scoreLocation = 1;
     }else{
-        scoreLocation = 0;
+        cout << "pb with scoreLocation" << endl;
     }
 
 
