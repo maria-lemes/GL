@@ -25,7 +25,7 @@ class Controller
 
     list<string> calculateSimilarity(string sensorID, Date startDate, Date endDate);
 
-    bool sensorSanityCheck(string sensorID, Date date, int threshold, int nbDays, int coeff);
+    bool sensorSanityCheck(string sensorID, Date date, float threshold);
 
 
 

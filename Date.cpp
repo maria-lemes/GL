@@ -119,6 +119,62 @@ bool Date::operator<(const Date & d1)
   }
 }
 
+bool Date::operator>(const Date & d1)
+{
+  if (getYear() > d1.getYear())
+  {
+    return true;
+} else if (getYear() < d1.getYear())
+  {
+    return false;
+  } else {
+    if (getMonth() > d1.getMonth())
+    {
+      return true;
+  } else if (getMonth() < d1.getMonth())
+    {
+      return false;
+    }
+    else{
+      if (getDay() > d1.getDay())
+      {
+        return true;
+    } else if (getDay() < d1.getDay())
+      {
+        return false;
+      }
+      else{
+        if (getHour() > d1.getHour())
+        {
+          return true;
+      } else if (getHour() < d1.getHour())
+        {
+          return false;
+        }
+        else{
+          if (getMinute() > d1.getMinute())
+          {
+            return true;
+        } else if (getMinute() < d1.getMinute())
+          {
+            return false;
+          }
+          else{
+            if (getSecond() > d1.getSecond())
+            {
+              return true;
+            } else
+            {
+              return false;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
 bool Date::operator==(const Date & d1)
 {
   return getYear()==d1.getYear() && getMonth()==d1.getMonth()
@@ -131,7 +187,7 @@ bool Date::operator<=(const Date & d1){
 }
 
 bool Date::operator>=(const Date & d1){
-  return(!((*this) < d1) || (*this) == d1);
+  return(!((*this) > d1) || (*this) == d1);
 }
 
 ostream& operator<<(ostream& os, const Date& dt) {
