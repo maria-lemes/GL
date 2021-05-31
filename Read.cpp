@@ -306,21 +306,12 @@ void Read :: readMeasurement(){
   int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
   {
     list<Measurement> measurements;
-    list<Sensor> sensors;
+    list<Sensor> neighbors;
 
-    if(sensors.empty())
-    {
-      for(auto it = getSensorList().begin(); it != getSensorList().end(); it++)
-      {
-        if( (it->getLatitude() < latitude+radius) && (it->getLongitude() < longitude+radius) )
-        {
-          sensors.push_back(*it);
-        }
-      }
-    }
+    neighbors = findNeighbors(latitude, longitude, radius);
 
     //Lambda to use in find_if
-    auto it = getMeasurementList().begin();
+    /*auto it = getMeasurementList().begin();
     const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
     if(measurements.empty())
     {
@@ -331,6 +322,13 @@ void Read :: readMeasurement(){
           measurements.push_back(*it);
         }
       }
+  }*/
+    for(Measurement m : measurementList){
+        for(Sensor s : neighbors){
+            if(m.getSensorID() == s.getSensorID() && m.getDate() == date){
+                measurements.push_back(m);
+            }
+        }
     }
 
     float sumNO2 = 0;

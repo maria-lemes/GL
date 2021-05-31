@@ -297,7 +297,7 @@ int main()
  }*/
 
     selectGov();
-<<<<<<< HEAD
+
     /*Date start(2010,1,1,0,0,0);
     Date end(2021,1,1,0,0,0);
     Read r;
@@ -306,9 +306,6 @@ int main()
     {
       cout << sensorId << endl;
   }*/
-=======
-
->>>>>>> 49a810b4d296a9ed0184156eb87744d335f738b4
 
 
 
