@@ -295,12 +295,14 @@ int main()
           goto menu;
       }*/
 
-  Read * r = new Read();
-  r -> readUser();
-  for (auto measurement : r -> getPrivateIndividualList())
-  {
-    cout << measurement.getUserID() << " || lat: " << measurement.getSensorID() << endl;
-    // " long: " << measurement.getLongitude() << "|| start : " << measurement.getStart() << "|| stop : " << measurement.getStop() << endl;
-  }
+  Read r;
+  list <PrivateIndividual> listP = r.getPrivateIndividualList();
+  listP.clear();
+  //r.readProvider();
+  listP = r.getPrivateIndividualList();
+	for(list<PrivateIndividual>::iterator it = listP.begin(); it != listP.end(); it++){
+		cout << (*it).getUserID() << endl;
+    cout << (*it).getSensorID() << endl;
+	}
   return 0;
 }

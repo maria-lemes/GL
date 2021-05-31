@@ -147,12 +147,10 @@ void Read :: readMeasurement(){
     string userID;
     string sensorID;
     int pointsAwarded;
-    list <PrivateIndividual> privateIndividualList = getPrivateIndividualList();
     if (monFlux){
       while (monFlux){
         getline(monFlux, userID, ';');
         getline(monFlux,sensorID, ';');
-
         try {
           PrivateIndividual * temporary = new PrivateIndividual(userID, sensorID, 0);
           privateIndividualList.push_back(*temporary);
