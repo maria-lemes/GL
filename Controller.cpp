@@ -17,6 +17,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <map>
 using namespace std;
 
 Read read;
@@ -25,7 +26,7 @@ Read read;
             return read.calculateAirQuality(latitude, longitude, radius, date);
     }
 
-    list <string> Controller::calculateSimilarity(string sensorID, Date startDate, Date endDate){
+    map <double,string> Controller::calculateSimilarity(string sensorID, Date startDate, Date endDate){
             return read.calculateSimilarity(sensorID, startDate, endDate);
     }
 

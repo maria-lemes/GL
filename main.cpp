@@ -176,12 +176,14 @@ int selectGov()
 
       endDate = new Date(year_end,month_end,day_end,hour_end,minute_end,second_end);
 
-      list <string> similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
+      map <double,string> similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
 
       cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
+      int i = 1;
       for(auto s : similarSensors)
       {
-        cout << s << endl;
+        cout << i << ". " << s.second << endl;
+        i++;
       }
 
       delete startDate;
