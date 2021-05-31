@@ -49,10 +49,9 @@ list<string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
 bool sensorSanityCheck(string sensorID, Date date, int threshold, int nbDays, int coeff);
 
 double calculateDistance(Sensor s1, Sensor s2);
-list<Sensor> getNeighbors(Sensor sensor, double radius);
 list <Measurement> getMeasurementsFromSensor (string sensorID) const;
 int calculateSensorCoefficient(list<double> mySensorMeasurements);
-list <Sensor> findNeighbors(string sensorID, int radius);
+list <Sensor> findNeighbors(double longitude, double latitude, double radius);
 };
 
 #endif // Read_H

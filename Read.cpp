@@ -89,10 +89,10 @@ void Read :: readMeasurement(){
         stoi(minute), stoi(second));
         measurementList.push_back(*(new Measurement(sensorID,attribute,
           stod(value), *tmp)));
-      } catch (const exception &e) {
+        } catch (const exception &e) {
           //Bad formated line - go to next
           monFlux.ignore();
-      }
+        }
 
       }
     }else {
@@ -101,7 +101,7 @@ void Read :: readMeasurement(){
 
   }
 
-  void Read :: readCleaner(){
+void Read :: readCleaner(){
     ifstream monFlux(cleanerPath);
     string cleanerID;
     string latitude;
@@ -130,8 +130,8 @@ void Read :: readMeasurement(){
           Cleaner * temporary = new Cleaner (cleanerID, stod(latitude), stod(longitude), start,stop);
           cleanerList.push_back(*temporary);
         } catch (const exception &e) {
-            //Bad formated line - go to next
-            monFlux.ignore();
+          //Bad formated line - go to next
+          monFlux.ignore();
         }
       }
     }else {
@@ -155,8 +155,8 @@ void Read :: readMeasurement(){
           privateIndividualList.push_back(*temporary);
         }
         catch (const exception &e) {
-            //Bad formated line - go to next
-            monFlux.ignore();
+          //Bad formated line - go to next
+          monFlux.ignore();
         }
       }
     }else {
@@ -177,8 +177,8 @@ void Read :: readMeasurement(){
           providerList.push_back(*temporary);
         }
         catch (const exception &e) {
-            //Bad formated line - go to next
-            monFlux.ignore();
+          //Bad formated line - go to next
+          monFlux.ignore();
         }
       }
     }else {
@@ -201,8 +201,8 @@ void Read :: readMeasurement(){
           attributeList.push_back(*temporary);
         }
         catch (const exception &e) {
-            //Bad formated line - go to next
-            monFlux.ignore();
+          //Bad formated line - go to next
+          monFlux.ignore();
         }
 
       }
@@ -347,11 +347,26 @@ void Read :: readMeasurement(){
     return 0;
   }
 
-  list<Sensor> Read::findNeighbors(string sensorID, int radius)
-  {
-    list<Sensor> neighbors;
-    return neighbors;
+
+/*
+We'll use the approximation of 1 degree difference in latitude/longitude
+corresponds to a 110Km difference.
+*/
+list<Sensor> Read::findNeighbors(double longitude, double latitude, double radius)
+{
+  list<Sensor> neighbors;// if one sensor corresponds to the coordinates given as parameters, it will also be included in this list
+
+  for(auto it = sensorList.begin(); it != sensorList.end(); it++){
+
+	  double deltalong = longitude-(it->getLongitude());
+	  double deltalat = latitude-(it->getLatitude());
+
+	  if((Math.sqrt(daltalong*deltalong-deltalat*deltalat)*110)<radius){
+		    neighbors.push_back(*it);
+	  }
   }
+  return neighbors;
+}
 
   /*TODO:
   **Définir si les données des mésures seront recuperées de la base lors
