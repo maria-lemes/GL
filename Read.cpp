@@ -118,7 +118,6 @@ void Read :: readMeasurement(){
     string inutile;
     Date start;
     Date stop;
-    string inutile;
     if (monFlux){
       while (monFlux){
         getline(monFlux, inutile,'\n');
@@ -332,14 +331,8 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
           measurements.push_back(*itM);
         }
       }
-  }*/
-    for(Measurement m : measurementList){
-        for(Sensor s : neighbors){
-            if(m.getSensorID() == s.getSensorID() && m.getDate() == date){
-                measurements.push_back(m);
-            }
-        }
     }
+  }
 
 
   float sumNO2 = 0.0;
