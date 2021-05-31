@@ -13,6 +13,7 @@ e-mail               : matthieu.moutot@insa-lyon.fr ;
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <cmath>
 #include <limits>
 #include <climits>
@@ -409,7 +410,7 @@ void Read :: readMeasurement(){
 
   **Définir le format de la date
   */
-  list<string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+  map<double,string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
   {
 
     list<Measurement> allMeasurements = getMeasurementList();
@@ -425,7 +426,7 @@ void Read :: readMeasurement(){
     //Measurements from the sensor whose id is passed in parameter
     list<Measurement> mySensorMeasurements;
 
-    list<string> similarSensors;
+    map<double, string> similarSensors;
 
     /*
     We search in all measurements for those produced in the period of time
@@ -440,7 +441,6 @@ void Read :: readMeasurement(){
         if (m.getSensorID() == sensorID)
         {
           mySensorMeasurements.push_back(m);
-
         }
         else
         {
@@ -482,15 +482,11 @@ void Read :: readMeasurement(){
       {
         similarity += abs(coef[i] - myCoef[i]);
       }
-      similarity /= 4;
 
-      //Verify if sensors are similar
-      if (similarity <= simTolerance)
-      {
-        //Push similar sensor's id to the list
-        similarSensors.push_back(m.first);
-      }
+      similarSensors.insert(make_pair(similarity,m.first));
+
     }
+
     return similarSensors;
  }
 
