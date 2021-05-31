@@ -2,9 +2,9 @@
 #include <string>
 #include <vector>
 #include <list>
-#include "Read.h"
+/*#include "Read.h"
 #include "Controller.h"
-#include "Admin.cpp"
+#include "Admin.cpp"*/
 
 #include "Read.cpp"
 #include "PrivateIndividual.cpp"
@@ -15,6 +15,7 @@
 #include "Controller.cpp"
 #include "Cleaner.cpp"
 #include "Attribute.cpp"
+#include "Admin.cpp"
 using namespace std;
 
 
@@ -295,17 +296,19 @@ int main()
         default:
           cerr << "Invalid choice. Please try again." << endl;
           goto menu;
-      }
-*/
-  Read r;
-  list <Cleaner> listP = r.getCleanerList();
-  listP.clear();
-  //r.readCleaner();
-  listP = r.getCleanerList();
-	for(list<Cleaner>::iterator it = listP.begin(); it != listP.end(); it++){
-    cout << "sensor : " << (*it).getCleanerID();
-    cout <<  " latitude : " << (*it).getLatitude();
-    cout <<  " longitude : " << (*it).getLongitude() << endl;
-	}
+      }*/
+
+  Read   r;
+  /*list <Measurement> listP = r.getMeasurementList();
+  listP.clear();*/
+  r.readMeasurement();
+  /*listP = r.getMeasurementList();
+	for(list<Measurement>::iterator it = listP.begin(); it != listP.end(); it++){
+    cout << " attribute : " << (*it).getAttribute();
+    cout <<  " date : " << (*it).getDate();
+    cout <<  " sensor : " << (*it).getSensorID();
+    cout << " value : " << (*it).getValue() << endl;*/
+
+	//}
   return 0;
 }

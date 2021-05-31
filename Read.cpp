@@ -79,7 +79,7 @@ void Read :: readMeasurement(){
   string inutile;
   if (monFlux){
     while (monFlux){
-      getline(monFlux, inutile,'\n');
+     // getline(monFlux, inutile,'\n');
       getline(monFlux, year,'-');
       getline(monFlux, month,'-');
       getline(monFlux, day,' ');
@@ -89,7 +89,10 @@ void Read :: readMeasurement(){
       getline(monFlux, sensorID, ';');
       getline(monFlux, attribute, ';');
       getline(monFlux, value,';');
-      monFlux.ignore();
+      cout << sensorID;
+      cout << attribute;
+      cout << value;
+    //  monFlux.ignore();
 
       try {
         //cout<<"Month: "<< stoi(month)<< endl;
