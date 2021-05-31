@@ -48,11 +48,7 @@ void Read::readSensor(){
   string latitude;
   string longitude;
   string inutile;
-<<<<<<< HEAD
-  if(monFlux){
-=======
   if (monFlux){
->>>>>>> fa00ad66173104adfd45dd6d21f5a434c6ab31a3
     while (monFlux){
       getline(monFlux, inutile,'\n');
       getline(monFlux, sensorID,';');
@@ -335,7 +331,6 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
           measurements.push_back(*itM);
         }
       }
-<<<<<<< HEAD
   }*/
     for(Measurement m : measurementList){
         for(Sensor s : neighbors){
@@ -343,8 +338,6 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
                 measurements.push_back(m);
             }
         }
-=======
->>>>>>> fa00ad66173104adfd45dd6d21f5a434c6ab31a3
     }
 
 
