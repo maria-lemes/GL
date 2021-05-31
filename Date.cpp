@@ -183,11 +183,11 @@ bool Date::operator==(const Date & d1)
 }
 
 bool Date::operator<=(const Date & d1){
-  return((*this) < d1 || (*this) == d1);
+  return (*this) < d1 || (*this)==d1;
 }
 
 bool Date::operator>=(const Date & d1){
-  return(!((*this) > d1) || (*this) == d1);
+  return (*this) > d1 || (*this)==d1;
 }
 
 ostream& operator<<(ostream& os, const Date& dt) {

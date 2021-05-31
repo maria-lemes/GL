@@ -147,10 +147,12 @@ void Read :: readMeasurement(){
     string userID;
     string sensorID;
     int pointsAwarded;
+    list <PrivateIndividual> privateIndividualList = getPrivateIndividualList();
     if (monFlux){
       while (monFlux){
         getline(monFlux, userID, ';');
         getline(monFlux,sensorID, ';');
+
         try {
           PrivateIndividual * temporary = new PrivateIndividual(userID, sensorID, 0);
           privateIndividualList.push_back(*temporary);
@@ -254,9 +256,16 @@ void Read :: readMeasurement(){
 
 
   //------------------------------------------------------------------------------
-    int Read::calculateSensorCoefficient(list<double> mySensorMeasurements)
+    void Read::calculateSensorCoefficient(list<Measurement> mySensorMeasurements, double * sums)
     {
-      return 0;
+      for (int i = 0; i < 4; i++) sums[i] = 0.0;
+
+      for (Measurement m : mySensorMeasurements)
+      {
+        sums[m.getAttribute()] += m.getValue();
+      }
+
+      for (int i = 0; i < 4; i++) sums[i] /= mySensorMeasurements.size();
     }
 
 
@@ -405,8 +414,6 @@ void Read :: readMeasurement(){
   {
 
     list<Measurement> allMeasurements = getMeasurementList();
-
-    cout<<"oi"<<endl;
     /*for (auto measurement :  allMeasurements)
       {
         cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
@@ -414,10 +421,10 @@ void Read :: readMeasurement(){
       }*/
 
     //Key : SensorID. Value : Sensor's measurements in the specified period list
-    unordered_map<string,list<double>> otherSensorsMeasurements;
+    unordered_map<string,list<Measurement>> otherSensorsMeasurements;
 
     //Measurements from the sensor whose id is passed in parameter
-    list<double> mySensorMeasurements;
+    list<Measurement> mySensorMeasurements;
 
     list<string> similarSensors;
 
@@ -426,15 +433,15 @@ void Read :: readMeasurement(){
     passed in parameter. When found, we add it to its sensor measurement vector
     in our measurements map.
     */
-
     for (Measurement m : allMeasurements)
     {
 
-      if (m.getDate()>=startDate && m.getDate() <= endDate)
+      if (m.getDate() >= startDate && m.getDate() <= endDate)
       {
         if (m.getSensorID() == sensorID)
         {
-          mySensorMeasurements.push_back(m.getValue());
+          mySensorMeasurements.push_back(m);
+
         }
         else
         {
@@ -443,21 +450,22 @@ void Read :: readMeasurement(){
           //Sensor id not in the map yet
           if (sensor == otherSensorsMeasurements.end())
           {
-            list<double> mList;
-            mList.push_back(m.getValue());
+            list<Measurement> mList;
+            mList.push_back(m);
             otherSensorsMeasurements.insert(make_pair(m.getSensorID(),mList));
           }
           else //Sensor's id found, add measurement value to its vector
           {
-            sensor -> second.push_back(m.getValue());
+            sensor -> second.push_back(m);
           }
         }
       }
     }
 
     //Similarity coefficient from the sensor passed in parameter
-    double mySensorCoef = calculateSensorCoefficient(mySensorMeasurements);
-    double simTolerance = 3; //EXAMPLE
+    double myCoef [4];
+    calculateSensorCoefficient(mySensorMeasurements, myCoef);
+    double simTolerance = 2.0; //EXAMPLE
 
     /*
     For each sensor and its measurements included in the specified period of
@@ -465,12 +473,20 @@ void Read :: readMeasurement(){
     it's included in the difined tolerance interval, the sensor is added
     to the similar sensors list.
     */
-    for (pair<string,list<double>> m : otherSensorsMeasurements)
+    for (pair<string,list<Measurement>> m : otherSensorsMeasurements)
     {
-      int coef = calculateSensorCoefficient(m.second);
+      double coef [4];
+      calculateSensorCoefficient(m.second,coef);
+      double similarity = 0;
+
+      for (int i = 0; i < 4; i++)
+      {
+        similarity += abs(coef[i] - myCoef[i]);
+      }
+      similarity /= 4;
 
       //Verify if sensors are similar
-      if (abs(mySensorCoef - coef) <= simTolerance)
+      if (similarity <= simTolerance)
       {
         //Push similar sensor's id to the list
         similarSensors.push_back(m.first);
@@ -513,10 +529,11 @@ void Read :: readMeasurement(){
         }
     }
 
-    neighbors = findNeighbors(lat1, long1, 5); //10km arbitraire fichier
+    neighbors = findNeighbors(lat1, long1, 100); //10km arbitraire fichier
+
 
     //add every measurement that is from the same date & from a neighboring sensor
-    auto it =  measurementList.begin();
+    /*auto it =  measurementList.begin();
     const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
     for( ; it != measurementList.end(); ++it)
     {
@@ -539,7 +556,31 @@ void Read :: readMeasurement(){
           currentValPM10 = it -> getValue();
         }
       }
+  }*/
+    //alternative moins performante
+    for(Measurement m : measurementList){
+        for(Sensor s : neighbors){
+            if(s.getSensorID() == m.getSensorID() && m.getDate() == date){
+                localMeasurements.push_back(m);
+            }
+        }
+        if(m.getSensorID() == sensorID && m.getDate() == date){
+            if(m.getAttribute() == NO2){
+              currentValNO2 = m.getValue();
+            }
+            if(m.getAttribute() == SO2){
+              currentValSO2 = m.getValue();
+            }
+            if(m.getAttribute() == O3){
+              currentValO3 = m.getValue();
+            }
+            if(m.getAttribute() == PM10){
+              currentValPM10 = m.getValue();
+            }
+        }
     }
+
+
     cout << "--------------------------" << endl;
     cout << "currentValNO2: " << currentValNO2 << endl;
     cout << "currentValSO2: " << currentValSO2 << endl;
