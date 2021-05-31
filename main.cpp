@@ -298,6 +298,14 @@ int main()
 
     selectGov();
 
+    /*Date start(2010,1,1,0,0,0);
+    Date end(2021,1,1,0,0,0);
+    Read r;
+
+    for (string sensorId : r.calculateSimilarity("Sensor0",start,end))
+    {
+      cout << sensorId << endl;
+  }*/
 
 
 

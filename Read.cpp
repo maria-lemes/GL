@@ -47,7 +47,6 @@ void Read::readSensor(){
   string sensorID;
   string latitude;
   string longitude;
-  string inutile;
   if (monFlux){
     while (monFlux){
       getline(monFlux, inutile,'\n');
@@ -284,7 +283,6 @@ void Read :: readMeasurement(){
 
         double lat2, long2, dlat, dlong;
         double ans = 0; //in km
-        cout << "avant for" << endl;
         for(Sensor it : sensorList){
             lat2 = it.getLatitude() * oneDegree;
             long2 = it.getLongitude() * oneDegree;
@@ -324,6 +322,13 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
           measurements.push_back(*itM);
         }
       }
+  }*/
+    for(Measurement m : measurementList){
+        for(Sensor s : sensors){
+            if(m.getSensorID() == s.getSensorID() && m.getDate() == date){
+                measurements.push_back(m);
+            }
+        }
     }
   }
 
@@ -485,12 +490,21 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
  }
 
 
+/*bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
+    for(Sensor s : neighbors){
+        if(s.getSensorID() == sensorID){
+            return true;
+        }
+    }
+    return false;
+}*/
 
  //-------Functionality 3 ------------------------------------------------------
   bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
     list<Sensor> neighbors;
+    list<string> neighborsID;
 
     float currentValNO2, currentValSO2, currentValO3, currentValPM10;
 
@@ -520,6 +534,13 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
 
     neighbors = findNeighbors(lat1, long1, 100); //10km arbitraire fichier
 
+    for(Sensor s : neighbors){
+        neighborsID.push_back(s.getSensorID());
+    }
+
+    for(string s : neighborsID){
+        cout << s << endl;
+    }
 
     //add every measurement that is from the same date & from a neighboring sensor
     /*auto it =  measurementList.begin();
@@ -546,10 +567,33 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
         }
       }
   }*/
-    //alternative moins performante
+
+    /*//alternative moins performante
     for(Measurement m : measurementList){
-        for(Sensor s : neighbors){
-            if(s.getSensorID() == m.getSensorID() && m.getDate() == date){
+        if( find  && m.getDate() == date){
+            localMeasurements.push_back(m);
+        }
+        if(m.getSensorID() == sensorID && m.getDate() == date){
+            if(m.getAttribute() == NO2){
+              currentValNO2 = m.getValue();
+            }
+            if(m.getAttribute() == SO2){
+              currentValSO2 = m.getValue();
+            }
+            if(m.getAttribute() == O3){
+              currentValO3 = m.getValue();
+            }
+            if(m.getAttribute() == PM10){
+              currentValPM10 = m.getValue();
+            }
+        }
+    }*/
+    /*auto n_begin = neighborsID.begin();
+    auto n_end = neighborsID.end();*/
+
+    for(Measurement m : measurementList){
+        for(string s : neighborsID){
+            if( m.getSensorID() == s && m.getDate() == date){
                 localMeasurements.push_back(m);
             }
         }
@@ -578,6 +622,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
 
     cout << endl;
     cout << "nb of measurements in locationM: " << localMeasurements.size() << endl;
+    cout << "nb of measurements in measurementList: " << measurementList.size() << endl;
 
     //calculate local average for every attribute
     for(Measurement m : localMeasurements){
