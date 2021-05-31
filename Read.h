@@ -56,7 +56,7 @@ list<Attribute> getAttributeList() const;
 
 //anciennement dans Statistics
 int calculateAirQuality(float latitude, float longitude, int radius , Date date);
-map<double,string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
+multimap<double,string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
 bool sensorSanityCheck(string sensorID, Date date, float threshold);
 
 //bool isInNeighbors(list<Sensor> neighbors, string sensorID);
