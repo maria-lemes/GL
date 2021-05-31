@@ -263,7 +263,7 @@ void selectIndividual()
 int main()
 {
 
-   /*int choice;
+   int choice;
     menu:
       cout << "Please select your role : " << endl;
       cout << "\t1- Government Agency" << endl;
@@ -293,9 +293,9 @@ int main()
         default:
           cerr << "Invalid choice. Please try again." << endl;
           goto menu;
-      }*/
+      }
 
-  Read r;
+ /* Read r;
   list <PrivateIndividual> listP = r.getPrivateIndividualList();
   listP.clear();
   //r.readProvider();
@@ -303,6 +303,6 @@ int main()
 	for(list<PrivateIndividual>::iterator it = listP.begin(); it != listP.end(); it++){
 		cout << (*it).getUserID() << endl;
     cout << (*it).getSensorID() << endl;
-	}
+	}*/
   return 0;
 }
