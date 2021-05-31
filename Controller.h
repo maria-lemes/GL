@@ -23,7 +23,7 @@ class Controller
 
     int calculateAirQuality(float latitude, float longitude, int radius, Date date);
 
-    list<string> calculateSimilarity(string sensorID, Date startDate, Date endDate);
+    map<double,string> calculateSimilarity(string sensorID, Date startDate, Date endDate);
 
     bool sensorSanityCheck(string sensorID, Date date, float threshold);
 

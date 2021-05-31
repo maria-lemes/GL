@@ -7,6 +7,7 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include <map>
 #include "Attribute.h"
 #include "Cleaner.h"
 #include "Measurement.h"
@@ -45,7 +46,7 @@ list<Attribute> getAttributeList() const;
 
 //anciennement dans Statistics
 int calculateAirQuality(float latitude, float longitude, int radius , Date date);
-list<string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
+map<double,string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
 bool sensorSanityCheck(string sensorID, Date date, float threshold);
 
 list <Measurement> getMeasurementsFromSensor (string sensorID) const;
