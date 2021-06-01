@@ -39,6 +39,9 @@ int selectGov()
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
 
+      const string qualityTable[] = {"Really Good","Really Good", "Good","Good",
+       "Average", "Poor", "Poor", "Bad", "Bad" ,"Really Bad"};
+
       float latitude;
       float longitude;
       int radius;
@@ -51,7 +54,7 @@ int selectGov()
       cout << "Please enter the longitude of the location :" << endl;
       cin >> longitude;
 
-      cout << "Please enter the radius to define the circular area (with the chosen location as center) :" << endl;
+      cout << "Please enter the radius to define the circular area (in kilometers) :" << endl;
       cin >> radius;
 
       cout << "Would you like to obtain the results for a given moment or a specified period of time?" << endl;
@@ -75,8 +78,9 @@ int selectGov()
       int minute = stoi(timeInput.substr(3,2));
 
       myDate = new Date(year,month,day,hour,minute);
-      int index = controller->calculateAirQuality(latitude, longitude, radius, *myDate);
-      cout << "The air quality is: " <<  index << endl;
+      Date * endDate = new Date();
+      int index = controller->calculateAirQuality(latitude, longitude, radius, *myDate, *endDate, timeChoice);
+      cout << "The air quality is: " << qualityTable[index] << endl;
 
       goto menu;
 
@@ -108,6 +112,10 @@ int selectGov()
       minute = stoi(timeInput.substr(3,2));
 
       Date * myEndingDate = new Date(year,month,day,hour,minute);
+
+      int index = controller->calculateAirQuality(latitude, longitude, radius, *myStartDate, *myEndingDate, timeChoice);
+
+      cout << "The air quality is: " <<  qualityTable[index] << endl;
 
       goto menu;
 

@@ -5,6 +5,7 @@ début                : 05/2021
 copyright            : (C) 2021
 e-mail               : matthieu.moutot@insa-lyon.fr ;
 gustavo.giunco-bertoldi@insa-lyon.fr ;
+maria.zenlemes@insa-lyon.fr
 *************************************************************************/
 #include <iostream>
 #include <cstring>
@@ -384,29 +385,35 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
     ans = 2 * asin(sqrt(ans));
     ans *= 6371; //radius of earth in km
 
-    if(ans <= radius){
-      neighbors.push_back(it);
+            if(ans <= radius){
+                neighbors.push_back(it);
+            }
+        }
+        //cout << "#nb of neighbors: " << neighbors.size() << endl;
+        return neighbors;
     }
-  }
-  cout << "#nb of neighbors: " << neighbors.size() << endl;
-  return neighbors;
-}
+
 
 //-------Functionality 1 ------------------------------------------------------
-int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption)
 {
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
 
-  for( Sensor s : neighbors ){
-    cout<<s.getSensorID()<<endl;
-    for(Measurement m : measurementList)
-    {
-      if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
-        measurements.push_back(m);
+    for( Sensor s : neighbors ){
+      for(Measurement m : measurementList)
+      {
+         if(timeOption == 1){
+            if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
+              measurements.push_back(m);
+            }
+         }else if(timeOption == 2){
+            if(s.getSensorID() == m.getSensorID() && (m.getDate() >= date) && (m.getDate() >= endDate)){
+                measurements.push_back(m);
+            }
+         }
+        }
       }
-    }
-  }
 
 
   float sumNO2 = 0.0;
