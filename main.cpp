@@ -179,7 +179,7 @@ int selectGov()
 
       multimap<double,string> similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
 
-      cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
+      cout << "Here is the sensor's ranking from the most similar to the less similar to the sensor chosen :" << endl;
       int i = 1;
       for(auto s : similarSensors)
       {
@@ -198,7 +198,7 @@ int selectGov()
 
 
       float threshold;
-      /*int nbDays;
+      int nbDays;
       int coeff;
 
       cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
@@ -214,31 +214,31 @@ int selectGov()
       cin >> timeInput;
       int hour = stoi(timeInput.substr(0,2));
       int minute = stoi(timeInput.substr(3,2));
-      int second = stoi(timeInput.substr(6,2));*/
+      int second = stoi(timeInput.substr(6,2));
 
-      //myDate = new Date(year,month,day,hour,minute,second);
-      myDate = new Date(2019,01,15,12,00,00);
+      myDate = new Date(year,month,day,hour,minute,second);
+      //myDate = new Date(2019,01,15,12,00,00);
 
       cout << "Please input the threshold of discrepancy allowed (in %) :" << endl;
       cin >> threshold;
 
-      /*cout << "Please input the number of days during which data are imported for the time comparison" << endl;
+      cout << "Please input the number of days during which data are imported for the time comparison" << endl;
       cin >> nbDays;
 
       cout << "Please input the preferred factor to evaluate the consistency of this sensor's data :" << endl;
       cout << "\t0- Data from neighboring sensors " << endl;
       cout << "\t1- Time" << endl;
-      cin >> coeff;*/
+      cin >> coeff;
 
-      //bool validity = controller->sensorSanityCheck(sensorID, *myDate, threshold/100);
-      bool validity = controller->sensorSanityCheck("Sensor0", *myDate, threshold/100);
+      bool validity = controller->sensorSanityCheck(sensorID, *myDate, threshold/100);
+      //bool validity = controller->sensorSanityCheck("Sensor0", *myDate, threshold/100);
 
-      /*if (validity)
+      if (validity)
       {
         cout << "The data provided by the sensor is valid." << endl;
       } else {
         cout << "The data provided by the sensor is NOT reliable." << endl;
-    }*/
+    }
 
       delete myDate;
 
@@ -298,7 +298,7 @@ int main()
           goto menu;
       }
 
-  Read *r = new Read();;
+ /* Read *r = new Read();;
   list <Measurement> listP = r->getMeasurementList();
   //listP.clear();
   //r.readMeasurement();
@@ -310,6 +310,6 @@ int main()
     cout <<  " sensor : " << (*it).getSensorID();
     cout << " value : " << (*it).getValue() << endl;
 
-	}
+	}*/
   return 0;
 }
