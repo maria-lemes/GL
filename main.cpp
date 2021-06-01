@@ -5,7 +5,6 @@
 #include "Read.h"
 #include "Controller.h"
 #include "Admin.h"
-#include "Date.h"
 using namespace std;
 
 
@@ -247,6 +246,7 @@ void selectIndividual()
 int main()
 {
 
+/*
    int choice;
     menu:
       cout << "Please select your role : " << endl;
@@ -278,7 +278,7 @@ int main()
           cerr << "Invalid choice. Please try again." << endl;
           goto menu;
       }
-
-
+*/
+  selectGov();
   return 0;
 }
