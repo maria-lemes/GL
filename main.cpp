@@ -296,7 +296,19 @@ int main()
      " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
  }*/
 
-    selectGov();
+    //selectGov();
+
+    Read * r = new Read();
+    cout << "=====Liste de sensors======" << endl;
+    for (Sensor s : r -> getSensorList())
+    {
+      cout << s.getSensorID() << " - " << s.getLatitude() << " ; " << s.getLongitude() << endl;
+    }
+
+    for (Measurement m : r -> getMeasurementList())
+    {
+      cout << m.getSensorID() << " - " << m.getAttribute() << " ; " << m.getValue() << " - " << m.getDate() << endl;
+    }
 
     /*Date start(2010,1,1,0,0,0);
     Date end(2021,1,1,0,0,0);
