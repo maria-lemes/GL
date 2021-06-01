@@ -328,7 +328,7 @@ list<PrivateIndividual> Read::getPrivateIndividualList() const{
   return privateIndividualList;
 }
 
-Sensor * Read::getSensorFromId(string sensorId) const
+Sensor * Read::getSensorFromId(const string& sensorId) const
 {
   for (Sensor s : sensorList)
   {
@@ -561,6 +561,8 @@ multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(str
     pair<double,double> coordinates(s -> getLatitude(), s -> getLongitude());
     pair<string,pair<double,double> > sensorData(s -> getSensorID(),coordinates);
     similarSensors.insert(make_pair(similarity,sensorData));
+    s -> ~Sensor();
+
   }
 
   return similarSensors;
