@@ -2,20 +2,9 @@
 #include <string>
 #include <vector>
 #include <list>
-/*#include "Read.h"
+#include "Read.h"
 #include "Controller.h"
-#include "Admin.cpp"*/
-
-#include "Read.cpp"
-#include "PrivateIndividual.cpp"
-#include "Sensor.cpp"
-#include "Provider.cpp"
-#include "Measurement.cpp"
-#include "Date.cpp"
-#include "Controller.cpp"
-#include "Cleaner.cpp"
-#include "Attribute.cpp"
-#include "Admin.cpp"
+#include "Admin.h"
 using namespace std;
 
 
@@ -300,7 +289,13 @@ int main()
       }
 */
 
-  Read *r = new Read();;
-  for (Sensor s : r -> getSensor)
+  Read *r = new Read();
+  cout << "Size : " << r -> getAttributeList().size() << endl;
+  for (Attribute a : r -> getAttributeList())
+  {
+    cout << a.getAttributeID() << endl;
+    cout << a.getUnit() << endl;
+    cout << a.getDescription() << endl;
+  }
   return 0;
 }
