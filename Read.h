@@ -53,10 +53,11 @@ list<Cleaner> getCleanerList()const;
 list<PrivateIndividual> getPrivateIndividualList() const;
 list<Provider> getProviderList() const;
 list<Attribute> getAttributeList() const;
+Sensor * getSensorFromId(string sensorId) const;
 
 //anciennement dans Statistics
 int calculateAirQuality(float latitude, float longitude, int radius , Date date);
-multimap<double,string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
+multimap<double,pair<string,pair<double,double> > > calculateSimilarity(string sensorID, Date StartDate, Date endDate);
 bool sensorSanityCheck(string sensorID, Date date, float threshold);
 
 //bool isInNeighbors(list<Sensor> neighbors, string sensorID);

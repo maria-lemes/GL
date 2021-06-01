@@ -18,6 +18,8 @@ class Sensor
 
 public:
 
+    Sensor();
+
     Sensor(string id, double lat, double lon);
 
     Sensor(const Sensor & oneSensor);
@@ -27,7 +29,7 @@ public:
     double getLatitude();
 
     double getLongitude();
-  
+
 
 private:
         string sensorID;

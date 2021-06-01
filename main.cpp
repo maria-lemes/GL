@@ -159,13 +159,15 @@ int selectGov()
 
       endDate = new Date(year_end,month_end,day_end,hour_end,minute_end);
 
-      multimap<double,string> similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
+      multimap<double,pair<string,pair<double,double> > > similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
 
       cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
       int i = 1;
       for(auto s : similarSensors)
       {
-        cout << i << ". " << s.second << endl;
+        cout << i << ". " << s.second.first << " - Located at : "
+        << s.second.second.first << "°, " << s.second.second.second << "°"
+        << endl;
         i++;
       }
 
