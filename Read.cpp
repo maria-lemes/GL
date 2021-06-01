@@ -41,10 +41,6 @@ Read::Read()
   readProvider();
 }
 
-Read:: ~Read() {
-  
-}
-
 void Read::readSensor(){
   ifstream monFlux;
   monFlux.open(sensorPath);
@@ -54,18 +50,17 @@ void Read::readSensor(){
   string inutile;
   if (monFlux){
     while (monFlux){
-      getline(monFlux, inutile,'\n');
       getline(monFlux, sensorID,';');
-      getline(monFlux, latitude,';');
-      getline(monFlux, longitude,';');
-      Sensor *  temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
+      getline(monFlux,latitude,';');
+      getline(monFlux,longitude,';');
+      getline(monFlux,inutile,'\n');
+      Sensor * temporary = new Sensor (sensorID,stod(latitude),stod(longitude));
       sensorList.push_back(*temporary);
 
     }
   }  else {
     cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
   }
-
 }
 
 void Read :: readMeasurement(){
@@ -81,25 +76,19 @@ void Read :: readMeasurement(){
   string attribute;
   string value;
   string inutile;
-  //cout << "yoo";
   if (monFlux){
-    //cout << "yi";
     while (monFlux){
-     // getline(monFlux, inutile,'\n');
-      getline(monFlux, day,'/');
-      getline(monFlux, month,'/');
-      getline(monFlux, year,' ');
+      getline(monFlux, inutile,'\n');
+      getline(monFlux, year,'-');
+      getline(monFlux, month,'-');
+      getline(monFlux, day,' ');
       getline(monFlux, hour,':');
       getline(monFlux, minute,':');
       getline(monFlux, second,';');
       getline(monFlux, sensorID, ';');
       getline(monFlux, attribute, ';');
       getline(monFlux, value,';');
-      //getline(monFlux, inutile,'\n');
-     /* cout << sensorID;
-      cout << attribute;
-      cout << value;*/
-     // monFlux.ignore();
+      getline(monFlux,inutile,'\n');
 
       try {
         //cout<<"Month: "<< stoi(month)<< endl;
@@ -137,6 +126,7 @@ void Read :: readMeasurement(){
         getline(monFlux,longitude, ';');
         getline(monFlux,timestart,';');
         getline(monFlux,timestop,';');
+        getline(monFlux,inutile,'\n');
 
         try {
           start = *(new Date(stoi(timestart.substr(0,4)),stoi(timestart.substr(5,2)),
@@ -329,26 +319,20 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
 
-  /*for(auto itM = measurementList.begin(); itM != measurementList.end(); ++itM)
+
+  for(auto itM = measurementList.begin(); itM != measurementList.end(); ++itM)
   {
     if (itM -> getDate() == date)
     {
       for (Sensor s : neighbors)
       {
-
         if (s.getSensorID().compare(itM -> getSensorID()) == 0)
         {
           measurements.push_back(*itM);
         }
       }
-  }*/
-    for(Measurement m : measurementList){
-        for(Sensor s : neighbors){
-            if(m.getSensorID() == s.getSensorID() && m.getDate() == date){
-                measurements.push_back(m);
-            }
-        }
     }
+  }
 
 
   float sumNO2 = 0.0;
@@ -430,20 +414,9 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
   */
   multimap<double,string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
   {
-
-    list<Measurement> allMeasurements = getMeasurementList();
-    /*for (auto measurement :  allMeasurements)
-      {
-        cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
-         " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
-      }*/
-
-    //Key : SensorID. Value : Sensor's measurements in the specified period list
     unordered_map<string,list<Measurement>> otherSensorsMeasurements;
-
     //Measurements from the sensor whose id is passed in parameter
     list<Measurement> mySensorMeasurements;
-
     multimap<double, string> similarSensors;
 
     /*
@@ -451,7 +424,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
     passed in parameter. When found, we add it to its sensor measurement vector
     in our measurements map.
     */
-    for (Measurement m : allMeasurements)
+    for (Measurement m : measurementList)
     {
 
       if (m.getDate() >= startDate && m.getDate() <= endDate)
