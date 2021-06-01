@@ -302,6 +302,7 @@ int main()
   list <Measurement> listP = r->getMeasurementList();
   //listP.clear();
   //r.readMeasurement();
+  //delete(r);
   listP = r->getMeasurementList();
 	for(list<Measurement>::iterator it = listP.begin(); it != listP.end(); it++){
     cout << " attribute : " << (*it).getAttribute();

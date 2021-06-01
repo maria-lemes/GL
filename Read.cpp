@@ -41,6 +41,29 @@ Read::Read()
   readProvider();
 }
 
+Read :: ~Read () {
+    //delete all the elements of the lists
+    for(list<Measurement>::iterator it = measurementList.begin(); it != measurementList.end(); ++it){
+      measurementList.erase(it);
+    }
+
+    for(auto it = cleanerList.begin(); it != cleanerList.end(); ++it){
+      cleanerList.erase(it);
+    }
+
+    for(auto it = providerList.begin(); it != providerList.end(); ++it){
+      providerList.erase(it);
+    }
+
+    for(auto it = attributeList.begin(); it != attributeList.end(); ++it){
+      attributeList.erase(it);
+    }
+
+    for(auto it = privateIndividualList.begin(); it != privateIndividualList.end(); ++it){
+      privateIndividualList.erase(it);
+    }
+
+}
 void Read::readSensor(){
   ifstream monFlux;
   monFlux.open(sensorPath);
@@ -78,7 +101,7 @@ void Read :: readMeasurement(){
   string inutile;
   if (monFlux){
     while (monFlux){
-      getline(monFlux, inutile,'\n');
+     // getline(monFlux, inutile,'\n');
       getline(monFlux, year,'-');
       getline(monFlux, month,'-');
       getline(monFlux, day,' ');
@@ -88,7 +111,7 @@ void Read :: readMeasurement(){
       getline(monFlux, sensorID, ';');
       getline(monFlux, attribute, ';');
       getline(monFlux, value,';');
-      getline(monFlux,inutile,'\n');
+    //  getline(monFlux,inutile,'\n');
 
       try {
         //cout<<"Month: "<< stoi(month)<< endl;
