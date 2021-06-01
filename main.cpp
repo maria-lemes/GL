@@ -255,7 +255,7 @@ void selectIndividual()
 int main()
 {
 
-   /* int choice;
+   /*int choice;
     menu:
       cout << "Please select your role : " << endl;
       cout << "\t1- Government Agency" << endl;
@@ -295,7 +295,19 @@ int main()
      " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
  }*/
 
-    Read * r = new Read();
+  Read *r = new Read();;
+  list <Measurement> listP = r->getMeasurementList();
+  //listP.clear();
+  //r.readMeasurement();
+  //delete(r);
+  listP = r->getMeasurementList();
+	for(list<Measurement>::iterator it = listP.begin(); it != listP.end(); it++){
+    cout << " attribute : " << (*it).getAttribute();
+    cout <<  " date : " << (*it).getDate();
+    cout <<  " sensor : " << (*it).getSensorID();
+    cout << " value : " << (*it).getValue() << endl;
+
+	}
     Date * d = new Date(2019,02,05,12);
     cout << r->calculateAirQuality(44, 3.9,100, *d)<<endl;
 
