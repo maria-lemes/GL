@@ -498,7 +498,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+multimap<double,pair<string,pair<double,double>>> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
 {
   unordered_map<string,list<Measurement>> otherSensorsMeasurements;
   //Measurements from the sensor whose id is passed in parameter
