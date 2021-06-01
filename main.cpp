@@ -2,10 +2,20 @@
 #include <string>
 #include <vector>
 #include <list>
-#include "Read.h"
+/*#include "Read.h"
 #include "Controller.h"
-#include "Admin.h"
-#include "Date.h"
+#include "Admin.cpp"*/
+
+#include "Read.cpp"
+#include "PrivateIndividual.cpp"
+#include "Sensor.cpp"
+#include "Provider.cpp"
+#include "Measurement.cpp"
+#include "Date.cpp"
+#include "Controller.cpp"
+#include "Cleaner.cpp"
+#include "Attribute.cpp"
+#include "Admin.cpp"
 using namespace std;
 
 
@@ -256,7 +266,8 @@ void selectIndividual()
 int main()
 {
 
-   /*int choice;
+/*
+   int choice;
     menu:
       cout << "Please select your role : " << endl;
       cout << "\t1- Government Agency" << endl;
@@ -286,40 +297,10 @@ int main()
         default:
           cerr << "Invalid choice. Please try again." << endl;
           goto menu;
-      }*/
+      }
+*/
 
-  /*Read * r = new Read();
-  r -> readMeasurement();
-  for (auto measurement : r -> getMeasurementList())
-  {
-    cout << measurement.getDate() << " || sensorID: " << measurement.getSensorID() <<
-     " attribute: " << measurement.getAttribute() << "|| value" << measurement.getValue() << endl;
- }*/
-
-    //selectGov();
-
-    Read * r = new Read();
-    cout << "=====Liste de sensors======" << endl;
-    for (Sensor s : r -> getSensorList())
-    {
-      cout << s.getSensorID() << " - " << s.getLatitude() << " ; " << s.getLongitude() << endl;
-    }
-
-    for (Measurement m : r -> getMeasurementList())
-    {
-      cout << m.getSensorID() << " - " << m.getAttribute() << " ; " << m.getValue() << " - " << m.getDate() << endl;
-    }
-
-    /*Date start(2010,1,1,0,0,0);
-    Date end(2021,1,1,0,0,0);
-    Read r;
-
-    for (string sensorId : r.calculateSimilarity("Sensor0",start,end))
-    {
-      cout << sensorId << endl;
-  }*/
-
-
-
+  Read *r = new Read();;
+  for (Sensor s : r -> getSensor)
   return 0;
 }
