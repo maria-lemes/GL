@@ -74,8 +74,9 @@ void Read::readSensor(){
       sensorID.clear(); latitude.clear(); longitude.clear();
     }
   }  else {
-    cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+    cout << "Error: File could not be opened" << endl;
   }
+
 }
 
 /*
@@ -130,7 +131,7 @@ void Read :: readMeasurement(){
 
     }
   } else {
-    cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+    cout << "Error: File could not be opened" << endl;
   }
 
 }
@@ -189,7 +190,7 @@ void Read :: readCleaner(){
       }
     }
   }else {
-    cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+    cout << "Error: File could not be opened" << endl;
   }
 }
 
@@ -219,7 +220,7 @@ void Read :: readUser(){
       }
     }
   }else {
-    cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+    cout << "Error: File could not be opened" << endl;
   }
 }
 
@@ -248,7 +249,7 @@ void Read :: readProvider(){
       }
     }
   }else {
-    cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+    cout << "Error: File could not be opened" << endl;
   }
 }
 
@@ -278,7 +279,7 @@ void Read :: readAttribute(){
       }
     }
   }else {
-    cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+    cout << "Error: File could not be opened" << endl;
   }
 }
 
@@ -360,14 +361,34 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
     lat2 = it.getLatitude() * oneDegree;
     long2 = it.getLongitude() * oneDegree;
 
-    dlat = lat2 - lat1;
-    dlong = long2 - long1;
+  //------------------------------------------------------------------------------
+    list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
+    {
+        list<Sensor> neighbors; //list of sensors included in the radius provided
+        double oneDegree = (M_PI) / 180;
 
-    ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
-    ans = 2 * asin(sqrt(ans));
-    ans *= 6371; //radius of earth in km
-    if(ans <= radius){
-      neighbors.push_back(it);
+        lat1 *=  oneDegree; //convert to radians
+        long1 *= oneDegree;
+
+        double lat2, long2, dlat, dlong;
+        double ans = 0; //in km
+        for(Sensor it : sensorList){
+            lat2 = it.getLatitude() * oneDegree;
+            long2 = it.getLongitude() * oneDegree;
+
+            dlat = lat2 - lat1;
+            dlong = long2 - long1;
+
+            ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
+            ans = 2 * asin(sqrt(ans));
+            ans *= 6371; //radius of earth in km
+
+            if(ans <= radius){
+                neighbors.push_back(it);
+            }
+        }
+        cout << "#nb of neighbors: " << neighbors.size() << endl;
+        return neighbors;
     }
   }
   cout << "#nb of neighbors: " << neighbors.size() << endl;
@@ -381,20 +402,15 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
 
-
-  for(auto itM = measurementList.begin(); itM != measurementList.end(); ++itM)
-  {
-    if (itM -> getDate() == date)
-    {
-      for (Sensor s : neighbors)
+    for( Sensor s : neighbors ){
+        cout<<s.getSensorID()<<endl;
+      for(Measurement m : measurementList)
       {
-        if (s.getSensorID().compare(itM -> getSensorID()) == 0)
-        {
-          measurements.push_back(*itM);
+            if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
+              measurements.push_back(m);
+            }
         }
       }
-    }
-  }
 
 
   float sumNO2 = 0.0;

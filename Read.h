@@ -17,6 +17,16 @@
 #include "Date.h"
 using namespace std;
 
+enum AirQuality {ReallyGood, Good, Average, Poor, Bad ,ReallyBad};
+/*
+  ReallyGood : 0
+  Good : 1
+  Average : 2
+  Poor : 3
+  Bad : 4
+  ReallyBad : 5
+*/
+
 class Read
 {
 
