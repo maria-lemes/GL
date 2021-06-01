@@ -368,6 +368,7 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
 
   list<Sensor> neighbors; //list of sensors included in the radius provided
   double oneDegree = (M_PI) / 180;
+  double R = 6372.795477598;
 
   lat1 *=  oneDegree; //convert to radians
   long1 *= oneDegree;
@@ -375,31 +376,35 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
   double lat2, long2, dlat, dlong;
   double ans = 0; //in km
   for(Sensor it : sensorList){
-    lat2 = it.getLatitude() * oneDegree;
-    long2 = it.getLongitude() * oneDegree;
+   lat2 = it.getLatitude() * oneDegree;
+   long2 = it.getLongitude() * oneDegree;
+    //ans = R * acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long1-long2));
+    dlat = (lat2 - lat1);
+    dlong =( long2 - long1);
+    float latSin = sin ((lat2-lat1)/2);
+    float lonSin = sin ((long2 - long1)/2);
 
-    dlat = lat2 - lat1;
-    dlong = long2 - long1;
-
-    ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
-    ans = 2 * asin(sqrt(ans));
-    ans *= 6371; //radius of earth in km
-
-            if(ans <= radius){
-                neighbors.push_back(it);
-            }
-        }
+    //ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
+    ans = 2 * asin(sqrt((latSin*latSin) + cos(lat1)*cos(lat2)*(lonSin*lonSin)));
+    ans *= R; //radius of earth in km*/
+    // this enables us to keep our sensor when the radius is at 0 (else it will tell us that there are no neighbouring sensors due to a bad approximation)
+    if (ans < 0.1){
+      ans = 0;
+    }
+    if(ans <= radius){
+      neighbors.push_back(it);
+    }
+  }
         //cout << "#nb of neighbors: " << neighbors.size() << endl;
         return neighbors;
     }
 
 
 //-------Functionality 1 ------------------------------------------------------
-int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption)
+int Read::calculateAirQuality(float latitude, float longitude, double radius, Date date, Date endDate, int timeOption)
 {
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
-
     for( Sensor s : neighbors ){
       for(Measurement m : measurementList)
       {
@@ -408,7 +413,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
               measurements.push_back(m);
             }
          }else if(timeOption == 2){
-            if(s.getSensorID() == m.getSensorID() && (m.getDate() >= date) && (m.getDate() >= endDate)){
+            if(s.getSensorID() == m.getSensorID() && (m.getDate() <= date) && (m.getDate() >= endDate)){
                 measurements.push_back(m);
             }
          }

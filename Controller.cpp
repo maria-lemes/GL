@@ -22,8 +22,8 @@ using namespace std;
 
 Read read;
 
-int Controller::calculateAirQuality(float latitude, float longitude, int radius, Date startDate, Date endDate, int timeChoice){
-  return read.calculateAirQuality(latitude, longitude, radius, startDate, endDate, timeChoice);
+int Controller::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption){
+  return read.calculateAirQuality(latitude, longitude, radius, date, endDate, timeOption);
 }
 
 multimap<double,pair<string,pair<double,double> > > Controller::calculateSimilarity(string sensorID, Date startDate, Date endDate){
