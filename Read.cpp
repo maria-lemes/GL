@@ -324,8 +324,20 @@ list<Attribute> Read::getAttributeList() const{
   return attributeList;
 }
 
-list<PrivateIndividual> Read ::getPrivateIndividualList() const{
+list<PrivateIndividual> Read::getPrivateIndividualList() const{
   return privateIndividualList;
+}
+
+Sensor * Read::getSensorFromId(string sensorId) const
+{
+  for (Sensor s : sensorList)
+  {
+    if (s.getSensorID() == sensorId)
+    {
+      return new Sensor(s);
+    }
+  }
+  return nullptr;
 }
 
 
@@ -488,12 +500,14 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-multimap<double,string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
 {
   unordered_map<string,list<Measurement>> otherSensorsMeasurements;
   //Measurements from the sensor whose id is passed in parameter
   list<Measurement> mySensorMeasurements;
-  multimap<double, string> similarSensors;
+
+  //Map contains similarity coef as key, and sensorId and coordinates as value
+  multimap<double,pair<string,pair<double,double> > > similarSensors;
 
   /*
   We search in all measurements for those produced in the period of time
@@ -550,8 +564,10 @@ multimap<double,string> Read::calculateSimilarity(string sensorID, Date startDat
       similarity += abs(coef[i] - myCoef[i]);
     }
 
-    similarSensors.insert(make_pair(similarity,m.first));
-
+    Sensor * s = getSensorFromId(m.first);
+    pair<double,double> coordinates(s -> getLatitude(), s -> getLongitude());
+    pair<string,pair<double,double> > sensorData(s -> getSensorID(),coordinates);
+    similarSensors.insert(make_pair(similarity,sensorData));
   }
 
   return similarSensors;

@@ -1,6 +1,6 @@
 //
 //  Sensor.cpp
-//  
+//
 //
 //  Created by Maria Eduarda Zen Lemes on 05/05/2021.
 //
@@ -10,6 +10,12 @@
 
 #include <iostream>
 using namespace std;
+
+Sensor::Sensor(){
+  sensorID = "";
+  latitude = 0;
+  longitude = 0;
+}
 
 Sensor::Sensor(string id, double lat, double lon){
     sensorID = id;
