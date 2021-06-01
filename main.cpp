@@ -271,14 +271,6 @@ int main()
           goto menu;
       }
 */
-
-  Read *r = new Read();
-  cout << "Size : " << r -> getAttributeList().size() << endl;
-  for (Attribute a : r -> getAttributeList())
-  {
-    cout << a.getAttributeID() << endl;
-    cout << a.getUnit() << endl;
-    cout << a.getDescription() << endl;
-  }
+  selectGov();
   return 0;
 }

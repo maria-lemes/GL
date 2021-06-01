@@ -292,7 +292,7 @@ list<Measurement> Read::getMeasurementsFromSensor(string sensorID) const
   list<Measurement> myMeasurements;
   for (Measurement m : measurementList)
   {
-    if (m.getSensorID() == ensorID)
+    if (m.getSensorID() == sensorID)
     {
       myMeasurements.push_back(m);
     }
@@ -346,9 +346,13 @@ void Read::calculateSensorCoefficient(list<Measurement> mySensorMeasurements, do
 
 
 
+
+
+
 //------------------------------------------------------------------------------
 list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
 {
+
   list<Sensor> neighbors; //list of sensors included in the radius provided
   double oneDegree = (M_PI) / 180;
 
@@ -361,40 +365,20 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
     lat2 = it.getLatitude() * oneDegree;
     long2 = it.getLongitude() * oneDegree;
 
-  //------------------------------------------------------------------------------
-    list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
-    {
-        list<Sensor> neighbors; //list of sensors included in the radius provided
-        double oneDegree = (M_PI) / 180;
+    dlat = lat2 - lat1;
+    dlong = long2 - long1;
 
-        lat1 *=  oneDegree; //convert to radians
-        long1 *= oneDegree;
+    ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
+    ans = 2 * asin(sqrt(ans));
+    ans *= 6371; //radius of earth in km
 
-        double lat2, long2, dlat, dlong;
-        double ans = 0; //in km
-        for(Sensor it : sensorList){
-            lat2 = it.getLatitude() * oneDegree;
-            long2 = it.getLongitude() * oneDegree;
-
-            dlat = lat2 - lat1;
-            dlong = long2 - long1;
-
-            ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
-            ans = 2 * asin(sqrt(ans));
-            ans *= 6371; //radius of earth in km
-
-            if(ans <= radius){
-                neighbors.push_back(it);
-            }
-        }
-        cout << "#nb of neighbors: " << neighbors.size() << endl;
-        return neighbors;
+    if(ans <= radius){
+      neighbors.push_back(it);
     }
   }
   cout << "#nb of neighbors: " << neighbors.size() << endl;
   return neighbors;
 }
-
 
 //-------Functionality 1 ------------------------------------------------------
 int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
@@ -402,15 +386,15 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
 
-    for( Sensor s : neighbors ){
-        cout<<s.getSensorID()<<endl;
-      for(Measurement m : measurementList)
-      {
-            if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
-              measurements.push_back(m);
-            }
-        }
+  for( Sensor s : neighbors ){
+    cout<<s.getSensorID()<<endl;
+    for(Measurement m : measurementList)
+    {
+      if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
+        measurements.push_back(m);
       }
+    }
+  }
 
 
   float sumNO2 = 0.0;
