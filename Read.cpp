@@ -41,6 +41,10 @@ Read::Read()
   readProvider();
 }
 
+Read:: ~Read() {
+  
+}
+
 void Read::readSensor(){
   ifstream monFlux;
   monFlux.open(sensorPath);
@@ -77,22 +81,25 @@ void Read :: readMeasurement(){
   string attribute;
   string value;
   string inutile;
+  //cout << "yoo";
   if (monFlux){
+    //cout << "yi";
     while (monFlux){
      // getline(monFlux, inutile,'\n');
-      getline(monFlux, year,'-');
-      getline(monFlux, month,'-');
-      getline(monFlux, day,' ');
+      getline(monFlux, day,'/');
+      getline(monFlux, month,'/');
+      getline(monFlux, year,' ');
       getline(monFlux, hour,':');
       getline(monFlux, minute,':');
       getline(monFlux, second,';');
       getline(monFlux, sensorID, ';');
       getline(monFlux, attribute, ';');
       getline(monFlux, value,';');
-      cout << sensorID;
+      //getline(monFlux, inutile,'\n');
+     /* cout << sensorID;
       cout << attribute;
-      cout << value;
-    //  monFlux.ignore();
+      cout << value;*/
+     // monFlux.ignore();
 
       try {
         //cout<<"Month: "<< stoi(month)<< endl;

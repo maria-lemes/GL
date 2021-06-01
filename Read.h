@@ -53,6 +53,7 @@ bool sensorSanityCheck(string sensorID, Date date, float threshold);
 list <Measurement> getMeasurementsFromSensor (string sensorID) const;
 void calculateSensorCoefficient(list<Measurement> mySensorMeasurements, double * sums);
 list <Sensor> findNeighbors(double lat1, double long1, double radius);
+~Read();
 };
 
 #endif // Read_H

@@ -266,7 +266,7 @@ void selectIndividual()
 int main()
 {
 
-  /* int choice;
+   int choice;
     menu:
       cout << "Please select your role : " << endl;
       cout << "\t1- Government Agency" << endl;
@@ -296,19 +296,19 @@ int main()
         default:
           cerr << "Invalid choice. Please try again." << endl;
           goto menu;
-      }*/
+      }
 
-  Read   r;
-  /*list <Measurement> listP = r.getMeasurementList();
-  listP.clear();*/
-  r.readMeasurement();
-  /*listP = r.getMeasurementList();
+  Read *r = new Read();;
+  list <Measurement> listP = r->getMeasurementList();
+  //listP.clear();
+  //r.readMeasurement();
+  listP = r->getMeasurementList();
 	for(list<Measurement>::iterator it = listP.begin(); it != listP.end(); it++){
     cout << " attribute : " << (*it).getAttribute();
     cout <<  " date : " << (*it).getDate();
     cout <<  " sensor : " << (*it).getSensorID();
-    cout << " value : " << (*it).getValue() << endl;*/
+    cout << " value : " << (*it).getValue() << endl;
 
-	//}
+	}
   return 0;
 }
