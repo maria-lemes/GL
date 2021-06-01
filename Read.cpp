@@ -64,6 +64,7 @@ Read :: ~Read () {
     }
 
 }
+
 void Read::readSensor(){
   ifstream monFlux;
   monFlux.open(sensorPath);
@@ -82,7 +83,7 @@ void Read::readSensor(){
 
     }
   }  else {
-    cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+    cout << "Error: File could not be opened" << endl;
   }
 
 }
@@ -115,7 +116,6 @@ void Read :: readMeasurement(){
     //  getline(monFlux,inutile,'\n');
 
       try {
-        //cout<<"Month: "<< stoi(month)<< endl;
         Date * tmp = new Date(stoi(year),stoi(month),stoi(day),stoi(hour),
         stoi(minute), stoi(second));
         measurementList.push_back(*(new Measurement(sensorID,attribute,
@@ -127,7 +127,7 @@ void Read :: readMeasurement(){
 
       }
     }else {
-      cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+      cout << "Error: File could not be opened" << endl;
     }
 
   }
@@ -169,7 +169,7 @@ void Read :: readMeasurement(){
         }
       }
     }else {
-      cout << "Erreur: Impossible d'ouvrir le fichier" << endl;
+      cout << "Error: File could not be opened" << endl;
     }
   }
 
@@ -196,7 +196,7 @@ void Read :: readMeasurement(){
         }
       }
     }else {
-      cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+      cout << "Error: File could not be opened" << endl;
     }
   }
 
@@ -220,7 +220,7 @@ void Read :: readMeasurement(){
         }
       }
     }else {
-      cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+      cout << "Error: File could not be opened" << endl;
     }
   }
 
@@ -247,7 +247,7 @@ void Read :: readMeasurement(){
 
       }
     }else {
-      cout << "Erreur: Impossible d'ouvrir le fichier." << endl;
+      cout << "Error: File could not be opened" << endl;
     }
   }
 
@@ -344,10 +344,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
 
-
-
-
-    for( Sensor s : sensors ){
+    for( Sensor s : neighbors ){
         cout<<s.getSensorID()<<endl;
       for(Measurement m : measurementList)
       {
@@ -356,8 +353,6 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
             }
         }
       }
-    }
-  }
 
 
   float sumNO2 = 0.0;
@@ -435,7 +430,6 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
   **Définir si cette mérhode rétournera un vecteur avec les Sensors, ou
   un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
-  **Définir le format de la date
   */
   multimap<double,string> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
   {
@@ -521,7 +515,6 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
     list<Measurement> localMeasurements;
     list<Measurement> timeMeasurements;
     list<Sensor> neighbors;
-    //list<string> neighborsID;
 
     float currentValNO2, currentValSO2, currentValO3, currentValPM10;
 
