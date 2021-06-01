@@ -2,9 +2,16 @@
 #include <string>
 #include <vector>
 #include <list>
-#include "Read.h"
-#include "Controller.h"
-#include "Admin.h"
+#include "Read.cpp"
+#include "Controller.cpp"
+#include "Admin.cpp"
+#include "Attribute.cpp"
+#include "Cleaner.cpp"
+#include "Date.cpp"
+#include "Measurement.cpp"
+#include "PrivateIndividual.cpp"
+#include "Provider.cpp"
+#include "Sensor.cpp"
 using namespace std;
 
 
@@ -44,7 +51,7 @@ int selectGov()
 
       float latitude;
       float longitude;
-      int radius;
+      double radius;
       int timeChoice;
 
 
@@ -80,6 +87,7 @@ int selectGov()
       myDate = new Date(year,month,day,hour,minute);
       Date * endDate = new Date();
       int index = controller->calculateAirQuality(latitude, longitude, radius, *myDate, *endDate, timeChoice);
+      cout << index;
       cout << "The air quality is: " << qualityTable[index] << endl;
 
       goto menu;
