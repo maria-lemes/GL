@@ -169,7 +169,7 @@ int selectGov()
 
       multimap<double,pair<string,pair<double,double> > > similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
 
-      cout << "The sensors having measurements similar to the chosen sensor are :" << endl;
+      cout << "Here is the sensor's ranking from the most similar to the less similar to the sensor chosen :" << endl;
       int i = 1;
       for(auto s : similarSensors)
       {
