@@ -387,7 +387,6 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
     //ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
     ans = 2 * asin(sqrt((latSin*latSin) + cos(lat1)*cos(lat2)*(lonSin*lonSin)));
     ans *= R; //radius of earth in km*/
-    cout << ans << endl;
     // this enables us to keep our sensor when the radius is at 0 (else it will tell us that there are no neighbouring sensors due to a bad approximation)
     if (ans < 0.1){
       ans = 0;
@@ -402,11 +401,10 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
 
 
 //-------Functionality 1 ------------------------------------------------------
-int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption)
+int Read::calculateAirQuality(float latitude, float longitude, double radius, Date date, Date endDate, int timeOption)
 {
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
-  cout << neighbors.size();
     for( Sensor s : neighbors ){
       for(Measurement m : measurementList)
       {
