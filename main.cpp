@@ -2,9 +2,16 @@
 #include <string>
 #include <vector>
 #include <list>
-#include "Read.h"
-#include "Controller.h"
-#include "Admin.h"
+#include "Read.cpp"
+#include "Controller.cpp"
+#include "Admin.cpp"
+#include "Attribute.cpp"
+#include "Cleaner.cpp"
+#include "Date.cpp"
+#include "Measurement.cpp"
+#include "PrivateIndividual.cpp"
+#include "Provider.cpp"
+#include "Sensor.cpp"
 using namespace std;
 
 
@@ -44,7 +51,7 @@ int selectGov()
 
       float latitude;
       float longitude;
-      int radius;
+      double radius;
       int timeChoice;
 
 
@@ -80,6 +87,7 @@ int selectGov()
       myDate = new Date(year,month,day,hour,minute);
       Date * endDate = new Date();
       int index = controller->calculateAirQuality(latitude, longitude, radius, *myDate, *endDate, timeChoice);
+      cout << index;
       cout << "The air quality is: " << qualityTable[index] << endl;
 
       goto menu;
@@ -185,12 +193,11 @@ int selectGov()
       cout << "===== Classify sensor's behavior =====" << endl;
       cout << "Check sensor's data validity" << endl << endl;
 
-
       float threshold;
-      int nbDays;
       int coeff;
+      int radius;
 
-      cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
+      /*cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
       cin >> sensorID;
 
       cout << "Please input the date of measurement (yyyy-mm-dd) :" << endl;
@@ -202,20 +209,19 @@ int selectGov()
       cout << "Please input the time of measurement (hh:mm) :" << endl;
       cin >> timeInput;
       int hour = stoi(timeInput.substr(0,2));
-      int minute = stoi(timeInput.substr(3,2));
+      int minute = stoi(timeInput.substr(3,2));*/
 
 
-      myDate = new Date(year,month,day,hour,minute);
+      myDate = new Date(2019,01,15,12,00);
 
 
-      cout << "Please input the threshold of discrepancy allowed (in %) :" << endl;
+      cout << "Please input the threshold of discrepancy allowed (in %):" << endl;
       cin >> threshold;
 
-      cout << "Please input the number of days during which data are imported for the time comparison" << endl;
-      cin >> nbDays;
+      cout << "Please input the radius to calculate the area to be considered around the suspicious sensor (in km): " << endl;
+      cin >> radius;
 
-
-      bool validity = controller->sensorSanityCheck(sensorID, *myDate, threshold/100);
+      bool validity = controller->sensorSanityCheck("Sensor0", *myDate, radius, threshold/100);
 
       if (validity)
       {

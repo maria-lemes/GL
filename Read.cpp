@@ -368,6 +368,7 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
 
   list<Sensor> neighbors; //list of sensors included in the radius provided
   double oneDegree = (M_PI) / 180;
+  double R = 6372.795477598;
 
   lat1 *=  oneDegree; //convert to radians
   long1 *= oneDegree;
@@ -375,31 +376,35 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
   double lat2, long2, dlat, dlong;
   double ans = 0; //in km
   for(Sensor it : sensorList){
-    lat2 = it.getLatitude() * oneDegree;
-    long2 = it.getLongitude() * oneDegree;
+   lat2 = it.getLatitude() * oneDegree;
+   long2 = it.getLongitude() * oneDegree;
+    //ans = R * acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long1-long2));
+    dlat = (lat2 - lat1);
+    dlong =( long2 - long1);
+    float latSin = sin ((lat2-lat1)/2);
+    float lonSin = sin ((long2 - long1)/2);
 
-    dlat = lat2 - lat1;
-    dlong = long2 - long1;
-
-    ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
-    ans = 2 * asin(sqrt(ans));
-    ans *= 6371; //radius of earth in km
-
-            if(ans <= radius){
-                neighbors.push_back(it);
-            }
-        }
+    //ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
+    ans = 2 * asin(sqrt((latSin*latSin) + cos(lat1)*cos(lat2)*(lonSin*lonSin)));
+    ans *= R; //radius of earth in km*/
+    // this enables us to keep our sensor when the radius is at 0 (else it will tell us that there are no neighbouring sensors due to a bad approximation)
+    if (ans < 0.1){
+      ans = 0;
+    }
+    if(ans <= radius){
+      neighbors.push_back(it);
+    }
+  }
         //cout << "#nb of neighbors: " << neighbors.size() << endl;
         return neighbors;
     }
 
 
 //-------Functionality 1 ------------------------------------------------------
-int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption)
+int Read::calculateAirQuality(float latitude, float longitude, double radius, Date date, Date endDate, int timeOption)
 {
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
-
     for( Sensor s : neighbors ){
       for(Measurement m : measurementList)
       {
@@ -408,7 +413,7 @@ int Read::calculateAirQuality(float latitude, float longitude, int radius, Date 
               measurements.push_back(m);
             }
          }else if(timeOption == 2){
-            if(s.getSensorID() == m.getSensorID() && (m.getDate() >= date) && (m.getDate() >= endDate)){
+            if(s.getSensorID() == m.getSensorID() && (m.getDate() <= date) && (m.getDate() >= endDate)){
                 measurements.push_back(m);
             }
          }
@@ -493,7 +498,7 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+multimap<double,pair<string,pair<double,double>>> Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
 {
   unordered_map<string,list<Measurement>> otherSensorsMeasurements;
   //Measurements from the sensor whose id is passed in parameter
@@ -569,21 +574,12 @@ multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(str
 }
 
 
-/*bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
-for(Sensor s : neighbors){
-if(s.getSensorID() == sensorID){
-return true;
-}
-}
-return false;
-}*/
+//-------Functionality 3: Check data validity-----------------------------------
+bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float threshold){
 
-//-------Functionality 3 ------------------------------------------------------
-bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
   list<Measurement> localMeasurements;
   list<Measurement> timeMeasurements;
   list<Sensor> neighbors;
-  //list<string> neighborsID;
 
   float currentValNO2, currentValSO2, currentValO3, currentValPM10;
 
@@ -602,7 +598,7 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
 
   // ------- LOCATION PART -------
 
-  //get lat and long from sensor
+  //get lat and long from suspicious sensor
   double lat1, long1;
   for(Sensor s : sensorList){
     if(s.getSensorID() == sensorID){
@@ -611,76 +607,39 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
     }
   }
 
-  neighbors = findNeighbors(lat1, long1, 100); //10km arbitraire fichier
+  neighbors = findNeighbors(lat1, long1, radius); //10km arbitraire fichier
 
-  /*for(Sensor s : neighbors){
-  neighborsID.push_back(s.getSensorID());
-}
-
-for(string s : neighborsID){
-cout << s << endl;
-}
-
-
-VERSION 1
-//add every measurement that is from the same date & from a neighboring sensor
-auto it =  measurementList.begin();
-const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
-for( ; it != measurementList.end(); ++it)
-{
-if((find_if(neighbors.begin(), neighbors.end(), fun) != neighbors.end()) && (it -> getDate() == date))
-{
-localMeasurements.push_back(*it);
-}
-// get the current values of the suspicious sensor
-if(it -> getSensorID() == sensorID && it -> getDate() == date){
-if(it -> getAttribute() == NO2){
-currentValNO2 = it -> getValue();
-}
-if(it -> getAttribute() == SO2){
-currentValSO2 = it -> getValue();
-}
-if(it -> getAttribute() == O3){
-currentValO3 = it -> getValue();
-}
-if(it -> getAttribute() == PM10){
-currentValPM10 = it -> getValue();
-}
-}
-}*/
-
-for(Measurement m : measurementList){
-  for(Sensor s : neighbors){
-    if( m.getSensorID() == s.getSensorID() && m.getDate() == date){
-      localMeasurements.push_back(m);
+    auto it =  measurementList.begin();
+    const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
+    for( ; it != measurementList.end(); ++it)
+    {
+        //add every measurement from a neighboring sensor at the same date
+        if((find_if(neighbors.begin(), neighbors.end(), fun) != neighbors.end()) && (it -> getDate() == date))
+        {
+            localMeasurements.push_back(*it);
+        }
+        //get the current values of the suspicious sensor
+        if(it -> getSensorID() == sensorID && it -> getDate() == date){
+            if(it -> getAttribute() == NO2){
+                currentValNO2 = it -> getValue();
+            }
+            if(it -> getAttribute() == SO2){
+                currentValSO2 = it -> getValue();
+            }
+            if(it -> getAttribute() == O3){
+                currentValO3 = it -> getValue();
+            }
+            if(it -> getAttribute() == PM10){
+                currentValPM10 = it -> getValue();
+            }
+        }
     }
-  }
-  if(m.getSensorID() == sensorID && m.getDate() == date){
-    if(m.getAttribute() == NO2){
-      currentValNO2 = m.getValue();
-    }
-    if(m.getAttribute() == SO2){
-      currentValSO2 = m.getValue();
-    }
-    if(m.getAttribute() == O3){
-      currentValO3 = m.getValue();
-    }
-    if(m.getAttribute() == PM10){
-      currentValPM10 = m.getValue();
-    }
-  }
-}
 
-
-cout << "--------------------------" << endl;
+cout << "-------CurrentValues--------------" << endl;
 cout << "currentValNO2: " << currentValNO2 << endl;
 cout << "currentValSO2: " << currentValSO2 << endl;
 cout << "currentValO3: " << currentValO3 << endl;
 cout << "currentValPM10: " << currentValPM10 << endl;
-
-cout << endl;
-cout << "nb of measurements in locationM: " << localMeasurements.size() << endl;
-cout << "nb of measurements in measurementList: " << measurementList.size() << endl;
 
 //calculate local average for every attribute
 for(Measurement m : localMeasurements){
@@ -704,8 +663,7 @@ avgSO2 = sumSO2 / neighbors.size();
 avgO3 = sumO3 / neighbors.size();
 avgPM10 = sumPM10 / neighbors.size();
 
-cout << "avg N02 location: " << avgNO2 << endl;
-
+//if current value not in the interval, score decreased
 if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
   scoreLocation--;
 }
@@ -718,26 +676,31 @@ if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2)
 if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
   scoreLocation--;
 }
+
+cout << "-------LOCATION-------------------" << endl;
+cout << "nb of measurements in locationM: " << localMeasurements.size() << endl;
+cout << "avg N02 location: " << avgNO2 << endl;
+cout << "limite basse N02 loc: " << (1-threshold)*avgNO2 << endl;
+cout << "limite haute N02 loc: " << (1+threshold)*avgNO2 << endl;
 cout << "score location before 1/0: " << scoreLocation << endl;
+
 if(scoreLocation < 4){
   scoreLocation = 0;
 }else if(scoreLocation == 4){
   scoreLocation = 1;
 }else{
-  cout << "pb with scoreLocation" << endl;
+  cout << "Problem detected in scoreLocation" << endl;
 }
 
 
 // ------- TIME PART -------
+
 //create list with all measurements from the sensor up to current date
 for(Measurement m : measurementList){
   if(m.getSensorID() == sensorID && m.getDate() <= date){ // toutes les données du sensor importées
     timeMeasurements.push_back(m);
   }
 }
-
-cout << endl;
-cout << "nb of measurements in timeM: " << timeMeasurements.size() << endl;
 
 sumNO2 = sumSO2 = sumO3 = sumPM10 = 0; //reset sum
 avgNO2 = avgSO2 = avgO3 = avgPM10 = 0; //reset avg
@@ -763,6 +726,9 @@ avgSO2 = sumSO2 / (timeMeasurements.size() / 4);
 avgO3 = sumO3 / (timeMeasurements.size() / 4);
 avgPM10 = sumPM10 / (timeMeasurements.size() / 4);
 
+
+cout << "-------TIME-------------------" << endl;
+cout << "nb of measurements in timeM: " << timeMeasurements.size() << endl;
 cout << "sum N02 time: " << sumNO2 << endl;
 cout << "avg N02 time: " << avgNO2 << endl;
 cout << "limite basse N02 time: " << (1-threshold)*avgNO2 << endl;
@@ -786,12 +752,36 @@ if(scoreTime < 4){
 }else if(scoreTime == 4){
   scoreTime = 1;
 }else{
-  cout << "pb with scoreTime" << endl;
+  cout << "Problem detected with scoreTime" << endl;
 }
 
-cout << endl;
+
+cout << "-------FINAL---------------------" << endl;
 cout << "score location final: " << scoreLocation << endl;
 cout << "score time final: " << scoreTime << endl;
 
 return min(scoreLocation, scoreTime);
 }
+
+// ALTERNATIVE TO find_if()
+/*for(Measurement m : measurementList){
+  for(Sensor s : neighbors){
+    if( m.getSensorID() == s.getSensorID() && m.getDate() == date){
+      localMeasurements.push_back(m); //add every measurement from a neighboring sensor at the same date
+    }
+  }
+  if(m.getSensorID() == sensorID && m.getDate() == date){
+    if(m.getAttribute() == NO2){
+      currentValNO2 = m.getValue();
+    }
+    if(m.getAttribute() == SO2){
+      currentValSO2 = m.getValue();
+    }
+    if(m.getAttribute() == O3){
+      currentValO3 = m.getValue();
+    }
+    if(m.getAttribute() == PM10){
+      currentValPM10 = m.getValue();
+    }
+  }
+}*/
