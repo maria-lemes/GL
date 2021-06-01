@@ -17,15 +17,7 @@
 #include "Date.h"
 using namespace std;
 
-enum AirQuality {ReallyGood, Good, Average, Poor, Bad ,ReallyBad};
-/*
-  ReallyGood : 0
-  Good : 1
-  Average : 2
-  Poor : 3
-  Bad : 4
-  ReallyBad : 5
-*/
+
 
 class Read
 {
@@ -55,7 +47,7 @@ list<Provider> getProviderList() const;
 list<Attribute> getAttributeList() const;
 
 //anciennement dans Statistics
-int calculateAirQuality(float latitude, float longitude, int radius , Date date);
+int calculateAirQuality(float latitude, float longitude, int radius , Date date , Date endDate, int timeOption);
 multimap<double,string> calculateSimilarity(string sensorID, Date StartDate, Date endDate);
 bool sensorSanityCheck(string sensorID, Date date, float threshold);
 

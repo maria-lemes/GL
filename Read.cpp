@@ -333,24 +333,29 @@ void Read :: readMeasurement(){
                 neighbors.push_back(it);
             }
         }
-        cout << "#nb of neighbors: " << neighbors.size() << endl;
+        //cout << "#nb of neighbors: " << neighbors.size() << endl;
         return neighbors;
     }
 
 
 //-------Functionality 1 ------------------------------------------------------
-int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date)
+int Read::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption)
 {
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
 
     for( Sensor s : neighbors ){
-        cout<<s.getSensorID()<<endl;
       for(Measurement m : measurementList)
       {
+         if(timeOption == 1){
             if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
               measurements.push_back(m);
             }
+         }else if(timeOption == 2){
+            if(s.getSensorID() == m.getSensorID() && (m.getDate() >= date) && (m.getDate() >= endDate)){
+                measurements.push_back(m);
+            }
+         }
         }
       }
 

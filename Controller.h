@@ -21,7 +21,7 @@ class Controller
 {
     public:
 
-    int calculateAirQuality(float latitude, float longitude, int radius, Date date);
+    int calculateAirQuality(float latitude, float longitude, int radius, Date sDate, Date eDate, int timeChoice);
 
     multimap<double,string> calculateSimilarity(string sensorID, Date startDate, Date endDate);
 
