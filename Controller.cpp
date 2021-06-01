@@ -22,14 +22,14 @@ using namespace std;
 
 Read read;
 
-int Controller::calculateAirQuality(float latitude, float longitude, int radius, Date date){
-  return read.calculateAirQuality(latitude, longitude, radius, date);
+int Controller::calculateAirQuality(float latitude, float longitude, int radius, Date startDate, Date endDate, int timeChoice){
+  return read.calculateAirQuality(latitude, longitude, radius, startDate, endDate, timeChoice);
 }
 
 multimap<double,pair<string,pair<double,double> > > Controller::calculateSimilarity(string sensorID, Date startDate, Date endDate){
   return read.calculateSimilarity(sensorID, startDate, endDate);
 }
 
-bool Controller::sensorSanityCheck(string sensorID, Date myDate, float threshold){
-  return read.sensorSanityCheck(sensorID, myDate, threshold);
+bool Controller::sensorSanityCheck(string sensorID, Date myDate, int radius, float threshold){
+  return read.sensorSanityCheck(sensorID, myDate, radius, threshold);
 }
