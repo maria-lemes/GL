@@ -399,6 +399,11 @@ int Read::calculateAirQuality(double latitude, double longitude, double radius, 
 {
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
+
+  if(neighbors.empty()){
+        return 10;
+  }
+
   for (const Sensor &s : neighbors ){
     for (const Measurement &m : measurementList)
     {
