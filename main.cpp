@@ -307,7 +307,7 @@ int selectGov()
 
 
             //DataValidity test:
-            controller->sensorSanityCheck("Sensor36", date, 500, 10);
+            controller->sensorSanityCheck("Sensor36", date, 500, 0.01);
             delete controller;
             cout << "Data validity test DONE" << endl;
 
