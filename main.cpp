@@ -312,8 +312,29 @@ int selectGov()
             cout << "Data validity test DONE" << endl;
 
         }if(choice==2){
-            Controller * controller = new Controller();
-            delete controller;
+          cout << "This test will execute all 3 function using all the data in our dataset. In the end it'll show the execution time of each one as well as the total" << endl;
+          clock_t start, end, totalStart, totalEnd;
+          Date first(2019,1,1,0,0,0);
+          Date last(2019,12,31,23,59,59);
+          Date ssc(2019,6,1,12,0,0);
+
+          start = clock();
+          Controller controller = *(new Controller());
+          start = clock();
+          controller.calculateAirQuality(44,0,100,first,last,2);
+          end = clock();
+          cout << "calculateAirQuality() : " << end-start << "ms" << endl;
+          start = clock();
+          controller.calculateSimilarity("Sensor0",first,last);
+          end = clock();
+          cout << "calculateSimilarity() : " << end-start << "ms" << endl;
+          start = clock();
+          controller.sensorSanityCheck("Sensor0",ssc,100,0.1);
+          end = clock();
+          cout << "sensorSanityCheck() : " << end-start << "ms" << endl;
+
+
+
 
         }else{
             cout <<"Input must be 1 or 2" << endl;
