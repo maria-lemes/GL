@@ -207,7 +207,7 @@ void selectGov()
       float threshold;
       int radius;
 
-      /*cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
+      cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
       cin >> sensorID;
 
       cout << "Please input the date of measurement (yyyy-mm-dd) :" << endl;
@@ -221,9 +221,9 @@ void selectGov()
       int hour = stoi(timeInput.substr(0,2));
       int minute = stoi(timeInput.substr(3,2));
 
-       myDate = new Date(year,month,day,hour,minute);*/
+       myDate = new Date(year,month,day,hour,minute);
 
-      myDate = new Date(2019,01,01,12,00);
+      //myDate = new Date(2019,01,15,12,00);
 
       cout << "Please input the threshold of discrepancy allowed (in %):" << endl;
       cin >> threshold;
@@ -231,11 +231,11 @@ void selectGov()
       cout << "Please input the radius to calculate the area to be considered around the suspicious sensor (in km): " << endl;
       cin >> radius;
 
-      bool validity = controller->sensorSanityCheck("Sensor0", *myDate, radius, threshold/100);
+      bool validity = controller->sensorSanityCheck(sensorID, *myDate, radius, threshold/100);
 
       if (validity)
       {
-        cout << "The data provided by the sensor is valid." << endl;
+        cout << "The data provided by the sensor is reliable." << endl;
       } else {
         cout << "The data provided by the sensor is NOT reliable." << endl;
       }

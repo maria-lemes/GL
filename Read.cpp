@@ -633,7 +633,7 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float
         currentValPM10 = it -> getValue();
       }
     }
-  }
+    }
 
   cout << "-------CurrentValues--------------" << endl;
   cout << "currentValNO2: " << currentValNO2 << endl;
