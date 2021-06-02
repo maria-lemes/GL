@@ -202,7 +202,22 @@ int selectGov()
     }
     case 3: {
       Controller * controller = new Controller();
-      cout << "===== Classify sensor's behavior =====" << endl;
+      cout << "===== Classify sensor's behavior =====" << endl;for(const Measurement &m : timeMeasurements){
+    switch (m.getAttribute()) {
+      case NO2:
+      sumNO2 += m.getValue();
+      break;
+      case SO2:
+      sumSO2 += m.getValue();
+      break;
+      case O3:
+      sumO3 += m.getValue();
+      break;
+      case PM10:
+      sumPM10 += m.getValue();
+      break;
+    }
+  }
       cout << "Check sensor's data validity" << endl << endl;
 
       float threshold;
