@@ -399,6 +399,11 @@ int Read::calculateAirQuality(double latitude, double longitude, double radius, 
 {
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
+
+  if(neighbors.empty()){
+        return 10;
+  }
+
   for (const Sensor &s : neighbors ){
     for (const Measurement &m : measurementList)
     {
@@ -474,7 +479,7 @@ int Read::calculateAirQuality(double latitude, double longitude, double radius, 
   }
 
   int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
-  int indexFinal = *(max_element(tab,tab+3));
+  int indexFinal = *(max_element(tab,tab+4));
 
   return indexFinal;
 }
@@ -637,25 +642,27 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float
 
   //calculate local average for every attribute
   for(const Measurement &m : localMeasurements){
-    switch (m.getAttribute()) {
-      case NO2:
-      sumNO2 += m.getValue();
-      break;
-      case SO2:
-      sumSO2 += m.getValue();
-      break;
-      case O3:
-      sumO3 += m.getValue();
-      break;
-      case PM10:
-      sumPM10 += m.getValue();
-      break;
-    }
+      if(m.getSensorID() != sensorID){
+          switch (m.getAttribute()) {
+            case NO2:
+            sumNO2 += m.getValue();
+            break;
+            case SO2:
+            sumSO2 += m.getValue();
+            break;
+            case O3:
+            sumO3 += m.getValue();
+            break;
+            case PM10:
+            sumPM10 += m.getValue();
+            break;
+          }
+      }
   }
-  avgNO2 = sumNO2 / neighbors.size();
-  avgSO2 = sumSO2 / neighbors.size();
-  avgO3 = sumO3 / neighbors.size();
-  avgPM10 = sumPM10 / neighbors.size();
+  avgNO2 = sumNO2 / (neighbors.size()-1);
+  avgSO2 = sumSO2 / (neighbors.size()-1);
+  avgO3 = sumO3 / (neighbors.size()-1);
+  avgPM10 = sumPM10 / (neighbors.size()-1);
 
   //if current value not in the interval, score decreased
   if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){

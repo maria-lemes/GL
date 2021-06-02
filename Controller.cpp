@@ -22,6 +22,7 @@ Controller::Controller(const char * sensorPath, const char * measurementPath, co
     this->read = new Read(sensorPath, measurementPath, cleanerPath, userPath, providerPath, attributesPath);
 }
 
+
 int Controller::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption){
   return read->calculateAirQuality(latitude, longitude, radius, date, endDate, timeOption);
 }
