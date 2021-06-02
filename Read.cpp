@@ -330,7 +330,7 @@ list<PrivateIndividual> Read::getPrivateIndividualList() const{
 
 Sensor * Read::getSensorFromId(string sensorId) const
 {
-  for (Sensor s : sensorList)
+  for (const Sensor &s : sensorList)
   {
     if (s.getSensorID() == sensorId)
     {
@@ -345,11 +345,11 @@ Sensor * Read::getSensorFromId(string sensorId) const
 /*
 
 */
-void Read::calculateSensorCoefficient(list<Measurement> mySensorMeasurements, double * sums)
+void Read::calculateSensorCoefficient(const list<Measurement> &mySensorMeasurements, double * sums) const
 {
   for (int i = 0; i < 4; i++) sums[i] = 0.0;
 
-  for (Measurement m : mySensorMeasurements)
+  for (const Measurement &m : mySensorMeasurements)
   {
     sums[m.getAttribute()] += m.getValue();
   }
@@ -363,7 +363,7 @@ void Read::calculateSensorCoefficient(list<Measurement> mySensorMeasurements, do
 
 
 //------------------------------------------------------------------------------
-list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
+list<Sensor> Read::findNeighbors(double lat1, double long1, double radius) const
 {
 
   list<Sensor> neighbors; //list of sensors included in the radius provided
@@ -375,9 +375,9 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
 
   double lat2, long2, dlat, dlong;
   double ans = 0; //in km
-  for(Sensor it : sensorList){
-   lat2 = it.getLatitude() * oneDegree;
-   long2 = it.getLongitude() * oneDegree;
+  for(const Sensor &it : sensorList){
+    lat2 = it.getLatitude() * oneDegree;
+    long2 = it.getLongitude() * oneDegree;
     //ans = R * acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long1-long2));
     dlat = (lat2 - lat1);
     dlong =( long2 - long1);
@@ -395,59 +395,59 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius)
       neighbors.push_back(it);
     }
   }
-        //cout << "#nb of neighbors: " << neighbors.size() << endl;
-        return neighbors;
-    }
+  //cout << "#nb of neighbors: " << neighbors.size() << endl;
+  return neighbors;
+}
 
 
 //-------Functionality 1 ------------------------------------------------------
-int Read::calculateAirQuality(float latitude, float longitude, double radius, Date date, Date endDate, int timeOption)
+int Read::calculateAirQuality(double latitude, double longitude, double radius, Date date, Date endDate, int timeOption)
 {
   list<Measurement> measurements;
   list<Sensor> neighbors = findNeighbors(latitude, longitude, radius);
-    for( Sensor s : neighbors ){
-      for(Measurement m : measurementList)
-      {
-         if(timeOption == 1){
-            if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
-              measurements.push_back(m);
-            }
-         }else if(timeOption == 2){
-            if(s.getSensorID() == m.getSensorID() && (m.getDate() <= date) && (m.getDate() >= endDate)){
-                measurements.push_back(m);
-            }
-         }
+  for (const Sensor &s : neighbors ){
+    for (const Measurement &m : measurementList)
+    {
+      if(timeOption == 1){
+        if(s.getSensorID() == m.getSensorID() && (m.getDate() == date)){
+          measurements.push_back(m);
         }
+      } else if(timeOption == 2)
+      {
+          if(s.getSensorID() == m.getSensorID() && (m.getDate() <= date) && (m.getDate() >= endDate)){
+            measurements.push_back(m);
+          }
       }
+    }
+  }
 
 
-  float sumNO2 = 0.0;
-  float sumSO2 = 0.0;
-  float sumO3 = 0.0;
-  float sumPM10 = 0.0;
+  double sumNO2 = 0.0;
+  double sumSO2 = 0.0;
+  double sumO3 = 0.0;
+  double sumPM10 = 0.0;
 
-  float avgNO2 = 0.0;
-  float avgSO2 = 0.0;
-  float avgO3 = 0.0;
-  float avgPM10 = 0.0;
+  double avgNO2 = 0.0;
+  double avgSO2 = 0.0;
+  double avgO3 = 0.0;
+  double avgPM10 = 0.0;
 
-  for(Measurement m : measurements)
+  for(const Measurement &m : measurements)
   {
-    if(m.getAttribute() == NO2)
+    switch (m.getAttribute())
     {
-      sumNO2 += m.getValue();
-    }
-    if(m.getAttribute() == SO2)
-    {
-      sumNO2 += m.getValue();
-    }
-    if(m.getAttribute() == O3)
-    {
-      sumNO2 += m.getValue();
-    }
-    if(m.getAttribute() == PM10)
-    {
-      sumNO2 += m.getValue();
+      case NO2 :
+        sumNO2 += m.getValue();
+        break;
+      case SO2 :
+        sumSO2 += m.getValue();
+        break;
+      case O3 :
+        sumO3 += m.getValue();
+        break;
+      case PM10 :
+        sumPM10 += m.getValue();
+        break;
     }
   }
 
@@ -478,6 +478,7 @@ int Read::calculateAirQuality(float latitude, float longitude, double radius, Da
   while(avgPM10 > tabPM10[indexPM10]){
     indexPM10++;
   }
+
   int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
   int indexFinal = *(max_element(tab,tab+3));
 
@@ -498,21 +499,21 @@ un vecteur avec les Ids des Sensors (méthode implementée retourne les ids).
 
 **Définir le format de la date
 */
-multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(string sensorID, Date startDate, Date endDate)
+multimap<double,pair<string,pair<double,double>>>& Read::calculateSimilarity(const string& sensorID, const Date& startDate, const Date& endDate) const
 {
   unordered_map<string,list<Measurement>> otherSensorsMeasurements;
   //Measurements from the sensor whose id is passed in parameter
   list<Measurement> mySensorMeasurements;
 
   //Map contains similarity coef as key, and sensorId and coordinates as value
-  multimap<double,pair<string,pair<double,double> > > similarSensors;
+  multimap<double,pair<string,pair<double,double>>> * similarSensors = new multimap<double,pair<string,pair<double,double>>>();
 
   /*
   We search in all measurements for those produced in the period of time
   passed in parameter. When found, we add it to its sensor measurement vector
   in our measurements map.
   */
-  for (Measurement m : measurementList)
+  for (const Measurement &m : measurementList)
   {
 
     if (m.getDate() >= startDate && m.getDate() <= endDate)
@@ -523,10 +524,10 @@ multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(str
       }
       else
       {
-        auto sensor = otherSensorsMeasurements.find(m.getSensorID());
+        auto sensorIt = otherSensorsMeasurements.find(m.getSensorID());
 
         //Sensor id not in the map yet
-        if (sensor == otherSensorsMeasurements.end())
+        if (sensorIt == otherSensorsMeasurements.end())
         {
           list<Measurement> mList;
           mList.push_back(m);
@@ -534,7 +535,7 @@ multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(str
         }
         else //Sensor's id found, add measurement value to its vector
         {
-          sensor -> second.push_back(m);
+          sensorIt -> second.push_back(m);
         }
       }
     }
@@ -543,7 +544,6 @@ multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(str
   //Similarity coefficient from the sensor passed in parameter
   double myCoef [4];
   calculateSensorCoefficient(mySensorMeasurements, myCoef);
-  double simTolerance = 2.0; //EXAMPLE
 
   /*
   For each sensor and its measurements included in the specified period of
@@ -551,7 +551,7 @@ multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(str
   it's included in the difined tolerance interval, the sensor is added
   to the similar sensors list.
   */
-  for (pair<string,list<Measurement>> m : otherSensorsMeasurements)
+  for (const auto &m : otherSensorsMeasurements)
   {
     double coef [4];
     calculateSensorCoefficient(m.second,coef);
@@ -564,29 +564,22 @@ multimap<double,pair<string,pair<double,double> > >Read::calculateSimilarity(str
 
     Sensor * s = getSensorFromId(m.first);
     pair<double,double> coordinates(s -> getLatitude(), s -> getLongitude());
-    pair<string,pair<double,double> > sensorData(s -> getSensorID(),coordinates);
-    similarSensors.insert(make_pair(similarity,sensorData));
+    pair<string,pair<double,double>> sensorData(s -> getSensorID(),coordinates);
+    similarSensors -> insert(make_pair(similarity,sensorData));
+    s -> ~Sensor();
+
   }
 
-  return similarSensors;
+  return *similarSensors;
 }
 
 
-/*bool Read::isInNeighbors(list<Sensor> neighbors, string sensorID){
-for(Sensor s : neighbors){
-if(s.getSensorID() == sensorID){
-return true;
-}
-}
-return false;
-}*/
+//-------Functionality 3: Check data validity-----------------------------------
+bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float threshold){
 
-//-------Functionality 3 ------------------------------------------------------
-bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
   list<Measurement> localMeasurements;
   list<Measurement> timeMeasurements;
   list<Sensor> neighbors;
-  //list<string> neighborsID;
 
   float currentValNO2, currentValSO2, currentValO3, currentValPM10;
 
@@ -605,7 +598,7 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
 
   // ------- LOCATION PART -------
 
-  //get lat and long from sensor
+  //get lat and long from suspicious sensor
   double lat1, long1;
   for(Sensor s : sensorList){
     if(s.getSensorID() == sensorID){
@@ -614,187 +607,158 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, float threshold){
     }
   }
 
-  neighbors = findNeighbors(lat1, long1, 100); //10km arbitraire fichier
+  neighbors = findNeighbors(lat1, long1, radius); //10km arbitraire fichier
 
-  /*for(Sensor s : neighbors){
-  neighborsID.push_back(s.getSensorID());
-}
-
-for(string s : neighborsID){
-cout << s << endl;
-}
-
-
-VERSION 1
-//add every measurement that is from the same date & from a neighboring sensor
-auto it =  measurementList.begin();
-const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
-for( ; it != measurementList.end(); ++it)
-{
-if((find_if(neighbors.begin(), neighbors.end(), fun) != neighbors.end()) && (it -> getDate() == date))
-{
-localMeasurements.push_back(*it);
-}
-// get the current values of the suspicious sensor
-if(it -> getSensorID() == sensorID && it -> getDate() == date){
-if(it -> getAttribute() == NO2){
-currentValNO2 = it -> getValue();
-}
-if(it -> getAttribute() == SO2){
-currentValSO2 = it -> getValue();
-}
-if(it -> getAttribute() == O3){
-currentValO3 = it -> getValue();
-}
-if(it -> getAttribute() == PM10){
-currentValPM10 = it -> getValue();
-}
-}
-}*/
-
-for(Measurement m : measurementList){
-  for(Sensor s : neighbors){
-    if( m.getSensorID() == s.getSensorID() && m.getDate() == date){
-      localMeasurements.push_back(m);
+  auto it =  measurementList.begin();
+  const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
+  for( ; it != measurementList.end(); ++it)
+  {
+    //add every measurement from a neighboring sensor at the same date
+    if((find_if(neighbors.begin(), neighbors.end(), fun) != neighbors.end()) && (it -> getDate() == date))
+    {
+      localMeasurements.push_back(*it);
+    }
+    //get the current values of the suspicious sensor
+    if(it -> getSensorID() == sensorID && it -> getDate() == date){
+      if(it -> getAttribute() == NO2){
+        currentValNO2 = it -> getValue();
+      }
+      if(it -> getAttribute() == SO2){
+        currentValSO2 = it -> getValue();
+      }
+      if(it -> getAttribute() == O3){
+        currentValO3 = it -> getValue();
+      }
+      if(it -> getAttribute() == PM10){
+        currentValPM10 = it -> getValue();
+      }
     }
   }
-  if(m.getSensorID() == sensorID && m.getDate() == date){
-    if(m.getAttribute() == NO2){
-      currentValNO2 = m.getValue();
-    }
-    if(m.getAttribute() == SO2){
-      currentValSO2 = m.getValue();
-    }
-    if(m.getAttribute() == O3){
-      currentValO3 = m.getValue();
-    }
-    if(m.getAttribute() == PM10){
-      currentValPM10 = m.getValue();
+
+  cout << "-------CurrentValues--------------" << endl;
+  cout << "currentValNO2: " << currentValNO2 << endl;
+  cout << "currentValSO2: " << currentValSO2 << endl;
+  cout << "currentValO3: " << currentValO3 << endl;
+  cout << "currentValPM10: " << currentValPM10 << endl;
+
+  //calculate local average for every attribute
+  for(const Measurement &m : localMeasurements){
+    switch (m.getAttribute()) {
+      case NO2:
+      sumNO2 += m.getValue();
+      break;
+      case SO2:
+      sumSO2 += m.getValue();
+      break;
+      case O3:
+      sumO3 += m.getValue();
+      break;
+      case PM10:
+      sumPM10 += m.getValue();
+      break;
     }
   }
-}
+  avgNO2 = sumNO2 / neighbors.size();
+  avgSO2 = sumSO2 / neighbors.size();
+  avgO3 = sumO3 / neighbors.size();
+  avgPM10 = sumPM10 / neighbors.size();
 
-
-cout << "--------------------------" << endl;
-cout << "currentValNO2: " << currentValNO2 << endl;
-cout << "currentValSO2: " << currentValSO2 << endl;
-cout << "currentValO3: " << currentValO3 << endl;
-cout << "currentValPM10: " << currentValPM10 << endl;
-
-cout << endl;
-cout << "nb of measurements in locationM: " << localMeasurements.size() << endl;
-cout << "nb of measurements in measurementList: " << measurementList.size() << endl;
-
-//calculate local average for every attribute
-for(Measurement m : localMeasurements){
-  switch (m.getAttribute()) {
-    case NO2:
-    sumNO2 += m.getValue();
-    break;
-    case SO2:
-    sumSO2 += m.getValue();
-    break;
-    case O3:
-    sumO3 += m.getValue();
-    break;
-    case PM10:
-    sumPM10 += m.getValue();
-    break;
+  //if current value not in the interval, score decreased
+  if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
+    scoreLocation--;
   }
-}
-avgNO2 = sumNO2 / neighbors.size();
-avgSO2 = sumSO2 / neighbors.size();
-avgO3 = sumO3 / neighbors.size();
-avgPM10 = sumPM10 / neighbors.size();
-
-cout << "avg N02 location: " << avgNO2 << endl;
-
-if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
-  scoreLocation--;
-}
-if(currentValNO2 < (1-threshold)*avgNO2 || currentValNO2 > (1+threshold)*avgNO2){
-  scoreLocation--;
-}
-if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2){
-  scoreLocation--;
-}
-if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
-  scoreLocation--;
-}
-cout << "score location before 1/0: " << scoreLocation << endl;
-if(scoreLocation < 4){
-  scoreLocation = 0;
-}else if(scoreLocation == 4){
-  scoreLocation = 1;
-}else{
-  cout << "pb with scoreLocation" << endl;
-}
-
-
-// ------- TIME PART -------
-//create list with all measurements from the sensor up to current date
-for(Measurement m : measurementList){
-  if(m.getSensorID() == sensorID && m.getDate() <= date){ // toutes les données du sensor importées
-    timeMeasurements.push_back(m);
+  if(currentValNO2 < (1-threshold)*avgNO2 || currentValNO2 > (1+threshold)*avgNO2){
+    scoreLocation--;
   }
-}
-
-cout << endl;
-cout << "nb of measurements in timeM: " << timeMeasurements.size() << endl;
-
-sumNO2 = sumSO2 = sumO3 = sumPM10 = 0; //reset sum
-avgNO2 = avgSO2 = avgO3 = avgPM10 = 0; //reset avg
-
-for(Measurement m : timeMeasurements){
-  switch (m.getAttribute()) {
-    case NO2:
-    sumNO2 += m.getValue();
-    break;
-    case SO2:
-    sumSO2 += m.getValue();
-    break;
-    case O3:
-    sumO3 += m.getValue();
-    break;
-    case PM10:
-    sumPM10 += m.getValue();
-    break;
+  if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2){
+    scoreLocation--;
   }
-}
-avgNO2 = sumNO2 / (timeMeasurements.size() / 4);
-avgSO2 = sumSO2 / (timeMeasurements.size() / 4);
-avgO3 = sumO3 / (timeMeasurements.size() / 4);
-avgPM10 = sumPM10 / (timeMeasurements.size() / 4);
+  if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
+    scoreLocation--;
+  }
 
-cout << "sum N02 time: " << sumNO2 << endl;
-cout << "avg N02 time: " << avgNO2 << endl;
-cout << "limite basse N02 time: " << (1-threshold)*avgNO2 << endl;
-cout << "limite haute N02 time: " << (1+threshold)*avgNO2 << endl;
+  cout << "-------LOCATION-------------------" << endl;
+  cout << "nb of measurements in locationM: " << localMeasurements.size() << endl;
+  cout << "avg N02 location: " << avgNO2 << endl;
+  cout << "limite basse N02 loc: " << (1-threshold)*avgNO2 << endl;
+  cout << "limite haute N02 loc: " << (1+threshold)*avgNO2 << endl;
+  cout << "score location before 1/0: " << scoreLocation << endl;
 
-if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
-  scoreTime--;
-}
-if(currentValNO2 < (1-threshold)*avgNO2 || currentValNO2 > (1+threshold)*avgNO2){
-  scoreTime--;
-}
-if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2){
-  scoreTime--;
-}
-if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
-  scoreTime--;
-}
-cout << "score time before 1/0: " << scoreTime << endl;
-if(scoreTime < 4){
-  scoreTime = 0;
-}else if(scoreTime == 4){
-  scoreTime = 1;
-}else{
-  cout << "pb with scoreTime" << endl;
-}
+  if(scoreLocation < 4){
+    scoreLocation = 0;
+  }else if(scoreLocation == 4){
+    scoreLocation = 1;
+  }else{
+    cout << "Problem detected in scoreLocation" << endl;
+  }
 
-cout << endl;
-cout << "score location final: " << scoreLocation << endl;
-cout << "score time final: " << scoreTime << endl;
 
-return min(scoreLocation, scoreTime);
+  // ------- TIME PART -------
+
+  //create list with all measurements from the sensor up to current date
+  for(const Measurement &m : measurementList){
+    if(m.getSensorID() == sensorID && m.getDate() <= date){ // toutes les données du sensor importées
+      timeMeasurements.push_back(m);
+    }
+  }
+
+  sumNO2 = sumSO2 = sumO3 = sumPM10 = 0; //reset sum
+  avgNO2 = avgSO2 = avgO3 = avgPM10 = 0; //reset avg
+
+  for(const Measurement &m : timeMeasurements){
+    switch (m.getAttribute()) {
+      case NO2:
+      sumNO2 += m.getValue();
+      break;
+      case SO2:
+      sumSO2 += m.getValue();
+      break;
+      case O3:
+      sumO3 += m.getValue();
+      break;
+      case PM10:
+      sumPM10 += m.getValue();
+      break;
+    }
+  }
+  avgNO2 = sumNO2 / (timeMeasurements.size() / 4);
+  avgSO2 = sumSO2 / (timeMeasurements.size() / 4);
+  avgO3 = sumO3 / (timeMeasurements.size() / 4);
+  avgPM10 = sumPM10 / (timeMeasurements.size() / 4);
+
+
+  cout << "-------TIME-------------------" << endl;
+  cout << "nb of measurements in timeM: " << timeMeasurements.size() << endl;
+  cout << "sum N02 time: " << sumNO2 << endl;
+  cout << "avg N02 time: " << avgNO2 << endl;
+  cout << "limite basse N02 time: " << (1-threshold)*avgNO2 << endl;
+  cout << "limite haute N02 time: " << (1+threshold)*avgNO2 << endl;
+
+  if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){
+    scoreTime--;
+  }
+  if(currentValNO2 < (1-threshold)*avgNO2 || currentValNO2 > (1+threshold)*avgNO2){
+    scoreTime--;
+  }
+  if(currentValSO2 < (1-threshold)*avgSO2 || currentValSO2 > (1+threshold)*avgSO2){
+    scoreTime--;
+  }
+  if(currentValPM10 < (1-threshold)*avgPM10 || currentValPM10 > (1+threshold)*avgPM10){
+    scoreTime--;
+  }
+  cout << "score time before 1/0: " << scoreTime << endl;
+  if(scoreTime < 4){
+    scoreTime = 0;
+  }else if(scoreTime == 4){
+    scoreTime = 1;
+  }else{
+    cout << "Problem detected with scoreTime" << endl;
+  }
+
+
+  cout << "-------FINAL---------------------" << endl;
+  cout << "score location final: " << scoreLocation << endl;
+  cout << "score time final: " << scoreTime << endl;
+
+  return min(scoreLocation, scoreTime);
 }

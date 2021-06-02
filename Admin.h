@@ -13,7 +13,7 @@ class Admin : public User
 
         Admin(const Admin & oneAdmin);
 
-        string getUserID();
+        string getUserID() const;
 
 };
 #endif

@@ -9,25 +9,25 @@ using namespace std;
 
 class PrivateIndividual : public User
 {
-    public:
+  public:
 
-        PrivateIndividual(string uID, string sID, double points);
+    PrivateIndividual(string uID, string sID, double points);
 
-        PrivateIndividual(const PrivateIndividual & oneIndividual);
+    PrivateIndividual(const PrivateIndividual & oneIndividual);
 
-        string getUserID();
+    string getUserID() const;
 
-        string getSensorID();
+    string getSensorID() const;
 
-        int getPointsAwarded();
+    int getPointsAwarded() const;
 
-        virtual ~PrivateIndividual();
+    virtual ~PrivateIndividual();
 
 
-    private:
-            string sensorID;
-            string userID;
-            int pointsAwarded;
+  private:
+    string sensorID;
+    string userID;
+    int pointsAwarded;
 
 
 };

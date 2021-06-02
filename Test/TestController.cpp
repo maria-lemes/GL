@@ -47,27 +47,28 @@ private:
 
 void TestController::testCalculateAirQuality_T05(void) //check the validity of the statistics produced
 {
-    //to do: calculate an index in a certain area by hand 
-    int pre_calculated_index = 0; 
+    //to do: calculate an index in a certain area by hand
+    int pre_calculated_index = 0;
     float latitude = 0.0;
     float longitude = 0.0;
     int radius = 0;
     Date * myTestDate = new Date(2019,02,03,12,00,00);
 
-    CPPUNIT_ASSERT(pre_calculated_index == controller->calculateAirQuality(latitude, longitude, radius, *myTestDate));
+    CPPUNIT_ASSERT(pre_calculated_index == controller->calculateAirQuality(latitude, longitude, radius, *myTestDate, *myTestDate, 1));
 
     delete myTestDate;
 }
 
 void TestController::testCalculateSimilarity_T08(void) //all the ranked sensors must be reliable
 {
-    Date * startDate = new Date(2019,02,09,12,00,00);
-    Date * endDate = new Date(2019,03,08,12,00,00);
-    multimap<double,string> similarSensors = controller->calculateSimilarity("Sensor0", *startDate, *endDate);
+    Date * startDate = new Date(2019,02,6,12,00,00);
+    Date * endDate = new Date(2019,03,5,12,00,00);
+    int radius = 100;
+    multimap<double,pair<string,pair<double,double>>> similarSensors = controller->calculateSimilarity("Sensor0", *startDate, *endDate);
     float threshold = 80;
     for(auto s : similarSensors)
     {
-        CPPUNIT_ASSERT(true == testObj->sensorSanityCheck(s->second, *startDate, threshold/100));
+        CPPUNIT_ASSERT(true == controller->sensorSanityCheck("Sensor0", *startDate, radius, threshold/100));
     }
 
     delete startDate;
@@ -77,9 +78,10 @@ void TestController::testCalculateSimilarity_T08(void) //all the ranked sensors 
 
 void TestController::testSensorSanityCheck_T02(void) // return true for reliable sensors, return false otherwise
 {
-    Date * myDate = new Date(2019,02,09,12,00,00);
+    Date * myDate = new Date(2019,02,6,12,00,00);
     float threshold = 80;
-    bool validity = controller->sensorSanityCheck("Sensor0", *myDate, threshold/100);
+    int radius = 100;
+    bool validity = controller->sensorSanityCheck("Sensor0", *myDate, radius, threshold/100);
     CPPUNIT_ASSERT(true == validity);
 
     delete myDate;

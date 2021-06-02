@@ -8,7 +8,7 @@ using namespace std;
 class User
 {
     public:
-         virtual string getUserID() = 0;
+         virtual string getUserID() const = 0;
 
     protected:
         string userID;

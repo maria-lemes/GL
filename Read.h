@@ -47,15 +47,13 @@ list<Provider> getProviderList() const;
 list<Attribute> getAttributeList() const;
 Sensor * getSensorFromId(string sensorId) const;
 
-//anciennement dans Statistics
-int calculateAirQuality(float latitude, float longitude, double radius , Date date, Date endDate, int timeOption);
-multimap<double,pair<string,pair<double,double> > > calculateSimilarity(string sensorID, Date StartDate, Date endDate);
-bool sensorSanityCheck(string sensorID, Date date, float threshold);
+int calculateAirQuality(double latitude, double longitude, double radius , Date date, Date endDate, int timeOption);
+multimap<double,pair<string,pair<double,double>>>& calculateSimilarity(const string& sensorID, const Date& StartDate, const Date& endDate) const;
+bool sensorSanityCheck(string sensorID, Date date, int radius, float threshold);
 
-//bool isInNeighbors(list<Sensor> neighbors, string sensorID);
 list <Measurement> getMeasurementsFromSensor (string sensorID) const;
-void calculateSensorCoefficient(list<Measurement> mySensorMeasurements, double * sums);
-list <Sensor> findNeighbors(double lat1, double long1, double radius);
+void calculateSensorCoefficient(const list<Measurement> &mySensorMeasurements, double * sums) const;
+list<Sensor> findNeighbors(double lat1, double long1, double radius) const;
 ~Read();
 };
 

@@ -21,11 +21,11 @@ class Attribute
 
         Attribute(const Attribute & oneAttribute);
 
-        string getAttributeID();
+        string getAttributeID() const;
 
-        string getUnit();
+        string getUnit() const;
 
-        string getDescription();
+        string getDescription() const;
 
 
     private:
