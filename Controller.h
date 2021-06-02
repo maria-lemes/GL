@@ -22,7 +22,7 @@ class Controller
   public:
     Controller();
 
-    Controller(const char * sensorPath, const char * measurementsPath);
+    Controller(const char * sensorPath = stdSensorPath, const char * measurementPath = stdMeasurementPath, const char * cleanerPath = stdCleanerPath, const char * userPath = stdUserPath, const char * providerPath = stdProviderPath, const char * attributesPath = stdAttributesPath);
 
     int calculateAirQuality(float latitude, float longitude, int radius, Date startDate, Date endDate, int timeChoice);
 

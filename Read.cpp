@@ -23,17 +23,10 @@ maria.zenlemes@insa-lyon.fr
 #include "Date.h"
 using namespace std;
 
-//Default data paths
-const char * sPath = "./data/sensors.csv";
-const char * mPath = "./data/measurements.csv";
-const char * cleanerPath = "./data/cleaners.csv";
-const char * userPath = "./data/users.csv";
-const char * providerPath = "./data/providers.csv";
-const char * attributesPath = "./data/attributes.csv";
+//Data paths
 
 
-
-Read::Read()
+Read::Read(const char * sensorPath, const char * measurementPath, const char * cleanerPath, const char * userPath, const char * providerPath, const char * attributesPath)
 {
   readSensor(sPath);
   readMeasurement(mPath);

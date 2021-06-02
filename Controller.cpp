@@ -8,12 +8,9 @@ gustavo.giunco-bertoldi@insa-lyon.fr ; mettez vous mails
 *************************************************************************/
 #include "Controller.h"
 #include "Read.h"
-
 #include <iostream>
-
 #include "Sensor.h"
 #include "Measurement.h"
-#include "Read.h"
 #include <string>
 #include <list>
 #include <vector>
@@ -25,8 +22,8 @@ Controller::Controller(){
     this->read = new Read() ;
 }
 
-Controller::Controller(const char * sensorPath, const char * measurementsPath){
-    this->read = new Read(sensorPath, measurementsPath);
+Controller::Controller(const char * sensorPath = stdSensorPath, const char * measurementPath = stdMeasurementPath, const char * cleanerPath = stdCleanerPath, const char * userPath = stdUserPath, const char * providerPath = stdProviderPath, const char * attributesPath = stdAttributesPath){
+    this->read = new Read(sensorPath, measurementsPath, cleanerPath, userPath, providerPath, attributesPath);
 }
 
 int Controller::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption){

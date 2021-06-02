@@ -17,7 +17,13 @@
 #include "Date.h"
 using namespace std;
 
-
+//Standard data paths
+static const char * stdSensorPath = "./data/sensors.csv";
+static const char * stdMeasurementPath = "./data/measurements.csv";
+static const char * stdCleanerPath = "./data/cleaners.csv";
+static const char * stdUserPath = "./data/users.csv";
+static const char * stdProviderPath = "./data/providers.csv";
+static const char * stdAttributesPath = "./data/attributes.csv";
 
 class Read
 {
@@ -32,8 +38,7 @@ list<PrivateIndividual> privateIndividualList;
 
 
 public:
-Read();
-Read(const char * sensorPath, const char * measurementsPath);
+Read (const char * sensorPath = stdSensorPath, const char * measurementPath = stdMeasurementPath, const char * cleanerPath = stdCleanerPath, const char * userPath = stdUserPath, const char * providerPath = stdProviderPath, const char * attributesPath = stdAttributesPath);
 void readSensor(string nom);
 void readMeasurement(string nom);
 void readCleaner(string nom);
