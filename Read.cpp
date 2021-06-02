@@ -23,23 +23,34 @@ maria.zenlemes@insa-lyon.fr
 #include "Date.h"
 using namespace std;
 
-//Data paths
-const char * sensorPath = "./data/sensors.csv";
-const char * measurementPath = "./data/measurements.csv";
+//Default data paths
+const char * sPath = "./data/sensors.csv";
+const char * mPath = "./data/measurements.csv";
 const char * cleanerPath = "./data/cleaners.csv";
 const char * userPath = "./data/users.csv";
 const char * providerPath = "./data/providers.csv";
 const char * attributesPath = "./data/attributes.csv";
 
 
+
 Read::Read()
 {
-  readSensor(sensorPath);
-  readMeasurement(measurementPath);
+  readSensor(sPath);
+  readMeasurement(mPath);
   readCleaner(cleanerPath);
   readUser(userPath);
   readAttribute(providerPath);
   readProvider(attributesPath);
+}
+
+Read::Read(const char *  sensorPath, const char * measurementsPath)
+{
+    readSensor(sensorPath);
+    readMeasurement(measurementsPath);
+    readCleaner(cleanerPath);
+    readUser(userPath);
+    readAttribute(providerPath);
+    readProvider(attributesPath);
 }
 
 Read :: ~Read () {
@@ -379,8 +390,8 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius) const
     lat2 = it.getLatitude() * oneDegree;
     long2 = it.getLongitude() * oneDegree;
     //ans = R * acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long1-long2));
-    dlat = (lat2 - lat1);
-    dlong =( long2 - long1);
+    //dlat = (lat2 - lat1);
+    //dlong =(long2 - long1);
     float latSin = sin ((lat2-lat1)/2);
     float lonSin = sin ((long2 - long1)/2);
 

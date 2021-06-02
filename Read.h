@@ -32,7 +32,8 @@ list<PrivateIndividual> privateIndividualList;
 
 
 public:
-Read ();
+Read();
+Read(const char * sensorPath, const char * measurementsPath);
 void readSensor(string nom);
 void readMeasurement(string nom);
 void readCleaner(string nom);

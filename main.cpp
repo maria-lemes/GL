@@ -15,7 +15,7 @@
 using namespace std;
 
 
-Controller * controller = new Controller();
+//Controller * controller = new Controller();
 
 int selectGov()
 {
@@ -43,6 +43,7 @@ int selectGov()
     case 0:
       break;
     case 1: {
+      Controller * controller = new Controller();
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
 
@@ -134,6 +135,7 @@ int selectGov()
 
     }
     case 2: {
+      Controller * controller = new Controller();
       cout << "===== Calculate sensors similarity =====" << endl;
       cout << "Rank the similarity of sensors comparing to one specific sensor" << endl << endl;
 
@@ -190,6 +192,7 @@ int selectGov()
       goto menu;
     }
     case 3: {
+      Controller * controller = new Controller();
       cout << "===== Classify sensor's behavior =====" << endl;
       cout << "Check sensor's data validity" << endl << endl;
 
@@ -231,6 +234,28 @@ int selectGov()
       }
 
       goto menu;
+    }
+    case 4: {
+        int choice;
+        cout << "Do you want to run:" << endl;
+        cout << "1- Functionnality tests with short .csv" << endl;
+        cout << "2- Performance tests" << endl;
+        cin >> choice;
+
+        if(choice==1){
+
+            Controller * controller = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv");
+
+            //test à mettre ici
+
+        }if(choice==2){
+            Controller * controller = new Controller();
+
+        }else{
+            cout <<"Input must be 1 or 2" << endl;
+        }
+
+        break;
     }
     default: {
       cerr << "Invalid choice. Please try again." << endl;

@@ -20,6 +20,9 @@ using namespace std;
 class Controller
 {
   public:
+    Controller();
+
+    Controller(const char * sensorPath, const char * measurementsPath);
 
     int calculateAirQuality(float latitude, float longitude, int radius, Date startDate, Date endDate, int timeChoice);
 
@@ -27,6 +30,8 @@ class Controller
 
     bool sensorSanityCheck(string sensorID, Date date, int radius, float threshold);
 
+private:
+    Read * read;
 
 
 };
