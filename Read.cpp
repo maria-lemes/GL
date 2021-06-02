@@ -34,12 +34,12 @@ const char * attributesPath = "./data/attributes.csv";
 
 Read::Read()
 {
-  readSensor();
-  readMeasurement();
-  readCleaner();
-  readUser();
-  readAttribute();
-  readProvider();
+  readSensor(sensorPath);
+  readMeasurement(measurementPath);
+  readCleaner(cleanerPath);
+  readUser(userPath);
+  readAttribute(providerPath);
+  readProvider(attributesPath);
 }
 
 Read :: ~Read () {
@@ -54,9 +54,9 @@ Read :: ~Read () {
 /*
 This functions is used to read values from a csv file and save them in memory
 */
-void Read::readSensor(){
+void Read::readSensor(string nom){
   ifstream monFlux;
-  monFlux.open(sensorPath);
+  monFlux.open(nom);
   string sensorID;
   string latitude;
   string longitude;
@@ -83,9 +83,9 @@ void Read::readSensor(){
 /*
 This functions is used to read values from a csv file and save them in memory
 */
-void Read :: readMeasurement(){
+void Read :: readMeasurement(string nom){
   ifstream monFlux;
-  monFlux.open(measurementPath);
+  monFlux.open(nom);
   string year;
   string month;
   string day;
@@ -140,8 +140,8 @@ void Read :: readMeasurement(){
 /*
 This functions is used to read values from a csv file and save them in memory
 */
-void Read :: readCleaner(){
-  ifstream monFlux(cleanerPath);
+void Read :: readCleaner(string nom){
+  ifstream monFlux(nom);
   string cleanerID;
   string latitude;
   string longitude;
@@ -198,8 +198,8 @@ void Read :: readCleaner(){
 /*
 This functions is used to read values from a csv file and save them in memory
 */
-void Read :: readUser(){
-  ifstream monFlux(userPath);
+void Read :: readUser(string nom){
+  ifstream monFlux(nom);
   string userID;
   string sensorID;
   string inutile;
@@ -228,8 +228,8 @@ void Read :: readUser(){
 /*
 This functions is used to read values from a csv file and save them in memory
 */
-void Read :: readProvider(){
-  ifstream monFlux(providerPath);
+void Read :: readProvider(string nom){
+  ifstream monFlux(nom);
   string providerID;
   string cleanerID;
   string inutile;
@@ -257,8 +257,8 @@ void Read :: readProvider(){
 /*
 This functions is used to read values from a csv file and save them in memory
 */
-void Read :: readAttribute(){
-  ifstream monFlux(attributesPath);
+void Read :: readAttribute(string nom){
+  ifstream monFlux(nom);
   string attributeID;
   string unit;
   string description;

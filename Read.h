@@ -33,12 +33,12 @@ list<PrivateIndividual> privateIndividualList;
 
 public:
 Read ();
-void readSensor();
-void readMeasurement();
-void readCleaner();
-void readUser();
-void readAttribute();
-void readProvider();
+void readSensor(string nom);
+void readMeasurement(string nom);
+void readCleaner(string nom);
+void readUser(string nom);
+void readAttribute(string nom);
+void readProvider(string nom);
 list<Sensor> getSensorList() const;
 list<Measurement> getMeasurementList() const;
 list<Cleaner> getCleanerList()const;
