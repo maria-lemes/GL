@@ -89,8 +89,10 @@ int selectGov()
       myDate = new Date(year,month,day,hour,minute);
       Date * endDate = new Date();
       int index = controller->calculateAirQuality(latitude, longitude, radius, *myDate, *endDate, timeChoice);
-      cout << index;
       cout << "The air quality is: " << qualityTable[index] << endl;
+
+      delete endDate;
+      delete myDate;
 
       goto menu;
 
@@ -127,6 +129,9 @@ int selectGov()
 
       cout << "The air quality is: " <<  qualityTable[index] << endl;
 
+
+      delete myStartDate;
+      delete myEndingDate;
       goto menu;
 
       }else{
@@ -190,6 +195,9 @@ int selectGov()
         i++;
       }
 
+      delete startDate;
+      delete endDate;
+
       goto menu;
     }
     case 3: {
@@ -201,7 +209,7 @@ int selectGov()
       int coeff;
       int radius;
 
-      /*cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
+      cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
       cin >> sensorID;
 
       cout << "Please input the date of measurement (yyyy-mm-dd) :" << endl;
@@ -213,11 +221,9 @@ int selectGov()
       cout << "Please input the time of measurement (hh:mm) :" << endl;
       cin >> timeInput;
       int hour = stoi(timeInput.substr(0,2));
-      int minute = stoi(timeInput.substr(3,2));*/
+      int minute = stoi(timeInput.substr(3,2));
 
-
-      myDate = new Date(2019,01,15,12,00);
-
+       myDate = new Date(year,month,day,hour,minute);
 
       cout << "Please input the threshold of discrepancy allowed (in %):" << endl;
       cin >> threshold;
@@ -225,7 +231,7 @@ int selectGov()
       cout << "Please input the radius to calculate the area to be considered around the suspicious sensor (in km): " << endl;
       cin >> radius;
 
-      bool validity = controller->sensorSanityCheck("Sensor0", *myDate, radius, threshold/100);
+      bool validity = controller->sensorSanityCheck(sensorID, *myDate, radius, threshold/100);
 
       if (validity)
       {
@@ -233,6 +239,8 @@ int selectGov()
       } else {
         cout << "The data provided by the sensor is NOT reliable." << endl;
       }
+
+      delete myDate;
 
       goto menu;
     }
@@ -335,7 +343,6 @@ void selectIndividual()
 int main()
 {
 
-/*
    int choice;
     menu:
       cout << "Please select your role : " << endl;
@@ -367,7 +374,6 @@ int main()
           cerr << "Invalid choice. Please try again." << endl;
           goto menu;
       }
-*/
-  selectGov();
+
   return 0;
 }
