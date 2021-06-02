@@ -37,6 +37,8 @@ class Measurement
 
         Date getDate() const;
 
+        void toString();
+
 
     private:
             string sensorID;

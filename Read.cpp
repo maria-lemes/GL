@@ -367,15 +367,13 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius) const
   lat1 *=  oneDegree; //convert to radians
   long1 *= oneDegree;
 
-  double lat2, long2, dlat, dlong;
+  double lat2, long2;
   double ans = 0; //in km
   for(const Sensor &it : sensorList){
     lat2 = it.getLatitude() * oneDegree;
     long2 = it.getLongitude() * oneDegree;
     //ans = R * acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long1-long2));
-    //dlat = (lat2 - lat1);
-    //dlong =(long2 - long1);
-    float latSin = sin ((lat2-lat1)/2);
+    float latSin = sin ((lat2 - lat1)/2);
     float lonSin = sin ((long2 - long1)/2);
 
     //ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
@@ -389,7 +387,7 @@ list<Sensor> Read::findNeighbors(double lat1, double long1, double radius) const
       neighbors.push_back(it);
     }
   }
-  //cout << "#nb of neighbors: " << neighbors.size() << endl;
+  cout << "#nb of neighbors: " << neighbors.size() << endl;
   return neighbors;
 }
 
@@ -595,7 +593,7 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float
   int scoreLocation = 4;
   int scoreTime = 4;
 
-  // ------- LOCATION PART -------
+  // ------- LOCATION PART --------------------------------------------------------------------------------------------------
 
   //get lat and long from suspicious sensor
   double lat1, long1;
@@ -607,6 +605,9 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float
   }
 
   neighbors = findNeighbors(lat1, long1, radius); //10km arbitraire fichier
+  for(Sensor n : neighbors){
+      cout << n.getSensorID() << endl;
+  }
 
   auto it =  measurementList.begin();
   const auto fun = [&](Sensor &s) -> bool {return (s.getSensorID() == it->getSensorID());};
@@ -678,8 +679,16 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float
     scoreLocation--;
   }
 
+  cout << "--------ToString localMeasurements-------" << endl;
+
+  for(Measurement m : localMeasurements){
+     cout << m.getSensorID() << "; " << m.getAttribute() << "; " << m.getValue() << "; " << endl;
+  }
+
+
   cout << "-------LOCATION-------------------" << endl;
   cout << "nb of measurements in locationM: " << localMeasurements.size() << endl;
+  cout << "sum N02 location: " << sumNO2 << endl;
   cout << "avg N02 location: " << avgNO2 << endl;
   cout << "limite basse N02 loc: " << (1-threshold)*avgNO2 << endl;
   cout << "limite haute N02 loc: " << (1+threshold)*avgNO2 << endl;
@@ -694,7 +703,7 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float
   }
 
 
-  // ------- TIME PART -------
+  // ------- TIME PART ----------------------------------------------------------------------------------------------------------
 
   //create list with all measurements from the sensor up to current date
   for(const Measurement &m : measurementList){

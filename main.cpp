@@ -15,9 +15,7 @@
 using namespace std;
 
 
-//Controller * controller = new Controller();
-
-int selectGov()
+void selectGov()
 {
   string sensorID;
   Date * myDate;
@@ -30,7 +28,7 @@ int selectGov()
   string userID;
   cout << "Please provide your UserID :" << endl;
   cin >> userID;
-  Admin * ad = new Admin(userID);
+  //Admin * ad = new Admin(userID);
 
   menu:
   int choice;
@@ -38,7 +36,7 @@ int selectGov()
   cout << "1- Analyze the quality of air" << endl;
   cout << "2- Calculate sensors similarity" << endl;
   cout << "3- Check sensors data" << endl;
-  cout << "4- Run tests " << endl;
+  cout << "4- Run tests" << endl;
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
@@ -203,26 +201,10 @@ int selectGov()
     }
     case 3: {
       Controller * controller = new Controller();
-      cout << "===== Classify sensor's behavior =====" << endl;for(const Measurement &m : timeMeasurements){
-    switch (m.getAttribute()) {
-      case NO2:
-      sumNO2 += m.getValue();
-      break;
-      case SO2:
-      sumSO2 += m.getValue();
-      break;
-      case O3:
-      sumO3 += m.getValue();
-      break;
-      case PM10:
-      sumPM10 += m.getValue();
-      break;
-    }
-  }
+      cout << "===== Classify sensor's behavior =====" << endl;
       cout << "Check sensor's data validity" << endl << endl;
 
       float threshold;
-      int coeff;
       int radius;
 
       cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
@@ -288,7 +270,7 @@ int selectGov()
             cout << "The air quality is: " <<  qualityTable[index] << endl;
             delete controller;*/
 
-            
+
             cout << "#### Test 2: permet de vérifier la valeur de la qualité de l'air autour d'un point donné (avec un rayon de 0 km) dans un intervalle de temps  ####" << endl;
             cout << endl;
             controller = new Controller("./Test/SensorTest.csv", "./Test/Test4.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
@@ -299,13 +281,13 @@ int selectGov()
             cout << "Air quality test DONE" << endl;
 
             //SensorSimilarity test:
-            cout << endl;    
+            cout << endl;
             cout << "#### Test 3: permet de vérifier la similarité des mesures des capteurs à une date fixe ####" << endl;
             cout << endl;
             controller = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
             multimap<double,pair<string,pair<double,double>>> similarSensors = controller->calculateSimilarity("Sensor0", date, date);
 
-            
+
             cout << "Here is the sensor's ranking from the most similar to the less similar to the sensor chosen :" << endl;
             int i = 1;
             for(auto s : similarSensors)
@@ -362,8 +344,9 @@ int selectGov()
       goto menu;
     }
   }
-
 }
+
+
 
 void selectProvider()
 {
