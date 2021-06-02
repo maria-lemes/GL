@@ -16,6 +16,7 @@
 using namespace std;
 using namespace std::chrono;
 
+Controller * controller = new Controller();
 
 void selectGov()
 {
@@ -47,7 +48,6 @@ void selectGov()
     case 0:
       break;
     case 1: {
-      Controller * controller = new Controller();
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
 
@@ -142,7 +142,6 @@ void selectGov()
 
     }
     case 2: {
-      Controller * controller = new Controller();
       cout << "===== Calculate sensors similarity =====" << endl;
       cout << "Rank the similarity of sensors comparing to one specific sensor" << endl << endl;
 
@@ -202,14 +201,13 @@ void selectGov()
       goto menu;
     }
     case 3: {
-      Controller * controller = new Controller();
       cout << "===== Classify sensor's behavior =====" << endl;
-      cout << "Check sensor's data validity" << endl << endl;
+      cout << "Check sensor's data validity" << endl;
 
       float threshold;
       int radius;
 
-      cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
+      /*cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
       cin >> sensorID;
 
       cout << "Please input the date of measurement (yyyy-mm-dd) :" << endl;
@@ -223,7 +221,9 @@ void selectGov()
       int hour = stoi(timeInput.substr(0,2));
       int minute = stoi(timeInput.substr(3,2));
 
-       myDate = new Date(year,month,day,hour,minute);
+       myDate = new Date(year,month,day,hour,minute);*/
+
+       myDate = new Date(2019,01,15,12,00);
 
       cout << "Please input the threshold of discrepancy allowed (in %):" << endl;
       cin >> threshold;
