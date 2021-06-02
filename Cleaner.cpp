@@ -28,21 +28,21 @@ using namespace std;
         stop = oneCleaner.stop;
     }
 
-    double Cleaner::getLatitude(){
+    double Cleaner::getLatitude() const{
         return latitude;
     }
 
-    string Cleaner:: getCleanerID() {
+    string Cleaner:: getCleanerID() const{
         return cleanerID;
     }
-    double Cleaner::getLongitude(){
+    double Cleaner::getLongitude() const{
         return longitude;
     }
 
-    Date Cleaner::getStart(){
+    Date Cleaner::getStart() const{
         return start;
     }
 
-    Date Cleaner::getStop(){
+    Date Cleaner::getStop() const{
         return stop;
     }

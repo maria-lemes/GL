@@ -24,11 +24,11 @@ public:
 
     Sensor(const Sensor & oneSensor);
 
-    string getSensorID();
+    string getSensorID() const;
 
-    double getLatitude();
+    double getLatitude() const;
 
-    double getLongitude();
+    double getLongitude() const;
 
 
 private:

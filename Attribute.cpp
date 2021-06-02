@@ -1,10 +1,10 @@
-//
-//  Attribute.cpp
-//  
-//
-//  Created by Maria Eduarda Zen Lemes on 05/05/2021.
-//
-
+/*************************************************************************
+                              Attribute -  description
+                             -------------------
+    début                : 05/2021
+    copyright            : (C) By
+    e-mail               :
+*************************************************************************/
 #include <stdio.h>
 #include <iostream>
 #include "Attribute.h"
@@ -23,14 +23,14 @@ using namespace std;
         description = oneAttribute.description;
     }
 
-    string Attribute::getAttributeID(){
+    string Attribute::getAttributeID() const{
         return attributeID;
     }
 
-    string Attribute::getUnit(){
+    string Attribute::getUnit() const{
         return unit;
     }
 
-    string Attribute::getDescription(){
+    string Attribute::getDescription() const{
         return description;
     }

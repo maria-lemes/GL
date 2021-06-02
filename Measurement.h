@@ -29,13 +29,13 @@ class Measurement
 
         Measurement(const Measurement & oneMeasurement);
 
-        string getSensorID();
+        string getSensorID() const;
 
-        AttributeId getAttribute();
+        AttributeId getAttribute() const;
 
-        double getValue();
+        double getValue() const;
 
-        Date getDate();
+        Date getDate() const;
 
 
     private:

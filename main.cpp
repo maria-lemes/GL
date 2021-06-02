@@ -2,16 +2,16 @@
 #include <string>
 #include <vector>
 #include <list>
-#include "Read.cpp"
-#include "Controller.cpp"
-#include "Admin.cpp"
-#include "Attribute.cpp"
-#include "Cleaner.cpp"
-#include "Date.cpp"
-#include "Measurement.cpp"
-#include "PrivateIndividual.cpp"
-#include "Provider.cpp"
-#include "Sensor.cpp"
+#include "Read.h"
+#include "Controller.h"
+#include "Admin.h"
+#include "Attribute.h"
+#include "Cleaner.h"
+#include "Date.h"
+#include "Measurement.h"
+#include "PrivateIndividual.h"
+#include "Provider.h"
+#include "Sensor.h"
 using namespace std;
 
 
@@ -175,7 +175,7 @@ int selectGov()
 
       endDate = new Date(year_end,month_end,day_end,hour_end,minute_end);
 
-      multimap<double,pair<string,pair<double,double> > > similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
+      multimap<double,pair<string,pair<double,double>>> similarSensors = controller->calculateSimilarity(sensorID, *startDate, *endDate);
 
       cout << "Here is the sensor's ranking from the most similar to the less similar to the sensor chosen :" << endl;
       int i = 1;

@@ -23,7 +23,7 @@ class Controller
 
     int calculateAirQuality(float latitude, float longitude, int radius, Date startDate, Date endDate, int timeChoice);
 
-    multimap<double,pair<string,pair<double,double> > >  calculateSimilarity(string sensorID, Date startDate, Date endDate);
+    multimap<double,pair<string,pair<double,double>>>&  calculateSimilarity(string sensorID, Date startDate, Date endDate);
 
     bool sensorSanityCheck(string sensorID, Date date, int radius, float threshold);
 

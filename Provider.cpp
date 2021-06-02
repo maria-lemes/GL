@@ -12,22 +12,22 @@
 #include <iostream>
 using namespace std;
 
-    Provider::Provider(string pID, string cID){
-        userID = pID;
-        cleanerID = cID;
-    }
+Provider::Provider(string pID, string cID){
+  userID = pID;
+  cleanerID = cID;
+}
 
-    Provider::Provider(const Provider & oneProvider){
-        userID = oneProvider.userID;
-        cleanerID = oneProvider.cleanerID;
-    }
+Provider::Provider(const Provider & oneProvider){
+  userID = oneProvider.userID;
+  cleanerID = oneProvider.cleanerID;
+}
 
-    string Provider::getUserID(){
-        return userID;
-    }
+string Provider::getUserID() const{
+  return userID;
+}
 
-    string Provider::getCleanerID(){
-        return cleanerID;
-    }
+string Provider::getCleanerID() const{
+  return cleanerID;
+}
 
-    Provider::~Provider(){}
+Provider::~Provider(){}

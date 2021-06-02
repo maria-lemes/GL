@@ -23,15 +23,15 @@ class Cleaner
 
         Cleaner(const Cleaner & oneCleaner);
 
-        string getCleanerID();
+        string getCleanerID() const;
 
-        double getLatitude();
+        double getLatitude() const;
 
-        double getLongitude();
+        double getLongitude() const;
 
-        Date getStart();
+        Date getStart() const;
 
-        Date getStop();
+        Date getStop() const;
 
     private:
             string cleanerID;

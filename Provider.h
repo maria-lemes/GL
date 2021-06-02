@@ -14,8 +14,8 @@ public:
 
     Provider(const Provider & oneProvider);
 
-    string getUserID();
-    string getCleanerID();
+    string getUserID() const;
+    string getCleanerID() const;
 
     virtual ~Provider();
 

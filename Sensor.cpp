@@ -29,14 +29,14 @@ Sensor::Sensor(const Sensor & oneSensor){
     longitude = oneSensor.longitude;
 }
 
-string Sensor::getSensorID(){
+string Sensor::getSensorID() const {
     return sensorID;
 }
 
-double Sensor::getLatitude(){
+double Sensor::getLatitude() const{
     return latitude;
 }
 
-double Sensor::getLongitude(){
+double Sensor::getLongitude() const{
     return longitude;
 }
