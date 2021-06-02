@@ -1,25 +1,22 @@
-/*#include <iostream>
+#include <iostream>
 #include <string.h>
 #include <vector>
 #include <iostream>
-#include "Attribute.h"
-#include "Cleaner.h"
-#include "Measurement.h"
-#include "PrivateIndividual.h"
-#include "Provider.h"
-#include "Sensor.h"
-#include "Read.h"
-#include "Date.h"
+#include "Attribute.cpp"
+#include "Cleaner.cpp"
+#include "Measurement.cpp"
+#include "PrivateIndividual.cpp"
+#include "Provider.cpp"
+#include "Sensor.cpp"
+#include "Read.cpp"
+#include "Date.cpp"
+#include "Controller.cpp"
 using namespace std;
-
+Controller * controller = new Controller();
 int main()
 {
-  Read read;
-  read.readSensor("./data/cleaners.csv");
-  for (auto sensor : read.getCleanerList())
-  {
-    cout << sensor.getCleanerID() << " || lat: " << sensor.getLatitude() <<
-     " lon: " << sensor.getLongitude() << "timestart : " << sensor.getStart() << "timestop : " << sensor.getStop();
-  }
+  cout << "#### Main de Test ####" << endl;
+  cout << "Partie 1: Tests de la fonctionnalité RankSimilarity()" << endl;
+  cout << "Premier test: Classements de sensors par rapport au Sensor0 (certains sont plus ou moins proches et un très éloigné)" << endl;
+  
 }
-*/
