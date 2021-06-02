@@ -3,16 +3,16 @@
 #include <vector>
 #include <chrono>
 #include <list>
-#include "Read.h"
-#include "Controller.h"
-#include "Admin.h"
-#include "Attribute.h"
-#include "Cleaner.h"
-#include "Date.h"
-#include "Measurement.h"
-#include "PrivateIndividual.h"
-#include "Provider.h"
-#include "Sensor.h"
+#include "Read.cpp"
+#include "Controller.cpp"
+#include "Admin.cpp"
+#include "Attribute.cpp"
+#include "Cleaner.cpp"
+#include "Date.cpp"
+#include "Measurement.cpp"
+#include "PrivateIndividual.cpp"
+#include "Provider.cpp"
+#include "Sensor.cpp"
 using namespace std;
 using namespace std::chrono;
 
