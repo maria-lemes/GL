@@ -3,20 +3,20 @@
 #include <vector>
 #include <chrono>
 #include <list>
-#include "Read.h"
-#include "Controller.h"
-#include "Admin.h"
-#include "Attribute.h"
-#include "Cleaner.h"
-#include "Date.h"
-#include "Measurement.h"
-#include "PrivateIndividual.h"
-#include "Provider.h"
-#include "Sensor.h"
+#include "Read.cpp"
+#include "Controller.cpp"
+#include "Admin.cpp"
+#include "Attribute.cpp"
+#include "Cleaner.cpp"
+#include "Date.cpp"
+#include "Measurement.cpp"
+#include "PrivateIndividual.cpp"
+#include "Provider.cpp"
+#include "Sensor.cpp"
 using namespace std;
 using namespace std::chrono;
 
-Controller * controller = new Controller();
+static Controller * controller = new Controller();
 
 void selectGov()
 {
@@ -255,12 +255,12 @@ void selectGov()
         if(choice==1){
 
             //AirQuality test:
-            Controller * controller = new Controller("./Test/SensorTest.csv", "./Test/Test3.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            Controller * controllerTest = new Controller("./Test/SensorTest.csv", "./Test/Test3.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
             Date date (2019, 01, 01, 12, 00, 00);
             Date endDate (2019, 01, 02, 12, 00, 00);
             cout << "#### Test 1: permet de vérifier la valeur de la qualité de l'air à un point donné (avec un rayon de 0 km) à une date fixe ####" << endl;
             cout << endl;
-            index = controller->calculateAirQuality(44, -1, 0, date, date, 1);
+            index = controllerTest->calculateAirQuality(44, -1, 0, date, date, 1);
             cout << "The air quality is: " <<  qualityTable[index] << endl;
 
             /*cout << "#### Test 2: permet de vérifier la valeur de la qualité de l'air autour d'un point donné (avec un rayon de 10km) à une date fixe ####"
@@ -275,10 +275,10 @@ void selectGov()
 
             cout << "#### Test 2: permet de vérifier la valeur de la qualité de l'air autour d'un point donné (avec un rayon de 0 km) dans un intervalle de temps  ####" << endl;
             cout << endl;
-            controller = new Controller("./Test/SensorTest.csv", "./Test/Test4.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
-            index = controller->calculateAirQuality(44, -1, 50, date, endDate, 1);
+            controllerTest = new Controller("./Test/SensorTest.csv", "./Test/Test4.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            index = controllerTest->calculateAirQuality(44, -1, 50, date, endDate, 1);
             cout << "The air quality is: " <<  qualityTable[index] << endl;
-            delete controller;
+            delete controllerTest;
 
             cout << "Air quality test DONE" << endl;
 
@@ -286,7 +286,7 @@ void selectGov()
             cout << endl;
             cout << "#### Test 3: permet de vérifier la similarité des mesures des capteurs à une date fixe ####" << endl;
             cout << endl;
-            controller = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            controllerTest = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
             multimap<double,pair<string,pair<double,double>>> similarSensors = controller->calculateSimilarity("Sensor0", date, date);
 
 
@@ -299,12 +299,12 @@ void selectGov()
               << endl;
               i++;
             }
-            delete controller;
+            delete controllerTest;
             cout << endl;
             cout << "#### Test 4: permet de vérifier la similarité des mesures des capteurs sur un intervalle de temps ####" << endl;
             cout << endl;
-            controller = new Controller("./Test/SensorTest.csv", "./Test/Test2.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
-            similarSensors = controller->calculateSimilarity("Sensor0", date, endDate);
+            controllerTest = new Controller("./Test/SensorTest.csv", "./Test/Test2.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            similarSensors = controllerTest->calculateSimilarity("Sensor0", date, endDate);
             cout << "Here is the sensor's ranking from the most similar to the less similar to the sensor chosen :" << endl;
             i = 1;
             for(auto s : similarSensors)
@@ -321,14 +321,14 @@ void selectGov()
             //DataValidity test:
             cout << "#### Test 5: Montrer qu'un capteur a des valeurs complètement fausses par rapport à ses voisins  ####" << endl;
             cout << endl;
-            controller->sensorSanityCheck("Sensor36", date, 500, 0.5);
-            delete controller;
+            controllerTest->sensorSanityCheck("Sensor36", date, 500, 0.5);
+            delete controllerTest;
 
             cout << "#### Test 5: Montrer qu'un capteur a des valeurs complètement fausses sur une durée de temps ####" << endl;
             cout << endl;
-            controller = new Controller("./Test/SensorTest.csv", "./Test/Test5.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
-            controller->sensorSanityCheck("Sensor36", endDate, 500, 0.5);
-            delete controller;
+            controllerTest = new Controller("./Test/SensorTest.csv", "./Test/Test5.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            controllerTest->sensorSanityCheck("Sensor36", endDate, 500, 0.5);
+            delete controllerTest;
             cout << "Data validity test DONE" << endl;
 
         }if(choice==2){
@@ -339,19 +339,19 @@ void selectGov()
 
           auto startTotal = high_resolution_clock::now();
           auto start = startTotal;
-          Controller controller = *(new Controller());
+          Controller controllerTest = *(new Controller());
           auto end = high_resolution_clock::now();
           cout << "Data read : " << duration_cast<milliseconds>(end - start).count()  << "ms" << endl;
           start = high_resolution_clock::now();
-          controller.calculateAirQuality(44,0,100,first,last,2);
+          controllerTest.calculateAirQuality(44,0,100,first,last,2);
           end = high_resolution_clock::now();
           cout << "calculateAirQuality() : " << duration_cast<milliseconds>(end - start).count()  << "ms" << endl;
           start = high_resolution_clock::now();
-          controller.calculateSimilarity("Sensor0",first,last);
+          controllerTest.calculateSimilarity("Sensor0",first,last);
           end = high_resolution_clock::now();
           cout << "calculateSimilarity() : " << duration_cast<milliseconds>(end - start).count() << "ms" << endl;
           start = high_resolution_clock::now();
-          controller.sensorSanityCheck("Sensor0",ssc,100,0.1);
+          controllerTest.sensorSanityCheck("Sensor0",ssc,100,0.1);
           end = high_resolution_clock::now();
           cout << "sensorSanityCheck() : " << duration_cast<milliseconds>(end - start).count()<< "ms" << endl;
           auto endTotal = high_resolution_clock::now();
