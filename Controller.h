@@ -17,10 +17,17 @@ gustavo.giunco-bertoldi@insa-lyon.fr ; maria.zenlemes@insa-lyon.fr
 #include <list>
 using namespace std;
 
+//Standard data paths
+extern const char * stdSensorPath;
+extern const char * stdMeasurementPath;
+extern const char * stdCleanerPath;
+extern const char * stdUserPath;
+extern const char * stdProviderPath;
+extern const char * stdAttributesPath;
+
 class Controller
 {
   public:
-    Controller();
 
     Controller(const char * sensorPath = stdSensorPath, const char * measurementPath = stdMeasurementPath, const char * cleanerPath = stdCleanerPath, const char * userPath = stdUserPath, const char * providerPath = stdProviderPath, const char * attributesPath = stdAttributesPath);
 

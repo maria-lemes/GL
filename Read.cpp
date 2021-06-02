@@ -28,22 +28,12 @@ using namespace std;
 
 Read::Read(const char * sensorPath, const char * measurementPath, const char * cleanerPath, const char * userPath, const char * providerPath, const char * attributesPath)
 {
-  readSensor(sPath);
-  readMeasurement(mPath);
+  readSensor(sensorPath);
+  readMeasurement(measurementPath);
   readCleaner(cleanerPath);
   readUser(userPath);
   readAttribute(providerPath);
   readProvider(attributesPath);
-}
-
-Read::Read(const char *  sensorPath, const char * measurementsPath)
-{
-    readSensor(sensorPath);
-    readMeasurement(measurementsPath);
-    readCleaner(cleanerPath);
-    readUser(userPath);
-    readAttribute(providerPath);
-    readProvider(attributesPath);
 }
 
 Read :: ~Read () {
