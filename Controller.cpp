@@ -18,12 +18,8 @@ gustavo.giunco-bertoldi@insa-lyon.fr ; mettez vous mails
 using namespace std;
 
 
-Controller::Controller(){
-    this->read = new Read() ;
-}
-
-Controller::Controller(const char * sensorPath = stdSensorPath, const char * measurementPath = stdMeasurementPath, const char * cleanerPath = stdCleanerPath, const char * userPath = stdUserPath, const char * providerPath = stdProviderPath, const char * attributesPath = stdAttributesPath){
-    this->read = new Read(sensorPath, measurementsPath, cleanerPath, userPath, providerPath, attributesPath);
+Controller::Controller(const char * sensorPath, const char * measurementPath, const char * cleanerPath, const char * userPath, const char * providerPath, const char * attributesPath){
+    this->read = new Read(sensorPath, measurementPath, cleanerPath, userPath, providerPath, attributesPath);
 }
 
 int Controller::calculateAirQuality(float latitude, float longitude, int radius, Date date, Date endDate, int timeOption){

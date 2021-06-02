@@ -18,12 +18,12 @@
 using namespace std;
 
 //Standard data paths
-static const char * stdSensorPath = "./data/sensors.csv";
-static const char * stdMeasurementPath = "./data/measurements.csv";
-static const char * stdCleanerPath = "./data/cleaners.csv";
-static const char * stdUserPath = "./data/users.csv";
-static const char * stdProviderPath = "./data/providers.csv";
-static const char * stdAttributesPath = "./data/attributes.csv";
+ extern const char * stdSensorPath = "./data/sensors.csv";
+ extern const char * stdMeasurementPath = "./data/measurements.csv";
+ extern const char * stdCleanerPath = "./data/cleaners.csv";
+ extern const char * stdUserPath = "./data/users.csv";
+ extern const char * stdProviderPath = "./data/providers.csv";
+ extern const char * stdAttributesPath = "./data/attributes.csv";
 
 class Read
 {

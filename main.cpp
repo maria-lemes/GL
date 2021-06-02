@@ -244,7 +244,7 @@ int selectGov()
 
         if(choice==1){
 
-            Controller * controller = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv");
+            Controller * controller = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
 
             //test à mettre ici
 
