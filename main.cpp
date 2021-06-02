@@ -24,6 +24,9 @@ int selectGov()
   string dateInput;
   string timeInput;
 
+  const string qualityTable[] = {"Really Good","Really Good", "Good","Good",
+   "Average", "Poor", "Poor", "Bad", "Bad" ,"Really Bad"};
+
   string userID;
   cout << "Please provide your UserID :" << endl;
   cin >> userID;
@@ -47,8 +50,6 @@ int selectGov()
       cout << "===== Analyze the quality of air =====" << endl;
       cout << "Calculate the mean of the quality of air in a circular area" << endl << endl;
 
-      const string qualityTable[] = {"Really Good","Really Good", "Good","Good",
-       "Average", "Poor", "Poor", "Bad", "Bad" ,"Really Bad"};
 
       float latitude;
       float longitude;
@@ -237,6 +238,7 @@ int selectGov()
     }
     case 4: {
         int choice;
+        int index;
         cout << "Do you want to run:" << endl;
         cout << "1- Functionnality tests with short .csv" << endl;
         cout << "2- Performance tests" << endl;
@@ -244,12 +246,66 @@ int selectGov()
 
         if(choice==1){
 
-            Controller * controller = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            //AirQuality test:
+            Controller * controller = new Controller("./Test/SensorTest.csv", "./Test/Test3.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            Date date (2019, 01, 01, 12, 00, 00);
+            Date endDate (2019, 01, 02, 12, 00, 00);
 
-            //test à mettre ici
+            index = controller->calculateAirQuality(44, -1, 0, date, date, 1);
+            cout << "The air quality is: " <<  qualityTable[index] << endl;
+
+            index = controller->calculateAirQuality(44, -1, 10, date, date, 1);
+            cout << "The air quality is: " <<  qualityTable[index] << endl;
+
+            index = controller->calculateAirQuality(44, -1, 100, date, date, 1);
+            cout << "The air quality is: " <<  qualityTable[index] << endl;
+            delete controller;
+
+            controller = new Controller("./Test/SensorTest.csv", "./Test/Test4.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            index = controller->calculateAirQuality(44, -1, 50, date, endDate, 1);
+            cout << "The air quality is: " <<  qualityTable[index] << endl;
+            delete controller;
+
+            cout << "Air quality test DONE" << endl;
+
+            //SensorSimilarity test:
+            controller = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            multimap<double,pair<string,pair<double,double>>> similarSensors = controller->calculateSimilarity("Sensor0", date, date);
+
+            cout << "Here is the sensor's ranking from the most similar to the less similar to the sensor chosen :" << endl;
+            int i = 1;
+            for(auto s : similarSensors)
+            {
+              cout << i << ". " << s.second.first << " - Located at : "
+              << s.second.second.first << "°, " << s.second.second.second << "°"
+              << endl;
+              i++;
+            }
+            delete controller;
+
+            controller = new Controller("./Test/SensorTest.csv", "./Test/Test2.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
+            similarSensors = controller->calculateSimilarity("Sensor0", date, endDate);
+            cout << "Here is the sensor's ranking from the most similar to the less similar to the sensor chosen :" << endl;
+            i = 1;
+            for(auto s : similarSensors)
+            {
+              cout << i << ". " << s.second.first << " - Located at : "
+              << s.second.second.first << "°, " << s.second.second.second << "°"
+              << endl;
+              i++;
+            }
+
+            cout << "Similarity test DONE" << endl;
+
+
+            //DataValidity test:
+            controller->sensorSanityCheck("Sensor36", date, 500, 10);
+            delete controller;
+            cout << "Data validity test DONE" << endl;
 
         }if(choice==2){
             Controller * controller = new Controller();
+            delete controller;
 
         }else{
             cout <<"Input must be 1 or 2" << endl;

@@ -474,7 +474,7 @@ int Read::calculateAirQuality(double latitude, double longitude, double radius, 
   }
 
   int tab[4] = {indexNO2, indexSO2, indexO3, indexPM10};
-  int indexFinal = *(max_element(tab,tab+3));
+  int indexFinal = *(max_element(tab,tab+4));
 
   return indexFinal;
 }
