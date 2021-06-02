@@ -17,9 +17,7 @@ using namespace std;
 using namespace std::chrono;
 
 
-//Controller * controller = new Controller();
-
-int selectGov()
+void selectGov()
 {
   string sensorID;
   Date * myDate;
@@ -32,7 +30,7 @@ int selectGov()
   string userID;
   cout << "Please provide your UserID :" << endl;
   cin >> userID;
-  Admin * ad = new Admin(userID);
+  //Admin * ad = new Admin(userID);
 
   menu:
   int choice;
@@ -40,7 +38,7 @@ int selectGov()
   cout << "1- Analyze the quality of air" << endl;
   cout << "2- Calculate sensors similarity" << endl;
   cout << "3- Check sensors data" << endl;
-  cout << "4- Run tests " << endl;
+  cout << "4- Run tests" << endl;
   cout << "0- Return to main menu" << endl;
   cin >> choice;
 
@@ -209,7 +207,6 @@ int selectGov()
       cout << "Check sensor's data validity" << endl << endl;
 
       float threshold;
-      int coeff;
       int radius;
 
       cout << "Please input the sensorID (Sensor1, Sensor2,...):" << endl << endl;
@@ -373,8 +370,9 @@ int selectGov()
       goto menu;
     }
   }
-
 }
+
+
 
 void selectProvider()
 {
