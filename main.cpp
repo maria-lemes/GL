@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 #include <list>
 #include "Read.h"
 #include "Controller.h"
@@ -13,6 +14,7 @@
 #include "Provider.h"
 #include "Sensor.h"
 using namespace std;
+using namespace std::chrono;
 
 
 void selectGov()
@@ -330,8 +332,32 @@ void selectGov()
             cout << "Data validity test DONE" << endl;
 
         }if(choice==2){
-            Controller * controller = new Controller();
-            delete controller;
+          cout << "This test will execute all 3 function using all the data in our dataset. In the end it'll show the execution time of each one as well as the total" << endl;
+          Date first(2019,1,1,0,0,0);
+          Date last(2019,12,31,23,59,59);
+          Date ssc(2019,6,1,12,0,0);
+
+          auto startTotal = high_resolution_clock::now();
+          auto start = startTotal;
+          Controller controller = *(new Controller());
+          auto end = high_resolution_clock::now();
+          cout << "Data read : " << duration_cast<milliseconds>(end - start).count()  << "ms" << endl;
+          start = high_resolution_clock::now();
+          controller.calculateAirQuality(44,0,100,first,last,2);
+          end = high_resolution_clock::now();
+          cout << "calculateAirQuality() : " << duration_cast<milliseconds>(end - start).count()  << "ms" << endl;
+          start = high_resolution_clock::now();
+          controller.calculateSimilarity("Sensor0",first,last);
+          end = high_resolution_clock::now();
+          cout << "calculateSimilarity() : " << duration_cast<milliseconds>(end - start).count() << "ms" << endl;
+          start = high_resolution_clock::now();
+          controller.sensorSanityCheck("Sensor0",ssc,100,0.1);
+          end = high_resolution_clock::now();
+          cout << "sensorSanityCheck() : " << duration_cast<milliseconds>(end - start).count()<< "ms" << endl;
+          auto endTotal = high_resolution_clock::now();
+          cout << "Total execution time : " << duration_cast<milliseconds>(endTotal - startTotal).count()<< "ms" << endl;
+
+
 
         }else if (choice != 2 && choice != 1){
             cout <<"Input must be 1 or 2" << endl;
