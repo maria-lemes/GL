@@ -660,10 +660,10 @@ bool Read::sensorSanityCheck(string sensorID, const Date date, int radius, float
           }
       }
   }
-  avgNO2 = sumNO2 / (neighbors.size()-1);
-  avgSO2 = sumSO2 / (neighbors.size()-1);
-  avgO3 = sumO3 / (neighbors.size()-1);
-  avgPM10 = sumPM10 / (neighbors.size()-1);
+  avgNO2 = sumNO2 / ((localMeasurements.size()-1) / 4);
+  avgSO2 = sumSO2 / ((localMeasurements.size()-1) / 4);
+  avgO3 = sumO3 / ((localMeasurements.size()-1) / 4);
+  avgPM10 = sumPM10 / ((localMeasurements.size()-1) / 4);
 
   //if current value not in the interval, score decreased
   if(currentValO3 < (1-threshold)*avgO3 || currentValO3 > (1+threshold)*avgO3){

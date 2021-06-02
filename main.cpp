@@ -223,7 +223,7 @@ void selectGov()
 
        myDate = new Date(year,month,day,hour,minute);*/
 
-       myDate = new Date(2019,01,15,12,00);
+      myDate = new Date(2019,01,01,12,00);
 
       cout << "Please input the threshold of discrepancy allowed (in %):" << endl;
       cin >> threshold;
@@ -231,7 +231,7 @@ void selectGov()
       cout << "Please input the radius to calculate the area to be considered around the suspicious sensor (in km): " << endl;
       cin >> radius;
 
-      bool validity = controller->sensorSanityCheck(sensorID, *myDate, radius, threshold/100);
+      bool validity = controller->sensorSanityCheck("Sensor0", *myDate, radius, threshold/100);
 
       if (validity)
       {
