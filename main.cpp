@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 #include <list>
 #include "Read.h"
 #include "Controller.h"
@@ -13,6 +14,7 @@
 #include "Provider.h"
 #include "Sensor.h"
 using namespace std;
+using namespace std::chrono;
 
 
 //Controller * controller = new Controller();
@@ -203,22 +205,7 @@ int selectGov()
     }
     case 3: {
       Controller * controller = new Controller();
-      cout << "===== Classify sensor's behavior =====" << endl;for(const Measurement &m : timeMeasurements){
-    switch (m.getAttribute()) {
-      case NO2:
-      sumNO2 += m.getValue();
-      break;
-      case SO2:
-      sumSO2 += m.getValue();
-      break;
-      case O3:
-      sumO3 += m.getValue();
-      break;
-      case PM10:
-      sumPM10 += m.getValue();
-      break;
-    }
-  }
+      cout << "===== Classify sensor's behavior =====" << endl;
       cout << "Check sensor's data validity" << endl << endl;
 
       float threshold;
@@ -349,26 +336,29 @@ int selectGov()
 
         }if(choice==2){
           cout << "This test will execute all 3 function using all the data in our dataset. In the end it'll show the execution time of each one as well as the total" << endl;
-          clock_t start, end, totalStart, totalEnd;
           Date first(2019,1,1,0,0,0);
           Date last(2019,12,31,23,59,59);
           Date ssc(2019,6,1,12,0,0);
 
-          start = clock();
+          auto startTotal = high_resolution_clock::now();
+          auto start = startTotal;
           Controller controller = *(new Controller());
-          start = clock();
+          auto end = high_resolution_clock::now();
+          cout << "Data read : " << duration_cast<milliseconds>(end - start).count()  << "ms" << endl;
+          start = high_resolution_clock::now();
           controller.calculateAirQuality(44,0,100,first,last,2);
-          end = clock();
-          cout << "calculateAirQuality() : " << end-start << "ms" << endl;
-          start = clock();
+          end = high_resolution_clock::now();
+          cout << "calculateAirQuality() : " << duration_cast<milliseconds>(end - start).count()  << "ms" << endl;
+          start = high_resolution_clock::now();
           controller.calculateSimilarity("Sensor0",first,last);
-          end = clock();
-          cout << "calculateSimilarity() : " << end-start << "ms" << endl;
-          start = clock();
+          end = high_resolution_clock::now();
+          cout << "calculateSimilarity() : " << duration_cast<milliseconds>(end - start).count() << "ms" << endl;
+          start = high_resolution_clock::now();
           controller.sensorSanityCheck("Sensor0",ssc,100,0.1);
-          end = clock();
-          cout << "sensorSanityCheck() : " << end-start << "ms" << endl;
-
+          end = high_resolution_clock::now();
+          cout << "sensorSanityCheck() : " << duration_cast<milliseconds>(end - start).count()<< "ms" << endl;
+          auto endTotal = high_resolution_clock::now();
+          cout << "Total execution time : " << duration_cast<milliseconds>(endTotal - startTotal).count()<< "ms" << endl;
 
 
 
