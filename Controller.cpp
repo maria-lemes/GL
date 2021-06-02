@@ -8,12 +8,9 @@ gustavo.giunco-bertoldi@insa-lyon.fr ; mettez vous mails
 *************************************************************************/
 #include "Controller.h"
 #include "Read.h"
-
 #include <iostream>
-
 #include "Sensor.h"
 #include "Measurement.h"
-#include "Read.h"
 #include <string>
 #include <list>
 #include <vector>
