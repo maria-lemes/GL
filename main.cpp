@@ -287,7 +287,7 @@ void selectGov()
             cout << "#### Test 3: permet de vérifier la similarité des mesures des capteurs à une date fixe ####" << endl;
             cout << endl;
             controllerTest = new Controller("./Test/SensorTest.csv", "./Test/Test1.csv", "./data/cleaners.csv", "./data/users.csv", "./data/providers.csv", "./data/attributes.csv");
-            multimap<double,pair<string,pair<double,double>>> similarSensors = controller->calculateSimilarity("Sensor0", date, date);
+            multimap<double,pair<string,pair<double,double>>> similarSensors = controllerTest->calculateSimilarity("Sensor0", date, date);
 
 
             cout << "Here is the sensor's ranking from the most similar to the less similar to the sensor chosen :" << endl;
